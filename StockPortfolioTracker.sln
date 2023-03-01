@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Api", "StockPortfolioTracker.Api\StockPortfolioTracker.Api.csproj", "{7AF19A0C-6DC9-4429-A6DA-A330C94D069A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Data", "StockPortfolioTracker.Data\StockPortfolioTracker.Data.csproj", "{C669DCFE-ECB2-4710-A366-4DBD1EE31996}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Logic", "StockPortfolioTracker.Logic\StockPortfolioTracker.Logic.csproj", "{7F2588BE-0469-498C-AA8C-E6571EB40D40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Test", "StockPortfolioTracker.Test\StockPortfolioTracker.Test.csproj", "{29111905-C5E2-4DD2-A985-F21007C90E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Web", "StockPortfolioTracker.Web\StockPortfolioTracker.Web.csproj", "{9679B0E4-E8D2-4D26-A85D-863C64C5E2D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.Common", "StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj", "{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AF19A0C-6DC9-4429-A6DA-A330C94D069A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AF19A0C-6DC9-4429-A6DA-A330C94D069A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AF19A0C-6DC9-4429-A6DA-A330C94D069A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AF19A0C-6DC9-4429-A6DA-A330C94D069A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C669DCFE-ECB2-4710-A366-4DBD1EE31996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C669DCFE-ECB2-4710-A366-4DBD1EE31996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C669DCFE-ECB2-4710-A366-4DBD1EE31996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C669DCFE-ECB2-4710-A366-4DBD1EE31996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2588BE-0469-498C-AA8C-E6571EB40D40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2588BE-0469-498C-AA8C-E6571EB40D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2588BE-0469-498C-AA8C-E6571EB40D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2588BE-0469-498C-AA8C-E6571EB40D40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29111905-C5E2-4DD2-A985-F21007C90E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29111905-C5E2-4DD2-A985-F21007C90E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29111905-C5E2-4DD2-A985-F21007C90E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29111905-C5E2-4DD2-A985-F21007C90E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9679B0E4-E8D2-4D26-A85D-863C64C5E2D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9679B0E4-E8D2-4D26-A85D-863C64C5E2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9679B0E4-E8D2-4D26-A85D-863C64C5E2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9679B0E4-E8D2-4D26-A85D-863C64C5E2D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C9EBC27-80E4-4FD4-A796-F57DF4CEB360}
+	EndGlobalSection
+EndGlobal
