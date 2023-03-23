@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockPortfolioTracker.Web",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockPortfolioTracker.Common", "StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj", "{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPortfolioTracker.ApiGateway", "StockPortfolioTracker.ApiGateway\StockPortfolioTracker.ApiGateway.csproj", "{7D3CFE13-8259-4F33-85A0-DF71CF472C2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F412AF4-A9A5-4E5D-8110-82A9C023F55E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D3CFE13-8259-4F33-85A0-DF71CF472C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3CFE13-8259-4F33-85A0-DF71CF472C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3CFE13-8259-4F33-85A0-DF71CF472C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3CFE13-8259-4F33-85A0-DF71CF472C2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
