@@ -1,32 +1,27 @@
-﻿using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-
-namespace StockPortfolioTracker.ApiGateway;
+﻿namespace UserManagement;
 
 public static class Startup
 {
+    #region Publics
     public static WebApplication InitializeApp(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
         ConfigureServices(builder);
 
-        var app = builder.Build();
+        WebApplication app = builder.Build();
         Configure(app);
 
         return app;
     }
+    #endregion
 
+    #region Privates
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
-        // Ocelot Configuration
-        builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-        builder.Services.AddOcelot(builder.Configuration);
-        builder.Services.AddSwaggerForOcelot(builder.Configuration);
     }
 
     private static void Configure(WebApplication app)
@@ -36,14 +31,14 @@ public static class Startup
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
 
         app.MapControllers();
-
-        // Ocelot Configuration
-        app.UseSwaggerForOcelotUI();
-        app.UseOcelot().Wait();
     }
+    #endregion
 }

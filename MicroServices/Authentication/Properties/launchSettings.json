@@ -4,17 +4,17 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:44343",
-      "sslPort": 5000
+      "applicationUrl": "http://localhost:58692",
+      "sslPort": 5001
     }
   },
   "profiles": {
-    "StockPortfolioTracker.ApiGateway": {
+    "Authentication": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:5000;",
+      "applicationUrl": "https://localhost:5001;",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

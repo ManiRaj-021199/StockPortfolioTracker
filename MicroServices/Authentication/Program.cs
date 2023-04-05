@@ -1,4 +1,4 @@
-using StockPortfolioTracker.ApiGateway;
+using Authentication;
 
 WebApplication app = Startup.InitializeApp(args);
 
