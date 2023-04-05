@@ -1,12 +1,27 @@
-﻿# Visual Studio Configuration Files
+﻿# User Specific Files
 .vs
+*.user
 /.vs/StockPortfolioTracker/v17/.suo
 
-# Build Files
+# Bin Files
 */bin
+/MicroServices/Authentication/bin
+/MicroServices/UserManagement/bin
+
+# Obj Files
 */obj
 /MicroServices/Authentication/obj
-/MicroServices/Authentication/bin
-
-/MicroServices/UserManagement/bin
 /MicroServices/UserManagement/obj
+
+# Config Files
+/MicroServices/Authentication/.config
+/MicroServices/UserManagement/.config
+/StockPortfolioTracker.ApiGateway/.config
+/StockPortfolioTracker.Web/.config
+
+# Publish Config Files
+/MicroServices/Authentication/Properties/PublishProfiles
+/MicroServices/UserManagement/Properties/PublishProfiles
+/StockPortfolioTracker.ApiGateway/Properties/PublishProfiles
+/StockPortfolioTracker.Web/Properties/PublishProfiles
+
