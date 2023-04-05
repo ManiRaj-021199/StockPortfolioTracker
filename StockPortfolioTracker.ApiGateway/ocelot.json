@@ -1,0 +1,59 @@
+{
+  "Routes": [
+    // Authentication MicroService
+    {
+      "DownstreamPathTemplate": "/api/authentication/Index",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/authentication/Index",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "authentication"
+    },
+    // UserManagement MicroService
+    {
+      "DownstreamPathTemplate": "/api/usermanagement/Index",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/usermanagement/Index",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "usermanagement"
+    }
+  ],
+  "SwaggerEndPoints": [
+    // Authentication MicroService
+    {
+      "Key": "authentication",
+      "Config": [
+        {
+          "Name": "Authentication Api",
+          "Version": "v1",
+          "Url": "https://localhost:5001/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    // UserManagement MicroService
+    {
+      "Key": "usermanagement",
+      "Config": [
+        {
+          "Name": "UserManagement Api",
+          "Version": "v1",
+          "Url": "https://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5000"
+  }
+}

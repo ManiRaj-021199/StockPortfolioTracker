@@ -1,7 +1,12 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Visual Studio Configuration Files
+.vs
+/.vs/StockPortfolioTracker/v17/.suo
 
-/.vs
+# Build Files
 */bin
 */obj
+/MicroServices/Authentication/obj
+/MicroServices/Authentication/bin
+
+/MicroServices/UserManagement/bin
+/MicroServices/UserManagement/obj
