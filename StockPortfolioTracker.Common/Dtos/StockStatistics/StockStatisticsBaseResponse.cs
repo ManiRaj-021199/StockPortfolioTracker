@@ -1,4 +1,4 @@
-﻿namespace StockPortfolioTracker.Common.Dtos;
+﻿namespace StockPortfolioTracker.Common;
 
 public class QuoteSummaryResponse
 {

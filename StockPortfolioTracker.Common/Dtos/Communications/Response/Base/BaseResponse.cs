@@ -1,8 +1,9 @@
-﻿namespace StockPortfolioTracker.Common.Dtos
+﻿using System.Net;
+
+namespace StockPortfolioTracker.Common;
+
+public class BaseApiResponse
 {
-    public class BaseResponse
-    {
-        public int StatusCode { get; set; }
-        public string? StatusMessage { get; set; }
-    }
+    public HttpStatusCode ResponseCode { get; set; }
+    public string? ResponseMessage { get; set; }
 }

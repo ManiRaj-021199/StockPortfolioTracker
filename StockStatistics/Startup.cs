@@ -1,4 +1,6 @@
-﻿namespace StockStatistics;
+﻿using StockStatistics.Services;
+
+namespace StockStatistics;
 
 public static class Startup
 {
@@ -19,6 +21,9 @@ public static class Startup
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers();
+
+        // Services
+        builder.Services.AddSingleton<IEquityServices, EquityServices>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

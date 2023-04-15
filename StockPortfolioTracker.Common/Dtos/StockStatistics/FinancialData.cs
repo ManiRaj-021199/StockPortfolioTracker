@@ -1,6 +1,6 @@
-﻿namespace StockPortfolioTracker.Common.Dtos;
+﻿namespace StockPortfolioTracker.Common;
 
-public class FinancialData : BaseResponse
+public class FinancialData : BaseApiResponse
 {
     public int? MaxAge { get; set; }
     public string? RecommendationKey { get; set; }
