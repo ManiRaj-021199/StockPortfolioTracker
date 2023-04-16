@@ -9,7 +9,7 @@ public static class ApiConfigurations
     {
         HttpClient httpClient = new()
         {
-            BaseAddress = new Uri(string.Format(ApiEndPoints.YAHOO_FINANCE_MODULES_API, strStockSympol, strModule))
+            BaseAddress = new Uri(string.Format(ApiEndPoints.YahooFinanceModulesApi, strStockSympol, strModule))
         };
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
