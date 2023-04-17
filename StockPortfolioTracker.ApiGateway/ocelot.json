@@ -28,7 +28,7 @@
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "usermanagement"
     },
-    // UserStatistics MicroService
+    // StockStatistics MicroService
     {
       "DownstreamPathTemplate": "/api/equity/GetAssetProfile/{strStockSympol}",
       "DownstreamScheme": "https",
@@ -40,7 +40,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetAssetProfile/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetCalendarEvents/{strStockSympol}",
@@ -53,7 +53,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetCalendarEvents/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEarnings/{strStockSympol}",
@@ -66,7 +66,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetEarnings/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEarningsTrend/{strStockSympol}",
@@ -79,7 +79,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetEarningsTrend/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEsgScores/{strStockSympol}",
@@ -92,7 +92,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetEsgScores/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetFinancialData/{strStockSympol}",
@@ -105,7 +105,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetFinancialData/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetIndexTrend/{strStockSympol}",
@@ -118,7 +118,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetIndexTrend/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetIndustryTrend/{strStockSympol}",
@@ -131,7 +131,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetIndustryTrend/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetPrice/{strStockSympol}",
@@ -144,7 +144,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetPrice/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetQuoteType/{strStockSympol}",
@@ -157,7 +157,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetQuoteType/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetSummaryDetail/{strStockSympol}",
@@ -170,7 +170,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetSummaryDetail/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetFundOwnership/{strStockSympol}",
@@ -183,7 +183,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetFundOwnership/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetInsiderHolders/{strStockSympol}",
@@ -196,7 +196,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetInsiderHolders/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetInsiderTransactions/{strStockSympol}",
@@ -209,7 +209,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetInsiderTransactions/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetRecommendationTrend/{strStockSympol}",
@@ -222,7 +222,7 @@
       ],
       "UpstreamPathTemplate": "/equity/GetRecommendationTrend/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "userstatistics"
+      "SwaggerKey": "stockstatistics"
     }
   ],
   // Swagger EndPoints //
@@ -249,12 +249,12 @@
         }
       ]
     },
-    // UserStatistics MicroService
+    // StockStatistics MicroService
     {
-      "Key": "userstatistics",
+      "Key": "stockstatistics",
       "Config": [
         {
-          "Name": "UserStatistics Api",
+          "Name": "StockStatistics Api",
           "Version": "v1",
           "Url": "https://localhost:5003/swagger/v1/swagger.json"
         }
