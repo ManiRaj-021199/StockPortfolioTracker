@@ -2,6 +2,7 @@
 .vs
 *.user
 /.vs/StockPortfolioTracker/v17/.suo
+/.vs/StockPortfolioTracker/config/applicationhost.config
 
 # Bin Files
 */bin
@@ -24,4 +25,4 @@
 /MicroServices/UserManagement/Properties/PublishProfiles
 /StockPortfolioTracker.ApiGateway/Properties/PublishProfiles
 /StockPortfolioTracker.Web/Properties/PublishProfiles
-
+/.vs/StockPortfolioTracker/FileContentIndex/read.lock
