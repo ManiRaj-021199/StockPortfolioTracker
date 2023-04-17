@@ -27,8 +27,205 @@
       "UpstreamPathTemplate": "/usermanagement/Index",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "usermanagement"
+    },
+    // UserStatistics MicroService
+    {
+      "DownstreamPathTemplate": "/api/equity/GetAssetProfile/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetAssetProfile/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetCalendarEvents/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetCalendarEvents/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetEarnings/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetEarnings/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetEarningsTrend/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetEarningsTrend/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetEsgScores/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetEsgScores/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetFinancialData/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetFinancialData/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetIndexTrend/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetIndexTrend/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetIndustryTrend/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetIndustryTrend/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetPrice/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetPrice/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetQuoteType/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetQuoteType/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetSummaryDetail/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetSummaryDetail/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetFundOwnership/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetFundOwnership/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetInsiderHolders/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetInsiderHolders/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetInsiderTransactions/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetInsiderTransactions/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
+    },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetRecommendationTrend/{strStockSympol}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetRecommendationTrend/{strStockSympol}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "userstatistics"
     }
   ],
+  // Swagger EndPoints //
   "SwaggerEndPoints": [
     // Authentication MicroService
     {
@@ -49,6 +246,17 @@
           "Name": "UserManagement Api",
           "Version": "v1",
           "Url": "https://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    // UserStatistics MicroService
+    {
+      "Key": "userstatistics",
+      "Config": [
+        {
+          "Name": "UserStatistics Api",
+          "Version": "v1",
+          "Url": "https://localhost:5003/swagger/v1/swagger.json"
         }
       ]
     }
