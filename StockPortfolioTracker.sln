@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "MicroServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "MicroServices\UserManagement\UserManagement.csproj", "{50056A8D-8627-4FF0-B65D-DB95243F2833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockStatistics", "StockStatistics\StockStatistics.csproj", "{FEAA6458-DBF6-47D0-B95B-D3D0B4841A28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockStatistics", "StockStatistics\StockStatistics.csproj", "{FEAA6458-DBF6-47D0-B95B-D3D0B4841A28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
