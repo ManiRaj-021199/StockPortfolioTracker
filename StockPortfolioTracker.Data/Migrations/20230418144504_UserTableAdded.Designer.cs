@@ -11,8 +11,8 @@ using StockPortfolioTracker.Data;
 namespace StockPortfolioTracker.Data.Migrations
 {
     [DbContext(typeof(PortfolioTrackerDbContext))]
-    [Migration("20230418131036_TableNameChanged")]
-    partial class TableNameChanged
+    [Migration("20230418144504_UserTableAdded")]
+    partial class UserTableAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,8 +41,11 @@ namespace StockPortfolioTracker.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("UserId");
 

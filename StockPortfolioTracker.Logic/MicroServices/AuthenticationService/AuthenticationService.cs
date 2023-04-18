@@ -24,12 +24,14 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
+            PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userDto.Password!);
             User user = new()
                         {
                             FirstName = userDto.FirstName,
                             LastName = userDto.LastName,
                             Email = userDto.Email,
-                            Password = userDto.Password
+                            PasswordHash = hashedPassword.PasswordHash,
+                            PasswordSalt = hashedPassword.PasswordSalt
                         };
 
             dbContext.Users!.Add(user);
