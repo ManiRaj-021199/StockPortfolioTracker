@@ -1,15 +1,6 @@
 ﻿@page "/register"
+@layout LoginLayout
 @inherits RegisterBase
-
-
-<style>
-    body
-    {
-        background-color: #4e73df;
-        background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
-        background-size: cover;
-    }
-</style>
 
 
 <div class="container">
@@ -27,7 +18,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                           placeholder="First Name">
+                                           placeholder="First Name" autofocus>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user" id="exampleLastName"
