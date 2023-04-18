@@ -1,27 +1,27 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class Earnings : BaseApiResponse
+public class EarningsDto : BaseApiResponseDto
 {
 	#region Properties
 	public string? FinancialCurrency { get; set; }
-	public EarningsChart? EarningsChart { get; set; }
-	public FinancialsChart? FinancialsChart { get; set; }
+	public EarningsChartDto? EarningsChart { get; set; }
+	public FinancialsChartDto? FinancialsChart { get; set; }
 	#endregion
 }
 
-#region EarningsChart
-public class EarningsChart
+#region EarningsChartDto
+public class EarningsChartDto
 {
 	#region Properties
 	public string? CurrentQuarterEstimateDate { get; set; }
 	public string? CurrentQuarterEstimateYear { get; set; }
 	public ResultFormatDto? CurrentQuarterEstimate { get; set; }
 	public List<ResultFormatDto>? EarningsDate { get; set; }
-	public List<QuarterlyEarningsChart>? Quarterly { get; set; }
+	public List<QuarterlyEarningsChartDto>? Quarterly { get; set; }
 	#endregion
 }
 
-public class QuarterlyEarningsChart
+public class QuarterlyEarningsChartDto
 {
 	#region Properties
 	public string? Date { get; set; }
@@ -32,15 +32,15 @@ public class QuarterlyEarningsChart
 #endregion
 
 #region FinancialChart
-public class FinancialsChart
+public class FinancialsChartDto
 {
 	#region Properties
-	public List<FinancialsChartProperties>? Yearly { get; set; }
-	public List<FinancialsChartProperties>? Quarterly { get; set; }
+	public List<FinancialsChartPropertiesDto>? Yearly { get; set; }
+	public List<FinancialsChartPropertiesDto>? Quarterly { get; set; }
 	#endregion
 }
 
-public class FinancialsChartProperties
+public class FinancialsChartPropertiesDto
 {
 	#region Properties
 	public string? Date { get; set; }

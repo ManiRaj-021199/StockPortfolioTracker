@@ -1,15 +1,15 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class CalendarEvents : BaseApiResponse
+public class CalendarEventsDto : BaseApiResponseDto
 {
 	#region Properties
-	public CalenderEventEarnings? Earnings { get; set; }
+	public CalenderEventEarningsDto? Earnings { get; set; }
 	public ResultFormatDto? DividendDate { get; set; }
 	public ResultFormatDto? ExDividendDate { get; set; }
 	#endregion
 }
 
-public class CalenderEventEarnings
+public class CalenderEventEarningsDto
 {
 	#region Properties
 	public List<ResultFormatDto>? EarningsDate { get; set; }

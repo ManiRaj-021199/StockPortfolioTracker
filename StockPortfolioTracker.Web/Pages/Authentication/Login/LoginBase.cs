@@ -17,13 +17,13 @@ public class LoginBase : ComponentBase
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
 
-    protected User? User { get; set; }
+    protected UserDto? User { get; set; }
     #endregion
 
     #region Protecteds
     protected override Task OnInitializedAsync()
     {
-        this.User = new User();
+        this.User = new UserDto();
         return base.OnInitializedAsync();
     }
 

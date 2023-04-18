@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
+    <ProjectReference Include="..\StockPortfolioTracker.Data\StockPortfolioTracker.Data.csproj" />
+  </ItemGroup>
+
 </Project>

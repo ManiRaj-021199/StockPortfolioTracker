@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class EsgScores : BaseApiResponse
+public class EsgScoresDto : BaseApiResponseDto
 {
 	#region Properties
 	public string? RatingYear { get; set; }
@@ -32,15 +32,15 @@ public class EsgScores : BaseApiResponse
 	public ResultFormatDto? GovernanceScore { get; set; }
 	public ResultFormatDto? Percentile { get; set; }
 	public List<string>? RelatedControversy { get; set; }
-	public PerformanceScale? PeerEsgScorePerformance { get; set; }
-	public PerformanceScale? PeerGovernancePerformance { get; set; }
-	public PerformanceScale? PeerSocialPerformance { get; set; }
-	public PerformanceScale? PeerEnvironmentPerformance { get; set; }
-	public PerformanceScale? PeerHighestControversyPerformance { get; set; }
+	public PerformanceScaleDto? PeerEsgScorePerformance { get; set; }
+	public PerformanceScaleDto? PeerGovernancePerformance { get; set; }
+	public PerformanceScaleDto? PeerSocialPerformance { get; set; }
+	public PerformanceScaleDto? PeerEnvironmentPerformance { get; set; }
+	public PerformanceScaleDto? PeerHighestControversyPerformance { get; set; }
 	#endregion
 }
 
-public class PerformanceScale
+public class PerformanceScaleDto
 {
 	#region Properties
 	public string? Min { get; set; }

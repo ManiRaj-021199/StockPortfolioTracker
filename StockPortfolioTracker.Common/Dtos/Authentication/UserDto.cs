@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class User
+public class UserDto
 {
     #region Properties
     public string? FirstName { get; set; }

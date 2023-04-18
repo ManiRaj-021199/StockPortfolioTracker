@@ -1,13 +1,13 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class FundOwnership : BaseApiResponse
+public class FundOwnershipDto : BaseApiResponseDto
 {
 	#region Properties
-	public List<OwnershipList>? OwnershipList { get; set; }
+	public List<OwnershipListDto>? OwnershipList { get; set; }
 	#endregion
 }
 
-public class OwnershipList
+public class OwnershipListDto
 {
 	#region Properties
 	public string? Organization { get; set; }

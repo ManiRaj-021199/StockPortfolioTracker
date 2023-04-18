@@ -1,26 +1,26 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class EarningsTrend : BaseApiResponse
+public class EarningsTrendDto : BaseApiResponseDto
 {
 	#region Properties
-	public List<TrendEarnings>? Trend { get; set; }
+	public List<TrendEarningsDto>? Trend { get; set; }
 	#endregion
 }
 
-public class TrendEarnings
+public class TrendEarningsDto
 {
 	#region Properties
 	public string? Period { get; set; }
 	public string? EndDate { get; set; }
 	public ResultFormatDto? Growth { get; set; }
-	public Estimate? EarningsEstimate { get; set; }
-	public Estimate? RevenueEstimate { get; set; }
-	public EpsTrend? EpsTrend { get; set; }
-	public EpsRevisions? EpsRevisions { get; set; }
+	public EstimateDto? EarningsEstimate { get; set; }
+	public EstimateDto? RevenueEstimate { get; set; }
+	public EpsTrendDto? EpsTrend { get; set; }
+	public EpsRevisionsDto? EpsRevisions { get; set; }
 	#endregion
 }
 
-public class Estimate
+public class EstimateDto
 {
 	#region Properties
 	public ResultFormatDto? Avg { get; set; }
@@ -32,7 +32,7 @@ public class Estimate
 	#endregion
 }
 
-public class EpsTrend
+public class EpsTrendDto
 {
 	#region Properties
 	public ResultFormatDto? Current { get; set; }
@@ -43,7 +43,7 @@ public class EpsTrend
 	#endregion
 }
 
-public class EpsRevisions
+public class EpsRevisionsDto
 {
 	#region Properties
 	public ResultFormatDto? UpLast7days { get; set; }

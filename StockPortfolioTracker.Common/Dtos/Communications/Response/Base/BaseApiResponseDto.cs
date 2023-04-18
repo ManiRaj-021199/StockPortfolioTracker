@@ -2,7 +2,7 @@
 
 namespace StockPortfolioTracker.Common;
 
-public class BaseApiResponse
+public class BaseApiResponseDto
 {
 	#region Properties
 	public HttpStatusCode ResponseCode { get; set; }

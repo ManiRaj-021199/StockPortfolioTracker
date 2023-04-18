@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class AssetProfile : BaseApiResponse
+public class AssetProfileDto : BaseApiResponseDto
 {
 	#region Properties
 	public string? Address1 { get; set; }
@@ -20,11 +20,11 @@ public class AssetProfile : BaseApiResponse
 	public int CompensationRisk { get; set; }
 	public int ShareHolderRightsRisk { get; set; }
 	public int OverallRisk { get; set; }
-	public List<CompanyOfficer>? CompanyOfficers { get; set; }
+	public List<CompanyOfficerDto>? CompanyOfficers { get; set; }
 	#endregion
 }
 
-public class CompanyOfficer
+public class CompanyOfficerDto
 {
 	#region Properties
 	public string? Name { get; set; }

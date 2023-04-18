@@ -7,9 +7,9 @@ namespace StockStatistics.Services;
 public class EquityServices : IEquityServices
 {
 	#region Publics
-	public AssetProfile GetAssetProfile(string strStockSympol)
+	public AssetProfileDto GetAssetProfile(string strStockSympol)
 	{
-		AssetProfile assetProfile = new();
+		AssetProfileDto assetProfile = new();
 
 		try
 		{
@@ -25,7 +25,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			assetProfile = data.QuoteSummary?.Result![0].AssetProfile!;
 			assetProfile.ResponseCode = HttpStatusCode.OK;
@@ -40,9 +40,9 @@ public class EquityServices : IEquityServices
 		return assetProfile;
 	}
 
-	public CalendarEvents GetCalendarEvents(string strStockSympol)
+	public CalendarEventsDto GetCalendarEvents(string strStockSympol)
 	{
-		CalendarEvents calendarEvents = new();
+		CalendarEventsDto calendarEvents = new();
 
 		try
 		{
@@ -58,7 +58,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			calendarEvents = data.QuoteSummary?.Result![0].CalendarEvents!;
 			calendarEvents.ResponseCode = HttpStatusCode.OK;
@@ -73,9 +73,9 @@ public class EquityServices : IEquityServices
 		return calendarEvents;
 	}
 
-	public Earnings GetEarnings(string strStockSympol)
+	public EarningsDto GetEarnings(string strStockSympol)
 	{
-		Earnings earnings = new();
+		EarningsDto earnings = new();
 
 		try
 		{
@@ -91,7 +91,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			earnings = data.QuoteSummary?.Result![0].Earnings!;
 			earnings.ResponseCode = HttpStatusCode.OK;
@@ -106,9 +106,9 @@ public class EquityServices : IEquityServices
 		return earnings;
 	}
 
-	public EarningsTrend GetEarningsTrend(string strStockSympol)
+	public EarningsTrendDto GetEarningsTrend(string strStockSympol)
 	{
-		EarningsTrend earningsTrend = new();
+		EarningsTrendDto earningsTrend = new();
 
 		try
 		{
@@ -124,7 +124,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			earningsTrend = data.QuoteSummary?.Result![0].EarningsTrend!;
 			earningsTrend.ResponseCode = HttpStatusCode.OK;
@@ -139,9 +139,9 @@ public class EquityServices : IEquityServices
 		return earningsTrend;
 	}
 
-	public EsgScores GetEsgScores(string strStockSympol)
+	public EsgScoresDto GetEsgScores(string strStockSympol)
 	{
-		EsgScores esgScores = new();
+		EsgScoresDto esgScores = new();
 
 		try
 		{
@@ -157,7 +157,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			esgScores = data.QuoteSummary?.Result![0].EsgScores!;
 			esgScores.ResponseCode = HttpStatusCode.OK;
@@ -172,9 +172,9 @@ public class EquityServices : IEquityServices
 		return esgScores;
 	}
 
-	public FinancialData GetFinancialData(string strStockSympol)
+	public FinancialDataDto GetFinancialData(string strStockSympol)
 	{
-		FinancialData financialData = new();
+		FinancialDataDto financialData = new();
 
 		try
 		{
@@ -190,7 +190,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			financialData = data.QuoteSummary?.Result![0].FinancialData!;
 			financialData.ResponseCode = HttpStatusCode.OK;
@@ -205,9 +205,9 @@ public class EquityServices : IEquityServices
 		return financialData;
 	}
 
-	public FundOwnership GetFundOwnership(string strStockSympol)
+	public FundOwnershipDto GetFundOwnership(string strStockSympol)
 	{
-		FundOwnership fundOwnership = new();
+		FundOwnershipDto fundOwnership = new();
 
 		try
 		{
@@ -223,7 +223,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			fundOwnership = data.QuoteSummary?.Result![0].FundOwnership!;
 			fundOwnership.ResponseCode = HttpStatusCode.OK;
@@ -238,9 +238,9 @@ public class EquityServices : IEquityServices
 		return fundOwnership;
 	}
 
-	public IndexTrend GetIndexTrend(string strStockSympol)
+	public IndexTrendDto GetIndexTrend(string strStockSympol)
 	{
-		IndexTrend indexTrend = new();
+		IndexTrendDto indexTrend = new();
 
 		try
 		{
@@ -256,7 +256,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			indexTrend = data.QuoteSummary?.Result![0].IndexTrend!;
 			indexTrend.ResponseCode = HttpStatusCode.OK;
@@ -271,9 +271,9 @@ public class EquityServices : IEquityServices
 		return indexTrend;
 	}
 
-	public IndustryTrend GetIndustryTrend(string strStockSympol)
+	public IndustryTrendDto GetIndustryTrend(string strStockSympol)
 	{
-		IndustryTrend industryTrend = new();
+		IndustryTrendDto industryTrend = new();
 
 		try
 		{
@@ -289,7 +289,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			industryTrend = data.QuoteSummary?.Result![0].IndustryTrend!;
 			industryTrend.ResponseCode = HttpStatusCode.OK;
@@ -304,9 +304,9 @@ public class EquityServices : IEquityServices
 		return industryTrend;
 	}
 
-	public InsiderHolders GetInsiderHolders(string strStockSympol)
+	public InsiderHoldersDto GetInsiderHolders(string strStockSympol)
 	{
-		InsiderHolders insiderHolders = new();
+		InsiderHoldersDto insiderHolders = new();
 
 		try
 		{
@@ -322,7 +322,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			insiderHolders = data.QuoteSummary?.Result![0].InsiderHolders!;
 			insiderHolders.ResponseCode = HttpStatusCode.OK;
@@ -337,9 +337,9 @@ public class EquityServices : IEquityServices
 		return insiderHolders;
 	}
 
-	public InsiderTransactions GetInsiderTransactions(string strStockSympol)
+	public InsiderTransactionsDto GetInsiderTransactions(string strStockSympol)
 	{
-		InsiderTransactions insiderTransactions = new();
+		InsiderTransactionsDto insiderTransactions = new();
 
 		try
 		{
@@ -355,7 +355,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			insiderTransactions = data.QuoteSummary?.Result![0].InsiderTransactions!;
 			insiderTransactions.ResponseCode = HttpStatusCode.OK;
@@ -370,9 +370,9 @@ public class EquityServices : IEquityServices
 		return insiderTransactions;
 	}
 
-	public Price GetPrice(string strStockSympol)
+	public PriceDto GetPrice(string strStockSympol)
 	{
-		Price price = new();
+		PriceDto price = new();
 
 		try
 		{
@@ -388,7 +388,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			price = data.QuoteSummary?.Result![0].Price!;
 			price.ResponseCode = HttpStatusCode.OK;
@@ -403,9 +403,9 @@ public class EquityServices : IEquityServices
 		return price;
 	}
 
-	public QuoteType GetQuoteType(string strStockSympol)
+	public QuoteTypeDto GetQuoteType(string strStockSympol)
 	{
-		QuoteType quoteType = new();
+		QuoteTypeDto quoteType = new();
 
 		try
 		{
@@ -421,7 +421,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			quoteType = data.QuoteSummary?.Result![0].QuoteType!;
 			quoteType.ResponseCode = HttpStatusCode.OK;
@@ -436,9 +436,9 @@ public class EquityServices : IEquityServices
 		return quoteType;
 	}
 
-	public RecommendationTrend GetRecommendationTrend(string strStockSympol)
+	public RecommendationTrendDto GetRecommendationTrend(string strStockSympol)
 	{
-		RecommendationTrend recommendationTrend = new();
+		RecommendationTrendDto recommendationTrend = new();
 
 		try
 		{
@@ -454,7 +454,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			recommendationTrend = data.QuoteSummary?.Result![0].RecommendationTrend!;
 			recommendationTrend.ResponseCode = HttpStatusCode.OK;
@@ -469,9 +469,9 @@ public class EquityServices : IEquityServices
 		return recommendationTrend;
 	}
 
-	public SummaryDetail GetSummaryDetail(string strStockSympol)
+	public SummaryDetailDto GetSummaryDetail(string strStockSympol)
 	{
-		SummaryDetail summaryDetail = new();
+		SummaryDetailDto summaryDetail = new();
 
 		try
 		{
@@ -487,7 +487,7 @@ public class EquityServices : IEquityServices
 			}
 
 			string responseResult = response.Content.ReadAsStringAsync().Result;
-			QuoteSummaryResponse? data = JsonConvert.DeserializeObject<QuoteSummaryResponse>(responseResult);
+			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
 			summaryDetail = data.QuoteSummary?.Result![0].SummaryDetail!;
 			summaryDetail.ResponseCode = HttpStatusCode.OK;

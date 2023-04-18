@@ -4,19 +4,19 @@ namespace StockStatistics.Services;
 
 public interface IEquityServices
 {
-	public AssetProfile GetAssetProfile(string strStockSympol);
-	public CalendarEvents GetCalendarEvents(string strStockSympol);
-	public Earnings GetEarnings(string strStockSympol);
-	public EarningsTrend GetEarningsTrend(string strStockSympol);
-	public EsgScores GetEsgScores(string strStockSympol);
-	public FinancialData GetFinancialData(string strStockSympol);
-	public IndexTrend GetIndexTrend(string strStockSympol);
-	public IndustryTrend GetIndustryTrend(string strStockSympol);
-	public Price GetPrice(string strStockSympol);
-	public QuoteType GetQuoteType(string strStockSympol);
-	public SummaryDetail GetSummaryDetail(string strStockSympol);
-	public FundOwnership GetFundOwnership(string strStockSympol);
-	public InsiderHolders GetInsiderHolders(string strStockSympol);
-	public InsiderTransactions GetInsiderTransactions(string strStockSympol);
-	public RecommendationTrend GetRecommendationTrend(string strStockSympol);
+	public AssetProfileDto GetAssetProfile(string strStockSympol);
+	public CalendarEventsDto GetCalendarEvents(string strStockSympol);
+	public EarningsDto GetEarnings(string strStockSympol);
+	public EarningsTrendDto GetEarningsTrend(string strStockSympol);
+	public EsgScoresDto GetEsgScores(string strStockSympol);
+	public FinancialDataDto GetFinancialData(string strStockSympol);
+	public IndexTrendDto GetIndexTrend(string strStockSympol);
+	public IndustryTrendDto GetIndustryTrend(string strStockSympol);
+	public PriceDto GetPrice(string strStockSympol);
+	public QuoteTypeDto GetQuoteType(string strStockSympol);
+	public SummaryDetailDto GetSummaryDetail(string strStockSympol);
+	public FundOwnershipDto GetFundOwnership(string strStockSympol);
+	public InsiderHoldersDto GetInsiderHolders(string strStockSympol);
+	public InsiderTransactionsDto GetInsiderTransactions(string strStockSympol);
+	public RecommendationTrendDto GetRecommendationTrend(string strStockSympol);
 }

@@ -1,16 +1,16 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class IndustryTrend : BaseApiResponse
+public class IndexTrendDto : BaseApiResponseDto
 {
 	#region Properties
 	public string? Symbol { get; set; }
 	public ResultFormatDto? PeRatio { get; set; }
 	public ResultFormatDto? PegRatio { get; set; }
-	public List<IndustryTrendEstimates>? Estimates { get; set; }
+	public List<IndexTrendEstimatesDto>? Estimates { get; set; }
 	#endregion
 }
 
-public class IndustryTrendEstimates
+public class IndexTrendEstimatesDto
 {
 	#region Properties
 	public string? Period { get; set; }
