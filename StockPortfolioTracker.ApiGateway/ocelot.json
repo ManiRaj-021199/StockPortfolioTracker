@@ -2,40 +2,66 @@
   "Routes": [
     // Authentication MicroService
     {
-      "DownstreamPathTemplate": "/api/authentication/Index",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/Authentication/RegisterUser",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 93
         }
       ],
-      "UpstreamPathTemplate": "/authentication/Index",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/Authentication/RegisterUser",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "authentication"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authentication/LoginUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 93
+        }
+      ],
+      "UpstreamPathTemplate": "/Authentication/LoginUser",
+      "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "authentication"
     },
     // UserManagement MicroService
     {
-      "DownstreamPathTemplate": "/api/usermanagement/Index",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/UserManagement/GetAllUsers",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5002
+          "Port": 94
         }
       ],
-      "UpstreamPathTemplate": "/usermanagement/Index",
+      "UpstreamPathTemplate": "/UserManagement/GetAllUsers",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "usermanagement"
+    },
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/GetUserByEmail/{strEmail}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 94
+        }
+      ],
+      "UpstreamPathTemplate": "/UserManagement/GetUserByEmail/{strEmail}",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "usermanagement"
     },
     // StockStatistics MicroService
     {
       "DownstreamPathTemplate": "/api/equity/GetAssetProfile/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetAssetProfile/{strStockSympol}",
@@ -44,11 +70,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetCalendarEvents/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetCalendarEvents/{strStockSympol}",
@@ -57,11 +83,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEarnings/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetEarnings/{strStockSympol}",
@@ -70,11 +96,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEarningsTrend/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetEarningsTrend/{strStockSympol}",
@@ -83,11 +109,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetEsgScores/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetEsgScores/{strStockSympol}",
@@ -96,11 +122,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetFinancialData/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetFinancialData/{strStockSympol}",
@@ -109,11 +135,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetIndexTrend/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetIndexTrend/{strStockSympol}",
@@ -122,11 +148,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetIndustryTrend/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetIndustryTrend/{strStockSympol}",
@@ -135,11 +161,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetPrice/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetPrice/{strStockSympol}",
@@ -148,11 +174,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetQuoteType/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetQuoteType/{strStockSympol}",
@@ -161,11 +187,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetSummaryDetail/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetSummaryDetail/{strStockSympol}",
@@ -174,11 +200,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetFundOwnership/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetFundOwnership/{strStockSympol}",
@@ -187,11 +213,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetInsiderHolders/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetInsiderHolders/{strStockSympol}",
@@ -200,11 +226,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetInsiderTransactions/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetInsiderTransactions/{strStockSympol}",
@@ -213,11 +239,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/equity/GetRecommendationTrend/{strStockSympol}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 96
         }
       ],
       "UpstreamPathTemplate": "/equity/GetRecommendationTrend/{strStockSympol}",
@@ -234,7 +260,7 @@
         {
           "Name": "Authentication Api",
           "Version": "v1",
-          "Url": "https://localhost:5001/swagger/v1/swagger.json"
+          "Url": "http://localhost:93/swagger/v1/swagger.json"
         }
       ]
     },
@@ -245,7 +271,7 @@
         {
           "Name": "UserManagement Api",
           "Version": "v1",
-          "Url": "https://localhost:5002/swagger/v1/swagger.json"
+          "Url": "http://localhost:94/swagger/v1/swagger.json"
         }
       ]
     },
@@ -256,12 +282,12 @@
         {
           "Name": "StockStatistics Api",
           "Version": "v1",
-          "Url": "https://localhost:5003/swagger/v1/swagger.json"
+          "Url": "http://localhost:96/swagger/v1/swagger.json"
         }
       ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "BaseUrl": "http://localhost:92"
   }
 }
