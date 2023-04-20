@@ -2,9 +2,10 @@
 
 namespace StockPortfolioTracker.Common;
 
-public static class PasswordHasher
+public static class HelperValues
 {
     #region Constants
+    // Password Hasher
     public static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA512;
     public static readonly int KeySize = 64;
     public static readonly int Iterations = 350000;

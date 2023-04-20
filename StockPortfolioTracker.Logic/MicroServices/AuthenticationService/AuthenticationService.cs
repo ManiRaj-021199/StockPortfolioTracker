@@ -25,14 +25,10 @@ public class AuthenticationService : IAuthenticationService
         try
         {
             PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userDto.Password!);
-            User user = new()
-                        {
-                            FirstName = userDto.FirstName,
-                            LastName = userDto.LastName,
-                            Email = userDto.Email,
-                            PasswordHash = hashedPassword.PasswordHash,
-                            PasswordSalt = hashedPassword.PasswordSalt
-                        };
+            
+            User user = AutoMapperHelper.MapUserDtoToUser(userDto);
+            user.PasswordHash = hashedPassword.PasswordHash;
+            user.PasswordSalt = hashedPassword.PasswordSalt;
 
             dbContext.Users!.Add(user);
             await dbContext.SaveChangesAsync();
