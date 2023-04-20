@@ -19,9 +19,9 @@ public class AutoMapperHelper
         return userDto;
     }
 
-    public static User MapUserDtoToUser(UserDto userDto)
+    public static User MapUserRegisterDtoToUser(UserRegisterDto userRegisterDto)
     {
-        User user = Mapper.Map<User>(userDto);
+        User user = Mapper.Map<User>(userRegisterDto);
 
         return user;
     }

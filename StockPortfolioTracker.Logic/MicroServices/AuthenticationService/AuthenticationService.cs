@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data;
 
@@ -19,19 +20,19 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
     #region Publics
-    public async Task<BaseApiResponseDto> RegisterUser(UserDto userDto)
+    public async Task<BaseApiResponseDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
         BaseApiResponseDto response = new();
 
         try
         {
-            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userDto.Email}");
+            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userRegisterDto.Email}");
 
             if(!resp.IsSuccessStatusCode)
             {
                 response.ResponseCode = HttpStatusCode.ServiceUnavailable;
                 response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
-                
+
                 return response;
             }
 
@@ -46,9 +47,9 @@ public class AuthenticationService : IAuthenticationService
                 return response;
             }
 
-            PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userDto.Password!);
-            
-            User user = AutoMapperHelper.MapUserDtoToUser(userDto);
+            PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userRegisterDto.Password!);
+
+            User user = AutoMapperHelper.MapUserRegisterDtoToUser(userRegisterDto);
             user.PasswordHash = hashedPassword.PasswordHash;
             user.PasswordSalt = hashedPassword.PasswordSalt;
 
@@ -57,6 +58,61 @@ public class AuthenticationService : IAuthenticationService
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = AuthenticationMessages.UserRegisteredSuccess;
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+        }
+
+        return response;
+    }
+
+    public async Task<BaseApiResponseDto> LoginUser(UserLoginDto userLoginDto)
+    {
+        BaseApiResponseDto response = new();
+
+        try
+        {
+            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userLoginDto.Email}");
+
+            if(!resp.IsSuccessStatusCode)
+            {
+                response.ResponseCode = HttpStatusCode.ServiceUnavailable;
+                response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
+
+                return response;
+            }
+
+            string strApiResponse = await resp.Content.ReadAsStringAsync();
+            BaseApiResponseDto apiResponse = JsonConvert.DeserializeObject<BaseApiResponseDto>(strApiResponse)!;
+
+            if(apiResponse.Result == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = AuthenticationMessages.UserNotRegistered;
+
+                return response;
+            }
+
+            UserDto? user = JsonConvert.DeserializeObject<UserDto>(((JObject) apiResponse.Result).ToString(Formatting.None));
+
+            bool bIsValidUser = PasswordHashingHelper.VerifyHashedPassword(userLoginDto.Password!, new PasswordHasherDto
+                                                                                                   {
+                                                                                                       PasswordHash = user!.PasswordHash,
+                                                                                                       PasswordSalt = user.PasswordSalt
+                                                                                                   });
+
+            if(bIsValidUser)
+            {
+                response.ResponseCode = HttpStatusCode.OK;
+                response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
+            }
+            else
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = AuthenticationMessages.UserLoginFail;
+            }
         }
         catch(Exception err)
         {
