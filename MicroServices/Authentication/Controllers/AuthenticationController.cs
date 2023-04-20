@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using StockPortfolioTracker.Common;
+using StockPortfolioTracker.Logic;
 
 namespace Authentication.Controllers;
 
@@ -6,12 +8,25 @@ namespace Authentication.Controllers;
 [Route("api/[controller]")]
 public class AuthenticationController : ControllerBase
 {
-    #region Publics
-    [HttpGet]
-    [Route("Index")]
-    public string Index()
+    #region Fields
+    private readonly IAuthenticationService? authenticationService;
+    #endregion
+
+    #region Constructors
+    public AuthenticationController(IAuthenticationService authenticationService)
     {
-        return "Authentication Api";
+        this.authenticationService = authenticationService;
+    }
+    #endregion
+
+    #region Publics
+    [HttpPost]
+    [Route("RegisterUser")]
+    public async Task<BaseApiResponseDto> RegisterUser([FromBody] UserDto userDto)
+    {
+        BaseApiResponseDto response = await this.authenticationService!.RegisterUser(userDto);
+
+        return response;
     }
     #endregion
 }

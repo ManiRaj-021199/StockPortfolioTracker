@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
+    <ProjectReference Include="..\StockPortfolioTracker.Data\StockPortfolioTracker.Data.csproj" />
+  </ItemGroup>
+
 </Project>

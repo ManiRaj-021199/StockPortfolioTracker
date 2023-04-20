@@ -1,4 +1,7 @@
-﻿namespace StockPortfolioTracker.Web;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+
+namespace StockPortfolioTracker.Web;
 
 public class Startup
 {
@@ -20,6 +23,10 @@ public class Startup
     {
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
+
+        // Authentication
+        builder.Services.AddBlazoredSessionStorage();
+        builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
     }
 
     private static void Configure(WebApplication app)
@@ -35,6 +42,10 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        // Authentication & Authorization
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");

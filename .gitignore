@@ -17,6 +17,7 @@
 # Config Files
 /MicroServices/Authentication/.config
 /MicroServices/UserManagement/.config
+/StockStatistics/.config
 /StockPortfolioTracker.ApiGateway/.config
 /StockPortfolioTracker.Web/.config
 
@@ -26,3 +27,6 @@
 /StockPortfolioTracker.ApiGateway/Properties/PublishProfiles
 /StockPortfolioTracker.Web/Properties/PublishProfiles
 /.vs/StockPortfolioTracker/FileContentIndex/read.lock
+
+# Other Junk Files
+*.pubxml
