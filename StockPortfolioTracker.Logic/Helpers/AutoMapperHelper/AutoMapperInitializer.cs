@@ -12,7 +12,7 @@ public class AutoMapperInitializer
         MapperConfiguration config = new(cfg =>
                                          {
                                              cfg.CreateMap<User, UserDto>();
-                                             cfg.CreateMap<UserDto, User>();
+                                             cfg.CreateMap<UserRegisterDto, User>();
                                          });
 
         Mapper mapper = new(config);

@@ -22,9 +22,18 @@ public class AuthenticationController : ControllerBase
     #region Publics
     [HttpPost]
     [Route("RegisterUser")]
-    public async Task<BaseApiResponseDto> RegisterUser([FromBody] UserDto userDto)
+    public async Task<BaseApiResponseDto> RegisterUser([FromBody] UserRegisterDto userRegisterDto)
     {
-        BaseApiResponseDto response = await this.authenticationService!.RegisterUser(userDto);
+        BaseApiResponseDto response = await this.authenticationService!.RegisterUser(userRegisterDto);
+
+        return response;
+    }
+
+    [HttpPost]
+    [Route("LoginUser")]
+    public async Task<BaseApiResponseDto> LoginUser([FromBody] UserLoginDto userLoginDto)
+    {
+        BaseApiResponseDto response = await this.authenticationService!.LoginUser(userLoginDto);
 
         return response;
     }
