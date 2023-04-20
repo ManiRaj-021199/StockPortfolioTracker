@@ -51,7 +51,7 @@ public class UserManagementService : IUserManagementService
             UserDto userDto = AutoMapperHelper.MapUserToUserDto(user!);
 
             response.ResponseCode = HttpStatusCode.OK;
-            response.ResponseMessage = "User Found.";
+            response.ResponseMessage = $"User {(userDto != null ? userDto.FirstName + userDto.LastName : "Not")} Found.";
             response.Result = userDto;
         }
         catch(Exception err)
