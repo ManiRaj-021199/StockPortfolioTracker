@@ -4,18 +4,31 @@ namespace StockPortfolioTracker.Common;
 
 public static class HttpClientHelper
 {
-	#region Publics
-	public static HttpResponseMessage GetYahooFinanceModuleResponse(string strStockSympol, string strModule)
-	{
-		HttpClient httpClient = new()
-		                        {
-			                        BaseAddress = new Uri(string.Format(ApiEndPoints.YahooFinanceModulesApiUrl, strStockSympol, strModule))
-		                        };
-		httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    #region Publics
+    public static HttpResponseMessage GetYahooFinanceModuleResponse(string strStockSympol, string strModule)
+    {
+        HttpClient httpClient = new()
+                                {
+                                    BaseAddress = new Uri(string.Format(ApiEndPoints.YahooFinanceModulesApiUrl, strStockSympol, strModule))
+                                };
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-		HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+        HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
 
-		return response;
-	}
-	#endregion
+        return response;
+    }
+
+    public static HttpResponseMessage GetApiResponse(string strUrl, string strUri)
+    {
+        HttpClient httpClient = new()
+                                {
+                                    BaseAddress = new Uri(strUrl + strUri)
+                                };
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+
+        return response;
+    }
+    #endregion
 }

@@ -1,6 +1,6 @@
 ﻿using StockPortfolioTracker.Common;
 
-namespace StockStatistics.Services;
+namespace StockPortfolioTracker.Logic;
 
 public interface IEquityServices
 {

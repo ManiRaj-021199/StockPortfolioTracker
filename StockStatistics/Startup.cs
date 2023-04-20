@@ -1,4 +1,4 @@
-﻿using StockStatistics.Services;
+﻿using StockPortfolioTracker.Logic;
 
 namespace StockStatistics;
 

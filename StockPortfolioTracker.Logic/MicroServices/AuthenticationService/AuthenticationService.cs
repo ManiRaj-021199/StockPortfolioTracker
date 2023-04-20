@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data;
 
@@ -24,6 +25,27 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
+            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userDto.Email}");
+
+            if(!resp.IsSuccessStatusCode)
+            {
+                response.ResponseCode = HttpStatusCode.ServiceUnavailable;
+                response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
+                
+                return response;
+            }
+
+            string strApiResponse = await resp.Content.ReadAsStringAsync();
+            BaseApiResponseDto apiResponse = JsonConvert.DeserializeObject<BaseApiResponseDto>(strApiResponse)!;
+
+            if(apiResponse.Result != null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = AuthenticationMessages.UserAlreadyRegistered;
+
+                return response;
+            }
+
             PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userDto.Password!);
             
             User user = AutoMapperHelper.MapUserDtoToUser(userDto);
@@ -34,7 +56,7 @@ public class AuthenticationService : IAuthenticationService
             await dbContext.SaveChangesAsync();
 
             response.ResponseCode = HttpStatusCode.OK;
-            response.ResponseMessage = "User Added Successfully.";
+            response.ResponseMessage = AuthenticationMessages.UserRegisteredSuccess;
         }
         catch(Exception err)
         {

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 
-namespace StockStatistics.Services;
+namespace StockPortfolioTracker.Logic;
 
 public class EquityServices : IEquityServices
 {
@@ -26,7 +26,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			assetProfile = data.QuoteSummary?.Result![0].AssetProfile!;
+			assetProfile = data!.QuoteSummary?.Result![0].AssetProfile!;
 			assetProfile.ResponseCode = HttpStatusCode.OK;
 			assetProfile.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -58,7 +58,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			calendarEvents = data.QuoteSummary?.Result![0].CalendarEvents!;
+			calendarEvents = data!.QuoteSummary?.Result![0].CalendarEvents!;
 			calendarEvents.ResponseCode = HttpStatusCode.OK;
 			calendarEvents.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -90,7 +90,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			earnings = data.QuoteSummary?.Result![0].Earnings!;
+			earnings = data!.QuoteSummary?.Result![0].Earnings!;
 			earnings.ResponseCode = HttpStatusCode.OK;
 			earnings.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -122,7 +122,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			earningsTrend = data.QuoteSummary?.Result![0].EarningsTrend!;
+			earningsTrend = data!.QuoteSummary?.Result![0].EarningsTrend!;
 			earningsTrend.ResponseCode = HttpStatusCode.OK;
 			earningsTrend.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -154,7 +154,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			esgScores = data.QuoteSummary?.Result![0].EsgScores!;
+			esgScores = data!.QuoteSummary?.Result![0].EsgScores!;
 			esgScores.ResponseCode = HttpStatusCode.OK;
 			esgScores.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -186,7 +186,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			financialData = data.QuoteSummary?.Result![0].FinancialData!;
+			financialData = data!.QuoteSummary?.Result![0].FinancialData!;
 			financialData.ResponseCode = HttpStatusCode.OK;
 			financialData.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -218,7 +218,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			fundOwnership = data.QuoteSummary?.Result![0].FundOwnership!;
+			fundOwnership = data!.QuoteSummary?.Result![0].FundOwnership!;
 			fundOwnership.ResponseCode = HttpStatusCode.OK;
 			fundOwnership.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -250,7 +250,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			indexTrend = data.QuoteSummary?.Result![0].IndexTrend!;
+			indexTrend = data!.QuoteSummary?.Result![0].IndexTrend!;
 			indexTrend.ResponseCode = HttpStatusCode.OK;
 			indexTrend.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -282,7 +282,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			industryTrend = data.QuoteSummary?.Result![0].IndustryTrend!;
+			industryTrend = data!.QuoteSummary?.Result![0].IndustryTrend!;
 			industryTrend.ResponseCode = HttpStatusCode.OK;
 			industryTrend.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -314,7 +314,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			insiderHolders = data.QuoteSummary?.Result![0].InsiderHolders!;
+			insiderHolders = data!.QuoteSummary?.Result![0].InsiderHolders!;
 			insiderHolders.ResponseCode = HttpStatusCode.OK;
 			insiderHolders.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -346,7 +346,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			insiderTransactions = data.QuoteSummary?.Result![0].InsiderTransactions!;
+			insiderTransactions = data!.QuoteSummary?.Result![0].InsiderTransactions!;
 			insiderTransactions.ResponseCode = HttpStatusCode.OK;
 			insiderTransactions.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -378,7 +378,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			price = data.QuoteSummary?.Result![0].Price!;
+			price = data!.QuoteSummary?.Result![0].Price!;
 			price.ResponseCode = HttpStatusCode.OK;
 			price.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -410,7 +410,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			quoteType = data.QuoteSummary?.Result![0].QuoteType!;
+			quoteType = data!.QuoteSummary?.Result![0].QuoteType!;
 			quoteType.ResponseCode = HttpStatusCode.OK;
 			quoteType.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -442,7 +442,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			recommendationTrend = data.QuoteSummary?.Result![0].RecommendationTrend!;
+			recommendationTrend = data!.QuoteSummary?.Result![0].RecommendationTrend!;
 			recommendationTrend.ResponseCode = HttpStatusCode.OK;
 			recommendationTrend.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}
@@ -474,7 +474,7 @@ public class EquityServices : IEquityServices
 			string responseResult = response.Content.ReadAsStringAsync().Result;
 			QuoteSummaryResponseDto? data = JsonConvert.DeserializeObject<QuoteSummaryResponseDto>(responseResult);
 
-			summaryDetail = data.QuoteSummary?.Result![0].SummaryDetail!;
+			summaryDetail = data!.QuoteSummary?.Result![0].SummaryDetail!;
 			summaryDetail.ResponseCode = HttpStatusCode.OK;
 			summaryDetail.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
 		}

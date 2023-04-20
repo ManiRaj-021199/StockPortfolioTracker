@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockStatistics.Services;
+using StockPortfolioTracker.Logic;
 
 namespace StockStatistics.Controllers;
 
