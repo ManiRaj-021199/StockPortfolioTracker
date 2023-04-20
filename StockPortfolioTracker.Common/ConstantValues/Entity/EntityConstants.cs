@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public static class EntityValues
+public static class EntityConstants
 {
     #region Constants
     public static readonly string Server = "MS-NB0101";

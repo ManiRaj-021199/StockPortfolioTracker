@@ -13,10 +13,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.AssetProfile);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+            HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.AssetProfile);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				assetProfile.ResponseCode = HttpStatusCode.NotFound;
 				assetProfile.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -46,10 +45,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.CalendarEvents);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.CalendarEvents);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				calendarEvents.ResponseCode = HttpStatusCode.NotFound;
 				calendarEvents.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -79,10 +77,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.Earnings);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.Earnings);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				earnings.ResponseCode = HttpStatusCode.NotFound;
 				earnings.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -112,10 +109,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.EarningsTrend);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+            HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.EarningsTrend);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				earningsTrend.ResponseCode = HttpStatusCode.NotFound;
 				earningsTrend.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -145,10 +141,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.EsgScores);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.EsgScores);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				esgScores.ResponseCode = HttpStatusCode.NotFound;
 				esgScores.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -178,10 +173,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.FinancialData);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.FinancialData);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				financialData.ResponseCode = HttpStatusCode.NotFound;
 				financialData.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -211,10 +205,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.FundOwnership);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.FundOwnership);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				fundOwnership.ResponseCode = HttpStatusCode.NotFound;
 				fundOwnership.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -244,10 +237,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.IndexTrend);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.IndexTrend);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				indexTrend.ResponseCode = HttpStatusCode.NotFound;
 				indexTrend.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -277,10 +269,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.IndustryTrend);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.IndustryTrend);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				industryTrend.ResponseCode = HttpStatusCode.NotFound;
 				industryTrend.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -310,10 +301,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.InsiderHolders);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.InsiderHolders);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				insiderHolders.ResponseCode = HttpStatusCode.NotFound;
 				insiderHolders.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -343,10 +333,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.InsiderTransactions);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.InsiderTransactions);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				insiderTransactions.ResponseCode = HttpStatusCode.NotFound;
 				insiderTransactions.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -376,10 +365,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.Price);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+            HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.Price);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				price.ResponseCode = HttpStatusCode.NotFound;
 				price.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -409,10 +397,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.QuoteType);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+            HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.QuoteType);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				quoteType.ResponseCode = HttpStatusCode.NotFound;
 				quoteType.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -442,10 +429,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.RecommendationTrend);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+            HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.RecommendationTrend);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				recommendationTrend.ResponseCode = HttpStatusCode.NotFound;
 				recommendationTrend.ResponseMessage = CommonWebServiceMessages.NotFound;
@@ -475,10 +461,9 @@ public class EquityServices : IEquityServices
 
 		try
 		{
-			HttpClient httpClient = ApiConfigurations.ConfigureYahooFinanceModulesApi(strStockSympol, YahooFinanceModules.SummaryDetail);
-			HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
+			HttpResponseMessage response = HttpClientHelper.GetYahooFinanceModuleResponse(strStockSympol, YahooFinanceModules.SummaryDetail);
 
-			if(!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
 			{
 				summaryDetail.ResponseCode = HttpStatusCode.NotFound;
 				summaryDetail.ResponseMessage = CommonWebServiceMessages.NotFound;

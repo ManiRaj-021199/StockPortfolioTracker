@@ -2,7 +2,7 @@
 
 namespace StockPortfolioTracker.Common;
 
-public static class HelperValues
+public static class HelperConstants
 {
     #region Constants
     // Password Hasher
