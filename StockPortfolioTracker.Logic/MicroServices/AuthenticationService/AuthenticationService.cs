@@ -103,16 +103,16 @@ public class AuthenticationService : IAuthenticationService
                                                                                                        PasswordSalt = user.PasswordSalt
                                                                                                    });
 
-            if(bIsValidUser)
-            {
-                response.ResponseCode = HttpStatusCode.OK;
-                response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
-            }
-            else
+            if(!bIsValidUser)
             {
                 response.ResponseCode = HttpStatusCode.Accepted;
                 response.ResponseMessage = AuthenticationMessages.UserLoginFail;
+                return response;
             }
+            
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
+            response.Result = JwtTokenHelper.GenerateJwtToken(user);
         }
         catch(Exception err)
         {
