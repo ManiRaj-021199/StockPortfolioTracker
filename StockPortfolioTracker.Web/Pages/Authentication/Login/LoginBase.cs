@@ -17,22 +17,24 @@ public class LoginBase : ComponentBase
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
 
-    protected UserDto? User { get; set; }
+    protected UserLoginDto? UserLoginDto { get; set; }
     #endregion
 
     #region Protecteds
     protected override Task OnInitializedAsync()
     {
-        this.User = new UserDto();
+        this.UserLoginDto = new UserLoginDto();
         return base.OnInitializedAsync();
     }
 
     protected async Task<bool> ValidateUser()
     {
-        ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(this.User?.Email!);
+        BaseApiResponseDto response = await HttpClientHelper.PostApiRequest(ApiEndPoints.LoginUser, UserLoginDto!);
+
+        ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(this.UserLoginDto?.Email!);
         this.NavigationManager?.NavigateTo("/");
 
-        await this.SessionStorageService!.SetItemAsync("user-email", this.User!.Email);
+        await this.SessionStorageService!.SetItemAsync("user-email", this.UserLoginDto!.Email);
 
         return await Task.FromResult(true);
     }
