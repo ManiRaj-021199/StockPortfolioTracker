@@ -3,7 +3,7 @@
 public class EntityUserRoles
 {
     #region Constants
-    public static readonly string SuperUser = "Super User";
-    public static readonly string User = "User";
+    public const string SUPERUSER = "Super User";
+    public const string USER = "User";
     #endregion
 }

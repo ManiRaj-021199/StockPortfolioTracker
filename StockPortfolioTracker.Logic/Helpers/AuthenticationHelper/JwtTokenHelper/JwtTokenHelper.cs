@@ -15,7 +15,7 @@ public class JwtTokenHelper
                              {
                                  new Claim(ClaimTypes.Name, $"{userDto.FirstName} {userDto.LastName}"),
                                  new Claim(ClaimTypes.Email, userDto.Email!),
-                                 new Claim(ClaimTypes.Role, "Admin")
+                                 new Claim(ClaimTypes.Role, userDto.UserRole!)
                              };
 
         SymmetricSecurityKey secretKey = GetSecretKey();

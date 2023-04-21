@@ -109,7 +109,11 @@ public class AuthenticationService : IAuthenticationService
                 response.ResponseMessage = AuthenticationMessages.UserLoginFail;
                 return response;
             }
-            
+
+            UserRole userRole = dbContext.UserRoles!.FirstOrDefault(x => x.RoleId == user.UserRoleId)!;
+
+            user.UserRole = !string.IsNullOrEmpty(userRole.RoleName) ? userRole.RoleName : user.UserRole;
+
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
             response.Result = JwtTokenHelper.GenerateJwtToken(user);
