@@ -50,6 +50,8 @@ public class UserManagementService : IUserManagementService
             User? user = dbContext.Users!.FirstOrDefault(user => user.Email == strEmail);
             UserDto userDto = AutoMapperHelper.MapUserToUserDto(user!);
 
+            userDto.UserRole = dbContext.UserRoles!.FirstOrDefault(role => role.RoleId == userDto.UserRoleId)!.RoleName!;
+
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = $"User {(userDto != null ? userDto.FirstName + userDto.LastName : "Not")} Found.";
             response.Result = userDto;
