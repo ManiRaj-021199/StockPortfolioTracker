@@ -11,6 +11,6 @@ public static class HelperConstants
     public static readonly int Iterations = 350000;
 
     // JWT Token
-    public static readonly string Token = "this is my custom Secret key for authentication";
+    public static readonly string JwtToken = "DFOao2SfVUqcqTuiqKDtLFOjoTShVTymVTc1p3DtLFO3nKAbYt==";
     #endregion
 }

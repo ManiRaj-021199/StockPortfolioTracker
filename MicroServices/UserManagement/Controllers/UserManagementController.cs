@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Logic;
@@ -20,7 +21,7 @@ public class UserManagementController : ControllerBase
     #endregion
 
     #region Publics
-    [HttpGet]
+    [HttpGet, Authorize(Roles = "Admin")]
     [Route("GetAllUsers")]
     public async Task<BaseApiResponseDto> GetAllUsers()
     {
