@@ -14,10 +14,11 @@ public class JwtTokenHelper
         List<Claim> claims = new()
                              {
                                  new Claim(ClaimTypes.Name, $"{userDto.FirstName} {userDto.LastName}"),
-                                 new Claim(ClaimTypes.Email, userDto.Email!)
+                                 new Claim(ClaimTypes.Email, userDto.Email!),
+                                 new Claim(ClaimTypes.Role, "Admin")
                              };
 
-        SymmetricSecurityKey secretKey = new(Encoding.UTF8.GetBytes(HelperConstants.Token));
+        SymmetricSecurityKey secretKey = GetSecretKey();
         SigningCredentials credentials = new(secretKey, SecurityAlgorithms.HmacSha512Signature);
 
         JwtSecurityToken jwtSecurityToken = new(
@@ -27,6 +28,13 @@ public class JwtTokenHelper
         string? strJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
         return strJwtToken;
+    }
+
+    public static SymmetricSecurityKey GetSecretKey()
+    {
+        SymmetricSecurityKey secretKey = new(Encoding.UTF8.GetBytes(HelperConstants.JwtToken));
+
+        return secretKey;
     }
     #endregion
 }
