@@ -21,12 +21,12 @@ public class UserManagementController : ControllerBase
     #endregion
 
     #region Publics
-    [HttpGet, Authorize(Roles = "Admin")]
+    [HttpGet, Authorize(Roles = EntityUserRoles.SUPERUSER)]
     [Route("GetAllUsers")]
     public async Task<BaseApiResponseDto> GetAllUsers()
     {
         BaseApiResponseDto response = await userManagementService!.GetAllUsers();
-
+        
         return response;
     }
 
