@@ -7,6 +7,7 @@ public class PortfolioTrackerDbContext : DbContext
 {
     #region Properties
     public DbSet<User>? Users { get; set; }
+    public DbSet<UserRole>? UserRoles { get; set; }
     #endregion
 
     #region Protecteds
