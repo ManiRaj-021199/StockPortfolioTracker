@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockStatistics.Services;
+using StockPortfolioTracker.Logic;
 
 namespace StockStatistics.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_USER)]
 public class EquityController : ControllerBase
 {
 	#region Fields
@@ -24,7 +26,7 @@ public class EquityController : ControllerBase
 	[Route("GetAssetProfile/{strStockSympol}")]
 	public IActionResult GetAssetProfile(string strStockSympol)
 	{
-		AssetProfile assetProfile = EquityServices.GetAssetProfile(strStockSympol);
+		AssetProfileDto assetProfile = EquityServices.GetAssetProfile(strStockSympol);
 
 		return Ok(assetProfile);
 	}
@@ -33,7 +35,7 @@ public class EquityController : ControllerBase
 	[Route("GetCalendarEvents/{strStockSympol}")]
 	public IActionResult GetCalendarEvents(string strStockSympol)
 	{
-		CalendarEvents calendarEvents = EquityServices.GetCalendarEvents(strStockSympol);
+		CalendarEventsDto calendarEvents = EquityServices.GetCalendarEvents(strStockSympol);
 
 		return Ok(calendarEvents);
 	}
@@ -42,7 +44,7 @@ public class EquityController : ControllerBase
 	[Route("GetEarnings/{strStockSympol}")]
 	public IActionResult GetEarnings(string strStockSympol)
 	{
-		Earnings earnings = EquityServices.GetEarnings(strStockSympol);
+		EarningsDto earnings = EquityServices.GetEarnings(strStockSympol);
 
 		return Ok(earnings);
 	}
@@ -51,7 +53,7 @@ public class EquityController : ControllerBase
 	[Route("GetEarningsTrend/{strStockSympol}")]
 	public IActionResult GetEarningsTrend(string strStockSympol)
 	{
-		EarningsTrend earningsTrend = EquityServices.GetEarningsTrend(strStockSympol);
+		EarningsTrendDto earningsTrend = EquityServices.GetEarningsTrend(strStockSympol);
 
 		return Ok(earningsTrend);
 	}
@@ -60,7 +62,7 @@ public class EquityController : ControllerBase
 	[Route("GetEsgScores/{strStockSympol}")]
 	public IActionResult GetEsgScores(string strStockSympol)
 	{
-		EsgScores esgScores = EquityServices.GetEsgScores(strStockSympol);
+		EsgScoresDto esgScores = EquityServices.GetEsgScores(strStockSympol);
 
 		return Ok(esgScores);
 	}
@@ -69,7 +71,7 @@ public class EquityController : ControllerBase
 	[Route("GetFinancialData/{strStockSympol}")]
 	public IActionResult GetFinancialData(string strStockSympol)
 	{
-		FinancialData financialData = EquityServices.GetFinancialData(strStockSympol);
+		FinancialDataDto financialData = EquityServices.GetFinancialData(strStockSympol);
 
 		return Ok(financialData);
 	}
@@ -78,7 +80,7 @@ public class EquityController : ControllerBase
 	[Route("GetIndexTrend/{strStockSympol}")]
 	public IActionResult GetIndexTrend(string strStockSympol)
 	{
-		IndexTrend indexTrend = EquityServices.GetIndexTrend(strStockSympol);
+		IndexTrendDto indexTrend = EquityServices.GetIndexTrend(strStockSympol);
 
 		return Ok(indexTrend);
 	}
@@ -87,7 +89,7 @@ public class EquityController : ControllerBase
 	[Route("GetIndustryTrend/{strStockSympol}")]
 	public IActionResult GetIndustryTrend(string strStockSympol)
 	{
-		IndustryTrend industryTrend = EquityServices.GetIndustryTrend(strStockSympol);
+		IndustryTrendDto industryTrend = EquityServices.GetIndustryTrend(strStockSympol);
 
 		return Ok(industryTrend);
 	}
@@ -96,7 +98,7 @@ public class EquityController : ControllerBase
 	[Route("GetPrice/{strStockSympol}")]
 	public IActionResult GetPrice(string strStockSympol)
 	{
-		Price price = EquityServices.GetPrice(strStockSympol);
+		PriceDto price = EquityServices.GetPrice(strStockSympol);
 
 		return Ok(price);
 	}
@@ -105,7 +107,7 @@ public class EquityController : ControllerBase
 	[Route("GetQuoteType/{strStockSympol}")]
 	public IActionResult GetQuoteType(string strStockSympol)
 	{
-		QuoteType quoteType = EquityServices.GetQuoteType(strStockSympol);
+		QuoteTypeDto quoteType = EquityServices.GetQuoteType(strStockSympol);
 
 		return Ok(quoteType);
 	}
@@ -114,7 +116,7 @@ public class EquityController : ControllerBase
 	[Route("GetSummaryDetail/{strStockSympol}")]
 	public IActionResult GetSummaryDetail(string strStockSympol)
 	{
-		SummaryDetail summaryDetail = EquityServices.GetSummaryDetail(strStockSympol);
+		SummaryDetailDto summaryDetail = EquityServices.GetSummaryDetail(strStockSympol);
 
 		return Ok(summaryDetail);
 	}
@@ -123,7 +125,7 @@ public class EquityController : ControllerBase
 	[Route("GetFundOwnership/{strStockSympol}")]
 	public IActionResult GetFundOwnership(string strStockSympol)
 	{
-		FundOwnership fundOwnership = EquityServices.GetFundOwnership(strStockSympol);
+		FundOwnershipDto fundOwnership = EquityServices.GetFundOwnership(strStockSympol);
 
 		return Ok(fundOwnership);
 	}
@@ -132,7 +134,7 @@ public class EquityController : ControllerBase
 	[Route("GetInsiderHolders/{strStockSympol}")]
 	public IActionResult GetInsiderHolders(string strStockSympol)
 	{
-		InsiderHolders insiderHolders = EquityServices.GetInsiderHolders(strStockSympol);
+		InsiderHoldersDto insiderHolders = EquityServices.GetInsiderHolders(strStockSympol);
 
 		return Ok(insiderHolders);
 	}
@@ -141,7 +143,7 @@ public class EquityController : ControllerBase
 	[Route("GetInsiderTransactions/{strStockSympol}")]
 	public IActionResult GetInsiderTransactions(string strStockSympol)
 	{
-		InsiderTransactions insiderTransactions = EquityServices.GetInsiderTransactions(strStockSympol);
+		InsiderTransactionsDto insiderTransactions = EquityServices.GetInsiderTransactions(strStockSympol);
 
 		return Ok(insiderTransactions);
 	}
@@ -150,7 +152,7 @@ public class EquityController : ControllerBase
 	[Route("GetRecommendationTrend/{strStockSympol}")]
 	public IActionResult GetRecommendationTrend(string strStockSympol)
 	{
-		RecommendationTrend recommendationTrend = EquityServices.GetRecommendationTrend(strStockSympol);
+		RecommendationTrendDto recommendationTrend = EquityServices.GetRecommendationTrend(strStockSympol);
 
 		return Ok(recommendationTrend);
 	}

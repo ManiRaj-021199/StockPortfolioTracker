@@ -10,4 +10,13 @@
     <Folder Include="wwwroot\js\template\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
+    <ProjectReference Include="..\StockPortfolioTracker.Logic\StockPortfolioTracker.Logic.csproj" />
+  </ItemGroup>
+
 </Project>
