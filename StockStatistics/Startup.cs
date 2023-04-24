@@ -1,4 +1,8 @@
-﻿using StockPortfolioTracker.Logic;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using StockPortfolioTracker.Logic;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace StockStatistics;
 
@@ -21,12 +25,38 @@ public static class Startup
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+
+        builder.Services
+               .AddSwaggerGen(options =>
+                              {
+                                  options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                                                                          {
+                                                                              Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+                                                                              In = ParameterLocation.Header,
+                                                                              Name = "Authorization",
+                                                                              Type = SecuritySchemeType.ApiKey
+                                                                          });
+
+                                  options.OperationFilter<SecurityRequirementsOperationFilter>();
+                              });
+
+        // Authentication
+        builder.Services
+               .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+                             {
+                                 options.TokenValidationParameters = new TokenValidationParameters
+                                                                     {
+                                                                         ValidateIssuerSigningKey = true,
+                                                                         IssuerSigningKey = JwtTokenHelper.GetSecretKey(),
+                                                                         ValidateIssuer = false,
+                                                                         ValidateAudience = false
+                                                                     };
+                             });
 
         // Services
         builder.Services.AddSingleton<IEquityServices, EquityServices>();
-
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
     }
 
     private static void Configure(WebApplication app)
@@ -41,6 +71,7 @@ public static class Startup
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Logic;
 
@@ -6,6 +7,7 @@ namespace StockStatistics.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_USER)]
 public class EquityController : ControllerBase
 {
 	#region Fields
