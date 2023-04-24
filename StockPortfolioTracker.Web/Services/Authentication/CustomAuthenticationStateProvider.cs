@@ -20,14 +20,14 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     #region Publics
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        string strUserEmail = await SessionStorageService!.GetItemAsync<string>("user-email");
+        string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
         ClaimsIdentity identity;
 
-        if(!string.IsNullOrEmpty(strUserEmail))
+        if(!string.IsNullOrEmpty(strAccessToken))
         {
             identity = new ClaimsIdentity(new[]
                                           {
-                                              new Claim(ClaimTypes.Name, strUserEmail)
+                                              new Claim(ClaimTypes.PrimarySid, strAccessToken)
                                           }, "apiauth_type");
         }
         else identity = new ClaimsIdentity();
@@ -37,11 +37,11 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         return await Task.FromResult(new AuthenticationState(user));
     }
 
-    public void MarkUserAsAuthenticated(string strEmail)
+    public void MarkUserAsAuthenticated(string strAccessToken)
     {
         ClaimsIdentity identity = new(new[]
                                       {
-                                          new Claim(ClaimTypes.Name, strEmail)
+                                          new Claim(ClaimTypes.PrimarySid, strAccessToken)
                                       }, "apiauth_type");
         ClaimsPrincipal user = new(identity);
 
@@ -50,7 +50,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public void MarkUserAsLoggedOut()
     {
-        SessionStorageService!.RemoveItemAsync("user-email");
+        SessionStorageService!.RemoveItemAsync("user-accesstoken");
 
         ClaimsIdentity identity = new();
         ClaimsPrincipal user = new(identity);
