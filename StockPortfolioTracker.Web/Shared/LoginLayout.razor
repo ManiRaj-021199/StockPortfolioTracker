@@ -1,5 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<body class="bg-gradient-primary">
-    @Body
-</body>
+<AuthorizeView>
+    <Authorized>
+        @{
+            NavigationManager.NavigateTo("/");
+        }
+    </Authorized>
+    <NotAuthorized>
+        <body class="bg-gradient-primary">
+            @Body
+        </body>
+    </NotAuthorized>
+</AuthorizeView>

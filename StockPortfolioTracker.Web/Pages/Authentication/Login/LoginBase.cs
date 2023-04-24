@@ -1,4 +1,5 @@
-﻿using Blazored.SessionStorage;
+﻿using System.Net;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using StockPortfolioTracker.Common;
@@ -19,6 +20,7 @@ public class LoginBase : ComponentBase
     public NavigationManager? NavigationManager { get; set; }
 
     protected UserLoginDto? UserLoginDto { get; set; }
+    protected string? Message { get; set; }
     #endregion
 
     #region Protecteds
@@ -32,10 +34,18 @@ public class LoginBase : ComponentBase
     {
         BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, this.UserLoginDto!);
 
-        ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(this.UserLoginDto?.Email!);
-        this.NavigationManager?.NavigateTo("/");
+        switch(response.ResponseCode)
+        {
+            case HttpStatusCode.OK:
+                ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(this.UserLoginDto?.Email!);
+                this.NavigationManager?.NavigateTo("/");
 
-        await this.SessionStorageService!.SetItemAsync("user-email", this.UserLoginDto!.Email);
+                await this.SessionStorageService!.SetItemAsync("user-accesstoken", response.Result);
+                break;
+            default:
+                this.Message = response.ResponseMessage;
+                break;
+        }
 
         return await Task.FromResult(true);
     }
