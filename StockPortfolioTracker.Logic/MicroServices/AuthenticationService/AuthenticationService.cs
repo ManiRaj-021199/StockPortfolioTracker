@@ -26,19 +26,9 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
-            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userRegisterDto.Email}");
-
-            if(!resp.IsSuccessStatusCode)
-            {
-                response.ResponseCode = HttpStatusCode.ServiceUnavailable;
-                response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
-
-                return response;
-            }
-
-            string strApiResponse = await resp.Content.ReadAsStringAsync();
-            BaseApiResponseDto apiResponse = JsonConvert.DeserializeObject<BaseApiResponseDto>(strApiResponse)!;
-
+            // Check if the user already exist.
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, null!);
+            
             if(apiResponse.Result != null)
             {
                 response.ResponseCode = HttpStatusCode.Accepted;
@@ -75,19 +65,9 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
-            HttpResponseMessage resp = HttpClientHelper.GetApiResponse(ApiEndPoints.UserManagementApiUrl, $"/GetUserByEmail/{userLoginDto.Email}");
-
-            if(!resp.IsSuccessStatusCode)
-            {
-                response.ResponseCode = HttpStatusCode.ServiceUnavailable;
-                response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
-
-                return response;
-            }
-
-            string strApiResponse = await resp.Content.ReadAsStringAsync();
-            BaseApiResponseDto apiResponse = JsonConvert.DeserializeObject<BaseApiResponseDto>(strApiResponse)!;
-
+            // Check if the user already exist.
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, null!);
+            
             if(apiResponse.Result == null)
             {
                 response.ResponseCode = HttpStatusCode.Accepted;
@@ -107,7 +87,7 @@ public class AuthenticationService : IAuthenticationService
             if(!bIsValidUser)
             {
                 response.ResponseCode = HttpStatusCode.Accepted;
-                response.ResponseMessage = AuthenticationMessages.UserLoginFail;
+                response.ResponseMessage = AuthenticationMessages.IncorrectPassword;
                 return response;
             }
 
