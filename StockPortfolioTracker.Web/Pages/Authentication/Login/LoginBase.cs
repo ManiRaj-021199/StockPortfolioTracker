@@ -37,7 +37,7 @@ public class LoginBase : ComponentBase
         switch(response.ResponseCode)
         {
             case HttpStatusCode.OK:
-                ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(this.UserLoginDto?.Email!);
+                ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(response.Result!.ToString()!);
                 this.NavigationManager?.NavigateTo("/");
 
                 await this.SessionStorageService!.SetItemAsync("user-accesstoken", response.Result);

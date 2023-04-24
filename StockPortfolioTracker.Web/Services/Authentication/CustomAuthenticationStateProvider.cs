@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using StockPortfolioTracker.Logic;
 
 namespace StockPortfolioTracker.Web;
 
@@ -21,17 +22,8 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
-        ClaimsIdentity identity;
 
-        if(!string.IsNullOrEmpty(strAccessToken))
-        {
-            identity = new ClaimsIdentity(new[]
-                                          {
-                                              new Claim(ClaimTypes.PrimarySid, strAccessToken)
-                                          }, "apiauth_type");
-        }
-        else identity = new ClaimsIdentity();
-
+        ClaimsIdentity identity = !string.IsNullOrEmpty(strAccessToken) ? new ClaimsIdentity(JwtTokenHelper.ParseClaimsFromJwtToken(strAccessToken), "jwt") : new ClaimsIdentity();
         ClaimsPrincipal user = new(identity);
 
         return await Task.FromResult(new AuthenticationState(user));
@@ -39,10 +31,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public void MarkUserAsAuthenticated(string strAccessToken)
     {
-        ClaimsIdentity identity = new(new[]
-                                      {
-                                          new Claim(ClaimTypes.PrimarySid, strAccessToken)
-                                      }, "apiauth_type");
+        ClaimsIdentity identity = new(JwtTokenHelper.ParseClaimsFromJwtToken(strAccessToken), "jwt");
         ClaimsPrincipal user = new(identity);
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
