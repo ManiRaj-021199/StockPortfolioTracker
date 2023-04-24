@@ -21,31 +21,24 @@ public static class HttpClientHelper
         return response;
     }
 
-    public static HttpResponseMessage GetApiResponse(string strUrl, string strUri)
-    {
-        HttpClient httpClient = new()
-                                {
-                                    BaseAddress = new Uri(strUrl + strUri)
-                                };
-        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        HttpResponseMessage response = httpClient.GetAsync(string.Empty).Result;
-
-        return response;
-    }
-
-    public static async Task<BaseApiResponseDto> PostApiRequest(string strUrl, object objRequestBody)
+    public static async Task<BaseApiResponseDto> MakeApiRequest(string strUrl, string httpMethod, object objRequestBody)
     {
         BaseApiResponseDto response = new();
 
         try
         {
-            HttpClient client = new()
-                                {
-                                    BaseAddress = new Uri(strUrl)
-                                };
+            HttpClient httpClient = new()
+                                    {
+                                        BaseAddress = new Uri(strUrl)
+                                    };
 
-            HttpResponseMessage responseMessage = await client.PostAsJsonAsync(string.Empty, objRequestBody);
+            HttpResponseMessage responseMessage = httpMethod switch
+            {
+                HttpMethods.Get => await httpClient.GetAsync(string.Empty),
+                HttpMethods.Post => await httpClient.PostAsJsonAsync(string.Empty, objRequestBody),
+                _ => new HttpResponseMessage()
+            };
+
             string strResult = await responseMessage.Content.ReadAsStringAsync();
 
             response = JsonConvert.DeserializeObject<BaseApiResponseDto>(strResult)!;

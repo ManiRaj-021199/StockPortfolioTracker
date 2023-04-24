@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using StockPortfolioTracker.Common;
+using HttpMethods = StockPortfolioTracker.Common.HttpMethods;
 
 namespace StockPortfolioTracker.Web;
 
@@ -20,7 +21,7 @@ public class RegisterBase : ComponentBase
 
     protected async Task RegisterUserAsync()
     {
-        BaseApiResponseDto response = await HttpClientHelper.PostApiRequest(ApiEndPoints.RegisterUser, this.UserRegisterDto!);
+        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.RegisterUser, HttpMethods.Post, this.UserRegisterDto!);
 
         this.NavigationManager!.NavigateTo("login");
     }

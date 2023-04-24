@@ -10,7 +10,7 @@ public static class HelperConstants
     public static readonly int KeySize = 64;
     public static readonly int Iterations = 350000;
 
-    // JWT Token
+    // JWT Token - ROT13 + Base64
     public static readonly string JwtToken = "DFOao2SfVUqcqTuiqKDtLFOjoTShVTymVTc1p3DtLFO3nKAbYt==";
     #endregion
 }
