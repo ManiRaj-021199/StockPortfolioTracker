@@ -9,12 +9,14 @@
 /MicroServices/Authentication/bin
 /MicroServices/UserManagement/bin
 /MicroServices/StockStatistics/bin
+/MicroServices/Communication/bin
 
 # Obj Files
 */obj
 /MicroServices/Authentication/obj
 /MicroServices/UserManagement/obj
 /MicroServices/StockStatistics/obj
+/MicroServices/Communication/obj
 
 # Config Files
 /MicroServices/Authentication/.config
