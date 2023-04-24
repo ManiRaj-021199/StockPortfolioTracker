@@ -1,4 +1,5 @@
-﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+﻿@using StockPortfolioTracker.Common
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -27,14 +28,14 @@
         Assets
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Equity Section -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEquitySection"
+           aria-expanded="true" aria-controls="collapseEquitySection">
             <i class="fas fa-fw fa-cog"></i>
             <span>Equity</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseEquitySection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 @*<h6 class="collapse-header">Custom Components:</h6>*@
                 <a class="collapse-item" href="/equity-watchlist">WatchList</a>
@@ -44,14 +45,14 @@
         </div>
     </li>
 
-    <!-- Nav Item - Utilities Collapse Menu -->
+    <!-- Debt Section -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-           aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDebtSection"
+           aria-expanded="true" aria-controls="collapseDebtSection">
             <i class="fas fa-fw fa-wrench"></i>
             <span>Debt</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+        <div id="collapseDebtSection" class="collapse" aria-labelledby="headingUtilities"
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="#">Bonds</a>
@@ -61,4 +62,21 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    
+    <AuthorizeView Roles="@EntityUserRoles.SUPERUSER">
+        <!-- Admin Section -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminSection"
+               aria-expanded="true" aria-controls="collapseAdminSection">
+                <i class="fas fa-fw fa-lock"></i>
+                <span>Admin</span>
+            </a>
+            <div id="collapseAdminSection" class="collapse" aria-labelledby="headingUtilities"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="#">Users</a>
+                </div>
+            </div>
+        </li>
+    </AuthorizeView>
 </ul>

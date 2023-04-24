@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Microsoft.IdentityModel.Tokens;
 using StockPortfolioTracker.Common;
 
@@ -35,6 +36,32 @@ public class JwtTokenHelper
         SymmetricSecurityKey secretKey = new(Encoding.UTF8.GetBytes(HelperConstants.JwtToken));
 
         return secretKey;
+    }
+
+    public static IEnumerable<Claim> ParseClaimsFromJwtToken(string jwtToken)
+    {
+        string payload = jwtToken.Split('.')[1];
+        byte[] jsonBytes = ParseBase64WithoutPadding(payload);
+        Dictionary<string, object>? keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
+
+        return keyValuePairs!.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()!));
+    }
+    #endregion
+
+    #region Privates
+    private static byte[] ParseBase64WithoutPadding(string payload)
+    {
+        switch(payload.Length % 4)
+        {
+            case 2:
+                payload += "==";
+                break;
+            case 3:
+                payload += "=";
+                break;
+        }
+
+        return Convert.FromBase64String(payload);
     }
     #endregion
 }
