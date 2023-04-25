@@ -1,4 +1,7 @@
-﻿namespace Portfolio;
+﻿using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Logic;
+
+namespace Portfolio;
 
 public class Startup
 {
@@ -22,6 +25,9 @@ public class Startup
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddDbContext<PortfolioTrackerDbContext>();
+        builder.Services.AddScoped<IPortfolioService, PortfolioService>();
     }
 
     private static void Configure(WebApplication app)
