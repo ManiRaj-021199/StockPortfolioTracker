@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "MicroServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "MicroServices\UserManagement\UserManagement.csproj", "{50056A8D-8627-4FF0-B65D-DB95243F2833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockStatistics", "MicroServices\StockStatistics\StockStatistics.csproj", "{253E41E6-657B-4DA2-9D65-95FA39D72773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockStatistics", "MicroServices\StockStatistics\StockStatistics.csproj", "{253E41E6-657B-4DA2-9D65-95FA39D72773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "MicroServices\Communication\Communication.csproj", "{D9DEE605-7EAF-4F77-8601-D15078C4BAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Communication", "MicroServices\Communication\Communication.csproj", "{D9DEE605-7EAF-4F77-8601-D15078C4BAAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio", "MicroServices\Portfolio\Portfolio.csproj", "{19706F2A-7AF4-4748-9728-F464BB22E735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{D9DEE605-7EAF-4F77-8601-D15078C4BAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9DEE605-7EAF-4F77-8601-D15078C4BAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9DEE605-7EAF-4F77-8601-D15078C4BAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19706F2A-7AF4-4748-9728-F464BB22E735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19706F2A-7AF4-4748-9728-F464BB22E735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19706F2A-7AF4-4748-9728-F464BB22E735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19706F2A-7AF4-4748-9728-F464BB22E735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{50056A8D-8627-4FF0-B65D-DB95243F2833} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 		{253E41E6-657B-4DA2-9D65-95FA39D72773} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 		{D9DEE605-7EAF-4F77-8601-D15078C4BAAD} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
+		{19706F2A-7AF4-4748-9728-F464BB22E735} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C9EBC27-80E4-4FD4-A796-F57DF4CEB360}

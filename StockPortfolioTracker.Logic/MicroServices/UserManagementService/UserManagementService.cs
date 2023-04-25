@@ -26,7 +26,7 @@ public class UserManagementService : IUserManagementService
         try
         {
             List<User> users = dbContext.Users!.ToListAsync().Result;
-            List<UserDto> lstUserDtos = users.Select(AutoMapperHelper.MapUserToUserDto).ToList();
+            List<UserDto> lstUserDtos = users.Select(UserAutoMapperHelper.MapUserToUserDto).ToList();
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = $"{lstUserDtos.Count} Users Found.";
@@ -48,7 +48,7 @@ public class UserManagementService : IUserManagementService
         try
         {
             User? user = dbContext.Users!.FirstOrDefault(user => user.Email == strEmail);
-            UserDto userDto = AutoMapperHelper.MapUserToUserDto(user!);
+            UserDto userDto = UserAutoMapperHelper.MapUserToUserDto(user!);
 
             userDto.UserRole = dbContext.UserRoles!.FirstOrDefault(role => role.RoleId == userDto.UserRoleId)!.RoleName!;
 

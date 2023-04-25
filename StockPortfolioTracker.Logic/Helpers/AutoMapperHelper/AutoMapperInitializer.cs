@@ -6,11 +6,14 @@ namespace StockPortfolioTracker.Logic;
 
 public class AutoMapperInitializer
 {
+    public static readonly Mapper Mapper = InitializeAutoMapper();
+
     #region Publics
-    public static Mapper InitializeAutoMapper()
+    private static Mapper InitializeAutoMapper()
     {
         MapperConfiguration config = new(cfg =>
                                          {
+                                             // User Entity
                                              cfg.CreateMap<User, UserDto>();
                                              cfg.CreateMap<UserRegisterDto, User>();
                                          });

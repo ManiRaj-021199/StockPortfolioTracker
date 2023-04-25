@@ -39,7 +39,7 @@ public class AuthenticationService : IAuthenticationService
 
             PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userRegisterDto.Password!);
 
-            User user = AutoMapperHelper.MapUserRegisterDtoToUser(userRegisterDto);
+            User user = UserAutoMapperHelper.MapUserRegisterDtoToUser(userRegisterDto);
             user.UserRoleId = EntityUserRoles.USERID;
             user.PasswordHash = hashedPassword.PasswordHash;
             user.PasswordSalt = hashedPassword.PasswordSalt;
