@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StockPortfolioTracker.Data;
 
+[Table("UserRoles", Schema = "User")]
 public class UserRole
 {
     [Key]

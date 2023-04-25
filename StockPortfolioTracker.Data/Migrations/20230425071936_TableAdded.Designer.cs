@@ -12,8 +12,8 @@ using StockPortfolioTracker.Data;
 namespace StockPortfolioTracker.Data.Migrations
 {
     [DbContext(typeof(PortfolioTrackerDbContext))]
-    [Migration("20230421102100_UserRolesTableAdded")]
-    partial class UserRolesTableAdded
+    [Migration("20230425071936_TableAdded")]
+    partial class TableAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,41 @@ namespace StockPortfolioTracker.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("StockPortfolioTracker.Data.PortfolioStock", b =>
+                {
+                    b.Property<int>("PortfolioStockId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PortfolioStockId"));
+
+                    b.Property<decimal>("StockBuyPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StockName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StockSymbol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PortfolioStockId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PortfolioStocks", "Stock");
+                });
 
             modelBuilder.Entity("StockPortfolioTracker.Data.User", b =>
                 {
@@ -53,7 +88,7 @@ namespace StockPortfolioTracker.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "User");
                 });
 
             modelBuilder.Entity("StockPortfolioTracker.Data.UserRole", b =>
@@ -66,7 +101,21 @@ namespace StockPortfolioTracker.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", "User");
+                });
+
+            modelBuilder.Entity("StockPortfolioTracker.Data.PortfolioStock", b =>
+                {
+                    b.HasOne("StockPortfolioTracker.Data.User", "User")
+                        .WithMany("PortfolioStocks")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StockPortfolioTracker.Data.User", b =>
+                {
+                    b.Navigation("PortfolioStocks");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StockPortfolioTracker.Data;
 
+[Table("Users", Schema = "User")]
 public class User
 {
     #region Properties
@@ -14,5 +16,7 @@ public class User
     public string? Email { get; set; }
     public string? PasswordHash { get; set; }
     public byte[]? PasswordSalt { get; set; }
+
+    public ICollection<PortfolioStock>? PortfolioStocks { get; set; }
     #endregion
 }
