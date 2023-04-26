@@ -9,13 +9,16 @@ public class PortfolioStock
     #region Properties
     [Key]
     public int PortfolioStockId { get; set; }
-    public string StockSymbol { get; set; }
-    public string StockName { get; set; }
-    public int StockQuantity { get; set; }
-    [Precision(18, 2)]
-    public double StockBuyPrice { get; set; }
 
-    public User User { get; set; }
-    public ICollection<PortfolioTransaction>? PortfolioTransaction { get; set; }
+    [ForeignKey("User")]
+    public int UserId { get; set; }
+
+    public string Symbol { get; set; }
+    public int Quantity { get; set; }
+
+    [Precision(18, 2)]
+    public double BuyPrice { get; set; }
+
+    public DateTime BuyDate { get; set; }
     #endregion
 }

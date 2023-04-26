@@ -2,10 +2,10 @@
 
 public class PortfolioStockDto
 {
-    public string? StockSymbol { get; set; }
-    public string? StockName { get; set; }
-    public int StockQuantity { get; set; }
-    public decimal StockBuyPrice { get; set; }
-
-    public int? UserId { get; set; }
+    #region Properties
+    public int UserId { get; set; }
+    public string? Symbol { get; set; }
+    public int Quantity { get; set; }
+    public decimal BuyPrice { get; set; }
+    #endregion
 }
