@@ -21,11 +21,13 @@
 /MicroServices/Portfolio/obj
 
 # Config Files
-/MicroServices/Authentication/.config
-/MicroServices/UserManagement/.config
 /StockStatistics/.config
 /StockPortfolioTracker.ApiGateway/.config
 /StockPortfolioTracker.Web/.config
+/MicroServices/Authentication/.config
+/MicroServices/UserManagement/.config
+/MicroServices/Communication/.config
+/MicroServices/Portfolio/.config
 
 # Publish Config Files
 /MicroServices/Authentication/Properties/PublishProfiles
