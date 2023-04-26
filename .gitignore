@@ -10,6 +10,7 @@
 /MicroServices/UserManagement/bin
 /MicroServices/StockStatistics/bin
 /MicroServices/Communication/bin
+/MicroServices/Portfolio/bin
 
 # Obj Files
 */obj
@@ -17,6 +18,7 @@
 /MicroServices/UserManagement/obj
 /MicroServices/StockStatistics/obj
 /MicroServices/Communication/obj
+/MicroServices/Portfolio/obj
 
 # Config Files
 /MicroServices/Authentication/.config
