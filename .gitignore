@@ -11,6 +11,7 @@
 /MicroServices/StockStatistics/bin
 /MicroServices/Communication/bin
 /MicroServices/Portfolio/bin
+/MicroServices/Watchlist/bin
 
 # Obj Files
 */obj
@@ -19,13 +20,15 @@
 /MicroServices/StockStatistics/obj
 /MicroServices/Communication/obj
 /MicroServices/Portfolio/obj
+/MicroServices/Watchlist/obj
 
 # Config Files
-/MicroServices/Authentication/.config
-/MicroServices/UserManagement/.config
 /StockStatistics/.config
 /StockPortfolioTracker.ApiGateway/.config
 /StockPortfolioTracker.Web/.config
+/MicroServices/Authentication/.config
+/MicroServices/UserManagement/.config
+/MicroServices/Watchlist/.config
 
 # Publish Config Files
 /MicroServices/Authentication/Properties/PublishProfiles
