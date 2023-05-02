@@ -1,5 +1,81 @@
 ﻿@page "/equity-watchlist"
+@using StockPortfolioTracker.Common
 @inherits EquityWatchlistBase
 
-<h3>Watchlist</h3>
-
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Watchlist</h6>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Create New Watchlist
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="topbar dropdown no-arrow h-auto">
+                <a class="dropdown-toggle btn btn-primary" href="#" id="messagesDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Indices <i class="fas fa-envelope fa-fw"></i>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow"
+                     aria-labelledby="messagesDropdown">
+                    <h6 class="dropdown-header">
+                        Choose Watchlist
+                    </h6>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                 alt="...">
+                        </div>
+                        <div class="font-weight-bold">
+                            Indices
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                 alt="...">
+                        </div>
+                        <div>
+                            Banks
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                 alt="...">
+                        </div>
+                        <div>
+                            Technology
+                        </div>
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                 alt="...">
+                        </div>
+                        <div>
+                            Growth
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock To Watchlist
+            </a>
+        </div>
+        <div class="table-responsive">
+            <RadzenDataGrid AllowFiltering="true" AllowColumnReorder="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                            Data="@StockPrices" TItem="PriceDto" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="PriceDto" Property="LongName" Title="Stock Name" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketPrice.Fmt" Title="Price" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketChangePercent.Fmt" Title="Price Change" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayHigh.Fmt" Title="Day High" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayLow.Fmt" Title="Day Low" Frozen="true" />
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
+</div>

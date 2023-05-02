@@ -21,12 +21,19 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     #region Publics
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
+        string strAccessToken = await GetAccessToken();
 
         ClaimsIdentity identity = !string.IsNullOrEmpty(strAccessToken) ? new ClaimsIdentity(JwtTokenHelper.ParseClaimsFromJwtToken(strAccessToken), "jwt") : new ClaimsIdentity();
         ClaimsPrincipal user = new(identity);
 
         return await Task.FromResult(new AuthenticationState(user));
+    }
+
+    public async Task<string> GetAccessToken()
+    {
+        string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
+        
+        return strAccessToken;
     }
 
     public void MarkUserAsAuthenticated(string strAccessToken)
