@@ -249,6 +249,33 @@
       "UpstreamPathTemplate": "/equity/GetRecommendationTrend/{strStockSympol}",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "stockstatistics"
+    },
+    // Portfolio MicroService
+    {
+      "DownstreamPathTemplate": "/api/portfolio/SellStockFromPortfolio",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/api/portfolio/SellStockFromPortfolio",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/portfolio/AddStockToPortfolio",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/api/portfolio/AddStockToPortfolio",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "portfolio"
     }
   ],
   // Swagger EndPoints //
@@ -283,6 +310,17 @@
           "Name": "StockStatistics Api",
           "Version": "v1",
           "Url": "http://localhost:96/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    // Portfolio MicroService
+    {
+      "Key": "portfolio",
+      "Config": [
+        {
+          "Name": "Portfolio Api",
+          "Version": "v1",
+          "Url": "http://localhost:97/swagger/v1/swagger.json"
         }
       ]
     }

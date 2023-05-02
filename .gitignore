@@ -28,7 +28,10 @@
 /StockPortfolioTracker.Web/.config
 /MicroServices/Authentication/.config
 /MicroServices/UserManagement/.config
+/MicroServices/Communication/.config
+/MicroServices/Portfolio/.config
 /MicroServices/Watchlist/.config
+
 
 # Publish Config Files
 /MicroServices/Authentication/Properties/PublishProfiles

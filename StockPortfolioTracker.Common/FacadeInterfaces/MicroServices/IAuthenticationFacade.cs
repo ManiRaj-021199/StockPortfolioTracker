@@ -1,8 +1,6 @@
-﻿using StockPortfolioTracker.Common;
+﻿namespace StockPortfolioTracker.Common;
 
-namespace StockPortfolioTracker.Logic;
-
-public interface IAuthenticationService
+public interface IAuthenticationFacade
 {
     public Task<BaseApiResponseDto> RegisterUser(UserRegisterDto userRegisterDto);
     public Task<BaseApiResponseDto> LoginUser(UserLoginDto userLoginDto);

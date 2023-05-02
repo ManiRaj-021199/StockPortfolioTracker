@@ -9,11 +9,11 @@ namespace Authentication.Controllers;
 public class AuthenticationController : ControllerBase
 {
     #region Fields
-    private readonly IAuthenticationService? authenticationService;
+    private readonly IAuthenticationFacade? authenticationService;
     #endregion
 
     #region Constructors
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IAuthenticationFacade authenticationService)
     {
         this.authenticationService = authenticationService;
     }

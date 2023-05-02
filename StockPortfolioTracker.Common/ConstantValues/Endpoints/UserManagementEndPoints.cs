@@ -4,5 +4,6 @@ public class UserManagementEndPoints
 {
     #region Constants
     public static readonly string GetUserByEmail = ApiEndPoints.UserManagementBaseUrl + "/GetUserByEmail/{0}";
+    public static readonly string GetUserByUserId = ApiEndPoints.UserManagementBaseUrl + "/GetUserByUserId/{0}";
     #endregion
 }

@@ -33,7 +33,7 @@ public class JwtTokenHelper
 
     public static SymmetricSecurityKey GetSecretKey()
     {
-        SymmetricSecurityKey secretKey = new(Encoding.UTF8.GetBytes(HelperConstants.JwtToken));
+        SymmetricSecurityKey secretKey = new(Encoding.UTF8.GetBytes(EncryptionHelperConstants.JwtToken));
 
         return secretKey;
     }

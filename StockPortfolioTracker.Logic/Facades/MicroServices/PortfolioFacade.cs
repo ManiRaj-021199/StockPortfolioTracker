@@ -1,18 +1,19 @@
 ﻿using System.Net;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data;
 
 namespace StockPortfolioTracker.Logic;
 
-public class PortfolioService : IPortfolioService
+public class PortfolioFacade : IPortfolioFacade
 {
     #region Fields
     private readonly PortfolioTrackerDbContext dbContext;
     #endregion
 
     #region Constructors
-    public PortfolioService(PortfolioTrackerDbContext dbContext)
+    public PortfolioFacade(PortfolioTrackerDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
@@ -27,6 +28,16 @@ public class PortfolioService : IPortfolioService
         {
             PortfolioStock portfolioStock = PortfolioAutoMapperHelper.ToPortfolioStock(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
+
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, null!);
+
+            if(apiResponse.Result == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = UserManagementMessages.UserNotFound;
+
+                return response;
+            }
 
             dbContext.PortfolioStocks?.Add(portfolioStock);
             await dbContext.SaveChangesAsync();

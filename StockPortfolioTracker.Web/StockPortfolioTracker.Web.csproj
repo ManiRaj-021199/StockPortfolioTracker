@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.10.0" />
   </ItemGroup>
 
   <ItemGroup>

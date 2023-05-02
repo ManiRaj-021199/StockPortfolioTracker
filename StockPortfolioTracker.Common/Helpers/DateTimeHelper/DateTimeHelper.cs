@@ -1,4 +1,4 @@
-﻿namespace StockPortfolioTracker.Logic;
+﻿namespace StockPortfolioTracker.Common;
 
 public class DateTimeHelper
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data;
 using StockPortfolioTracker.Logic;
 using Swashbuckle.AspNetCore.Filters;
@@ -60,7 +61,7 @@ public static class Startup
         builder.Services.AddDbContext<PortfolioTrackerDbContext>();
 
         // Services
-        builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+        builder.Services.AddScoped<IUserManagementFacade, UserManagementFacade>();
     }
 
     private static void Configure(WebApplication app)

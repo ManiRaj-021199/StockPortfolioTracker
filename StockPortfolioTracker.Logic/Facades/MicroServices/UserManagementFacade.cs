@@ -5,14 +5,14 @@ using StockPortfolioTracker.Data;
 
 namespace StockPortfolioTracker.Logic;
 
-public class UserManagementService : IUserManagementService
+public class UserManagementFacade : IUserManagementFacade
 {
     #region Fields
     private readonly PortfolioTrackerDbContext dbContext;
     #endregion
 
     #region Constructors
-    public UserManagementService(PortfolioTrackerDbContext dbContext)
+    public UserManagementFacade(PortfolioTrackerDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
@@ -50,11 +50,32 @@ public class UserManagementService : IUserManagementService
             User? user = dbContext.Users!.FirstOrDefault(user => user.Email == strEmail);
             UserDto userDto = UserAutoMapperHelper.ToUserDto(user!);
 
-            userDto.UserRole = dbContext.UserRoles!.FirstOrDefault(role => role.RoleId == userDto.UserRoleId)!.RoleName!;
+            userDto.UserRole = dbContext.UserRoles!.FirstOrDefault(role => role.RoleId == userDto.UserRoleId)!.RoleName;
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = $"User {(userDto != null ? userDto.FirstName + userDto.LastName : "Not")} Found.";
             response.Result = userDto;
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+        }
+
+        return Task.FromResult(response);
+    }
+
+    public Task<BaseApiResponseDto> GetUserByUserId(int nUserId)
+    {
+        BaseApiResponseDto response = new();
+
+        try
+        {
+            User? user = dbContext.Users!.FirstOrDefault(user => user.UserId == nUserId);
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = $"User {(user != null ? user.FirstName + user.LastName : "Not")} Found.";
+            response.Result = user;
         }
         catch(Exception err)
         {

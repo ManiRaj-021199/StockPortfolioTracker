@@ -11,11 +11,11 @@ namespace StockStatistics.Controllers;
 public class EquityController : ControllerBase
 {
     #region Fields
-    private readonly IEquityServices EquityServices;
+    private readonly IEquityFacade EquityServices;
     #endregion
 
     #region Constructors
-    public EquityController(IEquityServices equityServices)
+    public EquityController(IEquityFacade equityServices)
     {
         EquityServices = equityServices;
     }

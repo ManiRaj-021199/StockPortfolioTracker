@@ -6,14 +6,14 @@ using StockPortfolioTracker.Data;
 
 namespace StockPortfolioTracker.Logic;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationFacade : IAuthenticationFacade
 {
     #region Fields
     private readonly PortfolioTrackerDbContext dbContext;
     #endregion
 
     #region Constructors
-    public AuthenticationService(PortfolioTrackerDbContext dbContext)
+    public AuthenticationFacade(PortfolioTrackerDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

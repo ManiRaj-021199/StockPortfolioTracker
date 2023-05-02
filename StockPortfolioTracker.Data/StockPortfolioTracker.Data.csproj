@@ -15,8 +15,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
-  </ItemGroup>
-
 </Project>

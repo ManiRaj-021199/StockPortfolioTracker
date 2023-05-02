@@ -1,8 +1,6 @@
-﻿using StockPortfolioTracker.Common;
+﻿namespace StockPortfolioTracker.Common;
 
-namespace StockPortfolioTracker.Logic;
-
-public interface IEquityServices
+public interface IEquityFacade
 {
 	public AssetProfileDto GetAssetProfile(string strStockSympol);
 	public CalendarEventsDto GetCalendarEvents(string strStockSympol);
