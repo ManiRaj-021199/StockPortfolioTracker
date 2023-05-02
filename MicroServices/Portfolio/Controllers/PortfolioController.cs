@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Logic;
 
 namespace Portfolio.Controllers;
 
@@ -20,6 +19,15 @@ public class PortfolioController : ControllerBase
     #endregion
 
     #region Publics
+    [HttpGet]
+    [Route("GetHoldingStocks/{nUserId}")]
+    public async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
+    {
+        BaseApiResponseDto response = await portfolioService!.GetHoldingStocks(nUserId);
+
+        return response;
+    }
+
     [HttpPost]
     [Route("AddStockToPortfolio")]
     public async Task<BaseApiResponseDto> AddStockToPortfolio([FromBody] PortfolioStockDto portfolioStockDto)

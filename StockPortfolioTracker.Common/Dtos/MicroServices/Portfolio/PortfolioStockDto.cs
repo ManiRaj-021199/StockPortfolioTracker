@@ -6,6 +6,6 @@ public class PortfolioStockDto
     public int UserId { get; set; }
     public string? Symbol { get; set; }
     public int Quantity { get; set; }
-    public decimal BuyPrice { get; set; }
+    public double BuyPrice { get; set; }
     #endregion
 }
