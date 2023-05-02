@@ -10,11 +10,11 @@ namespace UserManagement.Controllers;
 public class UserManagementController : ControllerBase
 {
     #region Fields
-    private readonly IUserManagementService? userManagementService;
+    private readonly IUserManagementFacade? userManagementService;
     #endregion
 
     #region Constructors
-    public UserManagementController(IUserManagementService userManagementService)
+    public UserManagementController(IUserManagementFacade userManagementService)
     {
         this.userManagementService = userManagementService;
     }
@@ -35,6 +35,15 @@ public class UserManagementController : ControllerBase
     public async Task<BaseApiResponseDto> GetUserByEmail(string strEmail)
     {
         BaseApiResponseDto response = await userManagementService!.GetUserByEmail(strEmail);
+
+        return response;
+    }
+
+    [HttpGet]
+    [Route("GetUserByUserId/{nUserId}")]
+    public async Task<BaseApiResponseDto> GetUserByUserId(int nUserId)
+    {
+        BaseApiResponseDto response = await userManagementService!.GetUserByUserId(nUserId);
 
         return response;
     }

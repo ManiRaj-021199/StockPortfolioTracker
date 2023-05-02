@@ -12,7 +12,7 @@ using StockPortfolioTracker.Data;
 namespace StockPortfolioTracker.Data.Migrations
 {
     [DbContext(typeof(PortfolioTrackerDbContext))]
-    [Migration("20230426053246_TablesUpdated")]
+    [Migration("20230502120455_TablesUpdated")]
     partial class TablesUpdated
     {
         /// <inheritdoc />

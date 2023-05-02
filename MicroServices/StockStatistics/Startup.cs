@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StockPortfolioTracker.Logic;
+using StockPortfolioTracker.Common;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace StockStatistics;
@@ -56,7 +57,7 @@ public static class Startup
                              });
 
         // Services
-        builder.Services.AddSingleton<IEquityServices, EquityServices>();
+        builder.Services.AddSingleton<IEquityFacade, EquityFacade>();
     }
 
     private static void Configure(WebApplication app)

@@ -9,11 +9,11 @@ namespace Portfolio.Controllers;
 public class PortfolioController : ControllerBase
 {
     #region Fields
-    private readonly IPortfolioService? portfolioService;
+    private readonly IPortfolioFacade? portfolioService;
     #endregion
 
     #region Constructors
-    public PortfolioController(IPortfolioService? portfolioService)
+    public PortfolioController(IPortfolioFacade? portfolioService)
     {
         this.portfolioService = portfolioService;
     }

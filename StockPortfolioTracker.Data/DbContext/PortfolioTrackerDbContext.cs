@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Data;
 

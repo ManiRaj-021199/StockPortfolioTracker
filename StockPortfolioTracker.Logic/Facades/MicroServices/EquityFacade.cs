@@ -4,7 +4,7 @@ using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Logic;
 
-public class EquityServices : IEquityServices
+public class EquityFacade : IEquityFacade
 {
 	#region Publics
 	public AssetProfileDto GetAssetProfile(string strStockSympol)

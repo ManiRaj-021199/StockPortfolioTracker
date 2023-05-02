@@ -1,4 +1,5 @@
 ﻿using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Logic;
 
 namespace Authentication;
@@ -27,7 +28,7 @@ public static class Startup
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddDbContext<PortfolioTrackerDbContext>();
-        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<IAuthenticationFacade, AuthenticationFacade>();
     }
 
     private static void Configure(WebApplication app)

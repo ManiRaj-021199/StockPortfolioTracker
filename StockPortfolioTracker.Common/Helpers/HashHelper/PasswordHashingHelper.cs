@@ -1,21 +1,20 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using StockPortfolioTracker.Common;
 
-namespace StockPortfolioTracker.Logic;
+namespace StockPortfolioTracker.Common;
 
 public static class PasswordHashingHelper
 {
     #region Publics
     public static PasswordHasherDto EncryptPassword(string strPassword)
     {
-        byte[] baSalt = RandomNumberGenerator.GetBytes(HelperConstants.KeySize);
+        byte[] baSalt = RandomNumberGenerator.GetBytes(EncryptionHelperConstants.KeySize);
         byte[] baHash = Rfc2898DeriveBytes.Pbkdf2(
                                                   Encoding.UTF8.GetBytes(strPassword),
                                                   baSalt,
-                                                  HelperConstants.Iterations,
-                                                  HelperConstants.HashAlgorithm,
-                                                  HelperConstants.KeySize);
+                                                  EncryptionHelperConstants.Iterations,
+                                                  EncryptionHelperConstants.HashAlgorithm,
+                                                  EncryptionHelperConstants.KeySize);
 
         PasswordHasherDto hasherDto = new()
                                       {
@@ -28,7 +27,7 @@ public static class PasswordHashingHelper
 
     public static bool VerifyHashedPassword(string strPassword, PasswordHasherDto hasherDto)
     {
-        byte[] hashToCompare = Rfc2898DeriveBytes.Pbkdf2(strPassword, hasherDto.PasswordSalt!, HelperConstants.Iterations, HelperConstants.HashAlgorithm, HelperConstants.KeySize);
+        byte[] hashToCompare = Rfc2898DeriveBytes.Pbkdf2(strPassword, hasherDto.PasswordSalt!, EncryptionHelperConstants.Iterations, EncryptionHelperConstants.HashAlgorithm, EncryptionHelperConstants.KeySize);
 
         return hashToCompare.SequenceEqual(Convert.FromHexString(hasherDto.PasswordHash!));
     }
