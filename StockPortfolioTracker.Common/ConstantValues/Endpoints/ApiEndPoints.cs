@@ -8,5 +8,6 @@ public static class ApiEndPoints
     // Webservice Endpoints
     public static readonly string AuthenticationBaseUrl = "http://localhost:92/Authentication";
     public static readonly string UserManagementBaseUrl = "http://localhost:92/UserManagement";
+    public static readonly string PortfolioBaseUrl = "http://localhost:92/Portfolio";
     #endregion
 }

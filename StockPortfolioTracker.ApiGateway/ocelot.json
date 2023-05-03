@@ -54,6 +54,19 @@
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "usermanagement"
     },
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/GetUserByUserId/{nUserId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 94
+        }
+      ],
+      "UpstreamPathTemplate": "/UserManagement/GetUserByUserId/{nUserId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "usermanagement"
+    },
     // StockStatistics MicroService
     {
       "DownstreamPathTemplate": "/api/equity/GetAssetProfile/{strStockSympol}",
@@ -252,7 +265,7 @@
     },
     // Portfolio MicroService
     {
-      "DownstreamPathTemplate": "/api/portfolio/SellStockFromPortfolio",
+      "DownstreamPathTemplate": "/api/portfolio/GetHoldingStocks/{nUserId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -260,8 +273,8 @@
           "Port": 97
         }
       ],
-      "UpstreamPathTemplate": "/api/portfolio/SellStockFromPortfolio",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamPathTemplate": "/portfolio/GetHoldingStocks/{nUserId}",
+      "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "portfolio"
     },
     {
@@ -273,9 +286,36 @@
           "Port": 97
         }
       ],
-      "UpstreamPathTemplate": "/api/portfolio/AddStockToPortfolio",
+      "UpstreamPathTemplate": "/portfolio/AddStockToPortfolio",
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/portfolio/SellStockFromPortfolio",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/portfolio/SellStockFromPortfolio",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "portfolio"
+    },
+    // Watchlist MicroService
+    {
+      "DownstreamPathTemplate": "/api/watchlist/GetAllWatchlistForTheUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 98
+        }
+      ],
+      "UpstreamPathTemplate": "/api/watchlist/GetAllWatchlistForTheUser",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "watchlist"
     }
   ],
   // Swagger EndPoints //
@@ -321,6 +361,17 @@
           "Name": "Portfolio Api",
           "Version": "v1",
           "Url": "http://localhost:97/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    // Watchlist MicroService
+    {
+      "Key": "watchlist",
+      "Config": [
+        {
+          "Name": "Watchlist Api",
+          "Version": "v1",
+          "Url": "http://localhost:98/swagger/v1/swagger.json"
         }
       ]
     }

@@ -41,7 +41,7 @@ public class PortfolioFacade : IPortfolioFacade
                                                               }).ToList();
 
             response.ResponseCode = HttpStatusCode.OK;
-            response.ResponseMessage = PortfolioMessages.StockBuySuccess;
+            response.ResponseMessage = PortfolioMessages.StockFetchSuccess;
             response.Result = portfolioStocks;
         }
         catch(Exception err)
@@ -62,7 +62,7 @@ public class PortfolioFacade : IPortfolioFacade
             PortfolioStock portfolioStock = PortfolioAutoMapperHelper.ToPortfolioStock(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
 
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, string.Empty, null!);
 
             if(apiResponse.Result == null)
             {

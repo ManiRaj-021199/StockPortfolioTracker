@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Logic;
 
 namespace UserManagement.Controllers;
 

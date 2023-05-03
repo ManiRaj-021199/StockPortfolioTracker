@@ -1,4 +1,23 @@
 ﻿@page "/equity-portfolio"
-@inherits ComponentBase
+@inherits EquityPortfolioBase
 
-<h3>EquityPortfolio</h3>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Add New Stock
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <RadzenDataGrid AllowFiltering="true" AllowColumnReorder="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                            Data="@HoldingStocks" TItem="PortfolioStockDto" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="PortfolioStockDto" Property="Symbol" Title="Stock Symbol" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PortfolioStockDto" Property="Quantity" Title="Quantity" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PortfolioStockDto" Property="BuyPrice" Title="Average Price" Frozen="true" />
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
+</div>

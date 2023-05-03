@@ -32,7 +32,7 @@ public class LoginBase : ComponentBase
 
     protected async Task<bool> ValidateUser()
     {
-        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, this.UserLoginDto!);
+        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, string.Empty, this.UserLoginDto!);
 
         switch(response.ResponseCode)
         {
