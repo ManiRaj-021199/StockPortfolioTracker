@@ -14,6 +14,7 @@ public class JwtTokenHelper
     {
         List<Claim> claims = new()
                              {
+                                 new Claim(ClaimTypes.PrimarySid, $"{userDto.UserId}"),
                                  new Claim(ClaimTypes.Name, $"{userDto.FirstName} {userDto.LastName}"),
                                  new Claim(ClaimTypes.Email, userDto.Email!),
                                  new Claim(ClaimTypes.Role, userDto.UserRole!)

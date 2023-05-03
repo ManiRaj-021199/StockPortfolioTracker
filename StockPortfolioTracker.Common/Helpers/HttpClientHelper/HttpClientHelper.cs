@@ -21,7 +21,7 @@ public static class HttpClientHelper
         return response;
     }
 
-    public static async Task<BaseApiResponseDto> MakeApiRequest(string strUrl, string httpMethod, object objRequestBody)
+    public static async Task<BaseApiResponseDto> MakeApiRequest(string strUrl, string httpMethod, string strAccessToken, object objRequestBody)
     {
         BaseApiResponseDto response = new();
 
@@ -31,6 +31,7 @@ public static class HttpClientHelper
                                     {
                                         BaseAddress = new Uri(strUrl)
                                     };
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strAccessToken);
 
             HttpResponseMessage responseMessage = httpMethod switch
             {

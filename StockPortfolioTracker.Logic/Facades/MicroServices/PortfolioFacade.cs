@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data;
 
@@ -20,6 +19,40 @@ public class PortfolioFacade : IPortfolioFacade
     #endregion
 
     #region Publics
+    public async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
+    {
+        BaseApiResponseDto response = new();
+
+        try
+        {
+            List<PortfolioStock> stocks = await dbContext.PortfolioStocks!.Where(stock => stock.UserId == nUserId).ToListAsync();
+            IEnumerable<string> stockUniqueNames = stocks.Select(stock => stock.Symbol).Distinct();
+
+            List<PortfolioStockDto> portfolioStocks = (from unique in stockUniqueNames
+                                                       let lstUniqueStocks = stocks.Where(stock => stock.Symbol == unique).ToList()
+                                                       let nTotalStockQuantity = lstUniqueStocks.Sum(stock => stock.Quantity)
+                                                       let dAveragePrice = lstUniqueStocks.Sum(stock => stock.BuyPrice * stock.Quantity) / nTotalStockQuantity
+                                                       select new PortfolioStockDto
+                                                              {
+                                                                  UserId = nUserId,
+                                                                  Symbol = unique,
+                                                                  BuyPrice = dAveragePrice,
+                                                                  Quantity = nTotalStockQuantity
+                                                              }).ToList();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = PortfolioMessages.StockFetchSuccess;
+            response.Result = portfolioStocks;
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+        }
+
+        return response;
+    }
+
     public async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto)
     {
         BaseApiResponseDto response = new();
@@ -29,7 +62,7 @@ public class PortfolioFacade : IPortfolioFacade
             PortfolioStock portfolioStock = PortfolioAutoMapperHelper.ToPortfolioStock(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
 
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, string.Empty, null!);
 
             if(apiResponse.Result == null)
             {

@@ -27,7 +27,7 @@ public class AuthenticationFacade : IAuthenticationFacade
         try
         {
             // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, string.Empty, null!);
 
             if(apiResponse.Result != null)
             {
@@ -67,7 +67,7 @@ public class AuthenticationFacade : IAuthenticationFacade
         try
         {
             // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, string.Empty, null!);
 
             if(apiResponse.Result == null)
             {
