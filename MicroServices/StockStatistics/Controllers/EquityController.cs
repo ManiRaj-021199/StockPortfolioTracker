@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Logic;
 
 namespace StockStatistics.Controllers;
 
@@ -26,7 +25,7 @@ public class EquityController : ControllerBase
     [Route("GetAssetProfile/{strStockSympol}")]
     public IActionResult GetAssetProfile(string strStockSympol)
     {
-        AssetProfileDto assetProfile = EquityServices.GetAssetProfile(strStockSympol);
+        BaseApiResponseDto assetProfile = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.AssetProfile);
 
         return Ok(assetProfile);
     }
@@ -35,7 +34,7 @@ public class EquityController : ControllerBase
     [Route("GetCalendarEvents/{strStockSympol}")]
     public IActionResult GetCalendarEvents(string strStockSympol)
     {
-        CalendarEventsDto calendarEvents = EquityServices.GetCalendarEvents(strStockSympol);
+        BaseApiResponseDto calendarEvents = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.CalendarEvents);
 
         return Ok(calendarEvents);
     }
@@ -44,7 +43,7 @@ public class EquityController : ControllerBase
     [Route("GetEarnings/{strStockSympol}")]
     public IActionResult GetEarnings(string strStockSympol)
     {
-        EarningsDto earnings = EquityServices.GetEarnings(strStockSympol);
+        BaseApiResponseDto earnings = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.Earnings);
 
         return Ok(earnings);
     }
@@ -53,7 +52,7 @@ public class EquityController : ControllerBase
     [Route("GetEarningsTrend/{strStockSympol}")]
     public IActionResult GetEarningsTrend(string strStockSympol)
     {
-        EarningsTrendDto earningsTrend = EquityServices.GetEarningsTrend(strStockSympol);
+        BaseApiResponseDto earningsTrend = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.EarningsTrend);
 
         return Ok(earningsTrend);
     }
@@ -62,7 +61,7 @@ public class EquityController : ControllerBase
     [Route("GetEsgScores/{strStockSympol}")]
     public IActionResult GetEsgScores(string strStockSympol)
     {
-        EsgScoresDto esgScores = EquityServices.GetEsgScores(strStockSympol);
+        BaseApiResponseDto esgScores = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.EsgScores);
 
         return Ok(esgScores);
     }
@@ -71,7 +70,7 @@ public class EquityController : ControllerBase
     [Route("GetFinancialData/{strStockSympol}")]
     public IActionResult GetFinancialData(string strStockSympol)
     {
-        FinancialDataDto financialData = EquityServices.GetFinancialData(strStockSympol);
+        BaseApiResponseDto financialData = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.FinancialData);
 
         return Ok(financialData);
     }
@@ -80,7 +79,7 @@ public class EquityController : ControllerBase
     [Route("GetIndexTrend/{strStockSympol}")]
     public IActionResult GetIndexTrend(string strStockSympol)
     {
-        IndexTrendDto indexTrend = EquityServices.GetIndexTrend(strStockSympol);
+        BaseApiResponseDto indexTrend = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.IndexTrend);
 
         return Ok(indexTrend);
     }
@@ -89,7 +88,7 @@ public class EquityController : ControllerBase
     [Route("GetIndustryTrend/{strStockSympol}")]
     public IActionResult GetIndustryTrend(string strStockSympol)
     {
-        IndustryTrendDto industryTrend = EquityServices.GetIndustryTrend(strStockSympol);
+        BaseApiResponseDto industryTrend = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.IndustryTrend);
 
         return Ok(industryTrend);
     }
@@ -98,7 +97,7 @@ public class EquityController : ControllerBase
     [Route("GetPrice/{strStockSympol}")]
     public IActionResult GetPrice(string strStockSympol)
     {
-        PriceDto price = EquityServices.GetPrice(strStockSympol);
+        BaseApiResponseDto price = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.Price);
 
         return Ok(price);
     }
@@ -107,7 +106,7 @@ public class EquityController : ControllerBase
     [Route("GetQuoteType/{strStockSympol}")]
     public IActionResult GetQuoteType(string strStockSympol)
     {
-        QuoteTypeDto quoteType = EquityServices.GetQuoteType(strStockSympol);
+        BaseApiResponseDto quoteType = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.QuoteType);
 
         return Ok(quoteType);
     }
@@ -116,7 +115,7 @@ public class EquityController : ControllerBase
     [Route("GetSummaryDetail/{strStockSympol}")]
     public IActionResult GetSummaryDetail(string strStockSympol)
     {
-        SummaryDetailDto summaryDetail = EquityServices.GetSummaryDetail(strStockSympol);
+        BaseApiResponseDto summaryDetail = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.SummaryDetail);
 
         return Ok(summaryDetail);
     }
@@ -125,7 +124,7 @@ public class EquityController : ControllerBase
     [Route("GetFundOwnership/{strStockSympol}")]
     public IActionResult GetFundOwnership(string strStockSympol)
     {
-        FundOwnershipDto fundOwnership = EquityServices.GetFundOwnership(strStockSympol);
+        BaseApiResponseDto fundOwnership = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.FundOwnership);
 
         return Ok(fundOwnership);
     }
@@ -134,7 +133,7 @@ public class EquityController : ControllerBase
     [Route("GetInsiderHolders/{strStockSympol}")]
     public IActionResult GetInsiderHolders(string strStockSympol)
     {
-        InsiderHoldersDto insiderHolders = EquityServices.GetInsiderHolders(strStockSympol);
+        BaseApiResponseDto insiderHolders = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.InsiderHolders);
 
         return Ok(insiderHolders);
     }
@@ -143,7 +142,7 @@ public class EquityController : ControllerBase
     [Route("GetInsiderTransactions/{strStockSympol}")]
     public IActionResult GetInsiderTransactions(string strStockSympol)
     {
-        InsiderTransactionsDto insiderTransactions = EquityServices.GetInsiderTransactions(strStockSympol);
+        BaseApiResponseDto insiderTransactions = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.InsiderTransactions);
 
         return Ok(insiderTransactions);
     }
@@ -152,7 +151,7 @@ public class EquityController : ControllerBase
     [Route("GetRecommendationTrend/{strStockSympol}")]
     public IActionResult GetRecommendationTrend(string strStockSympol)
     {
-        RecommendationTrendDto recommendationTrend = EquityServices.GetRecommendationTrend(strStockSympol);
+        BaseApiResponseDto recommendationTrend = EquityServices.GetDataFromYahooFinance(strStockSympol, YahooFinanceModules.RecommendationTrend);
 
         return Ok(recommendationTrend);
     }

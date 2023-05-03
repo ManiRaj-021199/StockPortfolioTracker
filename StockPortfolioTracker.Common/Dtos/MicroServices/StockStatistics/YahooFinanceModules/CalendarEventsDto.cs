@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class CalendarEventsDto : BaseApiResponseDto
+public class CalendarEventsDto
 {
     #region Properties
     public CalenderEventEarningsDto? Earnings { get; set; }

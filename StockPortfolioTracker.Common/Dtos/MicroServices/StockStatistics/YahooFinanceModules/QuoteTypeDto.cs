@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class QuoteTypeDto : BaseApiResponseDto
+public class QuoteTypeDto
 {
     #region Properties
     public string? Exchange { get; set; }

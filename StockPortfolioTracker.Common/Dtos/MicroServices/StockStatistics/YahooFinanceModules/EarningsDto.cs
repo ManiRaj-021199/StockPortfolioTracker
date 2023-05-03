@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class EarningsDto : BaseApiResponseDto
+public class EarningsDto
 {
     #region Properties
     public string? FinancialCurrency { get; set; }

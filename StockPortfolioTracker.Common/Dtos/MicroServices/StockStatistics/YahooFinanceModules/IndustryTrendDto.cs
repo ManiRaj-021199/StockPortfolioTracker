@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class IndustryTrendDto : BaseApiResponseDto
+public class IndustryTrendDto
 {
     #region Properties
     public string? Symbol { get; set; }

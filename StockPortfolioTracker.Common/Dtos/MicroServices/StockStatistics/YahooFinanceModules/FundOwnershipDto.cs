@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class FundOwnershipDto : BaseApiResponseDto
+public class FundOwnershipDto
 {
     #region Properties
     public List<OwnershipListDto>? OwnershipList { get; set; }

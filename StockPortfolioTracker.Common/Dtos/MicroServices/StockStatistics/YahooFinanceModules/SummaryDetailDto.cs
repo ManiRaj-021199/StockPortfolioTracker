@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class SummaryDetailDto : BaseApiResponseDto
+public class SummaryDetailDto
 {
     #region Properties
     public string? Currency { get; set; }
