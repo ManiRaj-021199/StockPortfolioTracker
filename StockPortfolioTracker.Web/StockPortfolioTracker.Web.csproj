@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
-    <ProjectReference Include="..\StockPortfolioTracker.Logic\StockPortfolioTracker.Logic.csproj" />
   </ItemGroup>
 
 </Project>

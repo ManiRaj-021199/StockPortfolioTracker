@@ -17,8 +17,9 @@ public class EquityPortfolioBase : ComponentBase
     #region Properties
     [Inject]
     public AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
-    
-    public List<PortfolioStockDto>? HoldingStocks { get; set; }
+
+    public List<PortfolioStockDto>? PortfolioStocks { get; set; }
+    public List<HoldingStockDto>? HoldingStocks { get; set; }
     public string? UserAccessToken { get; set; }
     public string? Message { get; set; }
     #endregion
@@ -38,13 +39,61 @@ public class EquityPortfolioBase : ComponentBase
     #region Privates
     private async Task UpdatePortfolio()
     {
+        this.HoldingStocks = new List<HoldingStockDto>();
+
+        await FetchUserHoldings();
+        await UpdateUserHoldings();
+    }
+
+    private async Task FetchUserHoldings()
+    {
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, this.UserAccessToken!, null!);
 
-        if(apiResponse.ResponseCode == HttpStatusCode.OK)
+        if(apiResponse.ResponseCode != HttpStatusCode.OK)
         {
-            this.HoldingStocks = JsonConvert.DeserializeObject<List<PortfolioStockDto>>(apiResponse.Result!.ToString()!);
+            this.Message = apiResponse.ResponseMessage;
+            return;
         }
-        else this.Message = apiResponse.ResponseMessage;
+
+        this.PortfolioStocks = JsonConvert.DeserializeObject<List<PortfolioStockDto>>(apiResponse.Result!.ToString()!);
+    }
+
+    private async Task UpdateUserHoldings()
+    {
+        foreach(PortfolioStockDto portfolioStockDto in this.PortfolioStocks!)
+        {
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, this.UserAccessToken!, null!);
+
+            if(apiResponse.ResponseCode != HttpStatusCode.OK)
+            {
+                this.Message = apiResponse.ResponseMessage;
+                return;
+            }
+            
+            HoldingStockDto holdingStock = new();
+
+            try
+            {
+                PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(apiResponse.Result!.ToString()!)!;
+
+                holdingStock.StockName = priceDto.LongName;
+                holdingStock.Quantity = portfolioStockDto.Quantity;
+                holdingStock.AveragePrice = portfolioStockDto.BuyPrice;
+                holdingStock.InvestedValue = holdingStock.Quantity * holdingStock.AveragePrice;
+                holdingStock.CurrentMarketPrice = double.Parse(priceDto.RegularMarketPrice!.Fmt!);
+                holdingStock.TodayChangePercentage = priceDto.RegularMarketChangePercent!.Fmt!;
+                holdingStock.CurrentValue = holdingStock.CurrentMarketPrice * holdingStock.Quantity;
+                holdingStock.ProfitOrLossAmount = (double) (holdingStock.CurrentValue! - holdingStock.InvestedValue);
+                holdingStock.ProfitOrLossPercentage = (double) ((holdingStock.ProfitOrLossAmount / holdingStock.Quantity) * 100) / holdingStock.AveragePrice;
+                holdingStock.Currency = priceDto.Currency;
+
+                this.HoldingStocks!.Add(holdingStock);
+            }
+            catch(Exception err)
+            {
+                this.Message = CommonWebServiceMessages.SomethingWentWrong + err.Message;
+            }
+        }
     }
     #endregion
 }
