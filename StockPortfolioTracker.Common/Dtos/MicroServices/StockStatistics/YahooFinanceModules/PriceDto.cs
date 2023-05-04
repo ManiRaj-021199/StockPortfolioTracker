@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class PriceDto : BaseApiResponseDto
+public class PriceDto
 {
     #region Properties
     public string? PreMarketSource { get; set; }

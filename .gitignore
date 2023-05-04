@@ -4,6 +4,7 @@
 /.vs/StockPortfolioTracker/v17/.suo
 /.vs/StockPortfolioTracker/config/applicationhost.config
 
+
 # Bin Files
 */bin
 /MicroServices/Authentication/bin
@@ -12,6 +13,7 @@
 /MicroServices/Communication/bin
 /MicroServices/Portfolio/bin
 /MicroServices/Watchlist/bin
+
 
 # Obj Files
 */obj
@@ -22,11 +24,12 @@
 /MicroServices/Portfolio/obj
 /MicroServices/Watchlist/obj
 
+
 # Config Files
-/StockStatistics/.config
 /StockPortfolioTracker.ApiGateway/.config
 /StockPortfolioTracker.Web/.config
 /MicroServices/Authentication/.config
+/MicroServices/StockStatistics/.config
 /MicroServices/UserManagement/.config
 /MicroServices/Communication/.config
 /MicroServices/Portfolio/.config
@@ -39,6 +42,7 @@
 /StockPortfolioTracker.ApiGateway/Properties/PublishProfiles
 /StockPortfolioTracker.Web/Properties/PublishProfiles
 /.vs/StockPortfolioTracker/FileContentIndex/read.lock
+
 
 # Other Junk Files
 *.pubxml

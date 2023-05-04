@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class InsiderHoldersDto : BaseApiResponseDto
+public class InsiderHoldersDto
 {
     #region Properties
     public List<HoldersDto>? Holders { get; set; }

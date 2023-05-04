@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class EsgScoresDto : BaseApiResponseDto
+public class EsgScoresDto
 {
     #region Properties
     public string? RatingYear { get; set; }

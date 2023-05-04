@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class RecommendationTrendDto : BaseApiResponseDto
+public class RecommendationTrendDto
 {
     #region Properties
     public List<TrendRecommendationDto>? Trend { get; set; }

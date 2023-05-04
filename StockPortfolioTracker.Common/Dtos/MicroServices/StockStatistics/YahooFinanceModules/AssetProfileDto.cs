@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class AssetProfileDto : BaseApiResponseDto
+public class AssetProfileDto
 {
     #region Properties
     public string? Address1 { get; set; }

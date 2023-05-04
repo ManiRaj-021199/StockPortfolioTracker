@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class FinancialDataDto : BaseApiResponseDto
+public class FinancialDataDto
 {
     #region Properties
     public string? RecommendationKey { get; set; }

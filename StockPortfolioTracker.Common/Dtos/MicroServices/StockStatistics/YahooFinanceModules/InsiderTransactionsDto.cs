@@ -1,6 +1,6 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class InsiderTransactionsDto : BaseApiResponseDto
+public class InsiderTransactionsDto
 {
     #region Properties
     public List<TransactionsDto>? Transactions { get; set; }

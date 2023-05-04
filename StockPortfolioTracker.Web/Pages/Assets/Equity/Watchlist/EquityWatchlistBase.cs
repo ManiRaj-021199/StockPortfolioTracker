@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Web;
@@ -21,12 +22,12 @@ public class EquityWatchlistBase : ComponentBase
     {
         this.UserAccessToken = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAccessToken();
 
-        await UpdateUserWatchlist();
+        UpdateUserWatchlist();
     }
     #endregion
 
     #region Privates
-    private async Task UpdateUserWatchlist()
+    private void UpdateUserWatchlist()
     {
         List<string> StockNames = new() { "BAJFINANCE.NS", "ASIANPAINT.NS", "RELIANCE.NS", "INFY.NS", "TMB.NS", "TCS.NS", "WIPRO.NS", "ITC.NS", "IEX.NS", "KPITTECH.NS", "TATAMOTORS.NS", "TATAPOWER.NS" };
         List<PriceDto> temp = new();
@@ -37,7 +38,8 @@ public class EquityWatchlistBase : ComponentBase
             client.BaseAddress = new Uri($"http://ms-nb0101:92/equity/GetPrice/{stock}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.UserAccessToken);
 
-            PriceDto priceDto = (await client.GetFromJsonAsync<PriceDto>(string.Empty))!;
+            var res = client.GetFromJsonAsync<BaseApiResponseDto>(string.Empty).Result;
+            PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(res!.Result!.ToString()!)!;
 
             temp.Add(priceDto);
         }
