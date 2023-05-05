@@ -33,15 +33,12 @@ public class RegisterBase : ComponentBase
 
         this.Message = response.ResponseMessage;
 
-        switch(response.ResponseCode)
+        this.MessageStyleClass = response.ResponseCode switch
         {
-            case HttpStatusCode.OK:
-                this.MessageStyleClass = "btn-success";
-                break;
-            default:
-                this.MessageStyleClass = "btn-danger";
-                break;
-        }
+            HttpStatusCode.OK => "btn-success",
+            HttpStatusCode.Accepted => "btn-info",
+            _ => "btn-danger"
+        };
     }
     #endregion
 }

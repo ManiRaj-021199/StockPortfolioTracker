@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
@@ -11,7 +10,13 @@ namespace StockPortfolioTracker.Web;
 public class EquityPortfolioBase : ComponentBase
 {
     #region Fields
-    public int UserId;
+    public bool bIsAddStockModalOpen;
+    public bool bIsRemoveStockModalOpen;
+    public string? Message = string.Empty;
+    public string? MessageStyleClass = string.Empty;
+
+    public int UserId = -1;
+    public string? UserAccessToken = string.Empty;
     #endregion
 
     #region Properties
@@ -20,23 +25,68 @@ public class EquityPortfolioBase : ComponentBase
 
     public List<PortfolioStockDto>? PortfolioStocks { get; set; }
     public List<HoldingStockDto>? HoldingStocks { get; set; }
-    public string? UserAccessToken { get; set; }
-    public string? Message { get; set; }
+
+    protected PortfolioStockDto? StockNeedToAdd { get; set; }
+    protected PortfolioTransactionDto? StockNeedToRemove { get; set; }
     #endregion
 
     #region Protecteds
     protected override async Task OnInitializedAsync()
     {
-        AuthenticationState authState = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAuthenticationStateAsync();
+        await InitializeProperties();
+        await UpdatePortfolio();
 
-        this.UserAccessToken = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAccessToken();
-        _ = int.TryParse(authState.User.Claims.FirstOrDefault(state => state.Type == ClaimTypes.PrimarySid)!.Value, out UserId);
+        /*
+        // Update price every 1 sec
 
+        _ = new Timer(async _ =>
+                      {
+                          await UpdatePortfolio();
+
+                          await InvokeAsync(StateHasChanged);
+                      }, null, 0, 1000);
+        */
+    }
+
+    protected async Task AddStockToPortfolio()
+    {
+        this.StockNeedToAdd!.UserId = UserId;
+
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, UserAccessToken!, this.StockNeedToAdd);
+
+        bIsAddStockModalOpen = false;
+        MessageStyleClass = BootstrapStyles.BackgroundSuccess;
+        Message = apiResponse.ResponseMessage;
+
+        this.StockNeedToAdd = new PortfolioStockDto();
+        await UpdatePortfolio();
+    }
+
+    protected async Task RemoveStockFromPortfolio()
+    {
+        this.StockNeedToRemove!.UserId = UserId;
+
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, UserAccessToken!, this.StockNeedToRemove);
+
+        bIsRemoveStockModalOpen = false;
+        MessageStyleClass = BootstrapStyles.BackgroundDanger;
+        Message = apiResponse.ResponseMessage;
+
+        this.StockNeedToRemove = new PortfolioTransactionDto();
         await UpdatePortfolio();
     }
     #endregion
 
     #region Privates
+    private async Task InitializeProperties()
+    {
+        this.StockNeedToAdd = new PortfolioStockDto();
+        this.StockNeedToRemove = new PortfolioTransactionDto();
+
+        UserId = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetUserId();
+        UserAccessToken = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAccessToken();
+    }
+
     private async Task UpdatePortfolio()
     {
         this.HoldingStocks = new List<HoldingStockDto>();
@@ -47,11 +97,11 @@ public class EquityPortfolioBase : ComponentBase
 
     private async Task FetchUserHoldings()
     {
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, this.UserAccessToken!, null!);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, UserAccessToken!, null!);
 
         if(apiResponse.ResponseCode != HttpStatusCode.OK)
         {
-            this.Message = apiResponse.ResponseMessage;
+            Message = apiResponse.ResponseMessage;
             return;
         }
 
@@ -62,14 +112,14 @@ public class EquityPortfolioBase : ComponentBase
     {
         foreach(PortfolioStockDto portfolioStockDto in this.PortfolioStocks!)
         {
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, this.UserAccessToken!, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, UserAccessToken!, null!);
 
             if(apiResponse.ResponseCode != HttpStatusCode.OK)
             {
-                this.Message = apiResponse.ResponseMessage;
+                Message = apiResponse.ResponseMessage;
                 return;
             }
-            
+
             HoldingStockDto holdingStock = new();
 
             try
@@ -91,7 +141,7 @@ public class EquityPortfolioBase : ComponentBase
             }
             catch(Exception err)
             {
-                this.Message = CommonWebServiceMessages.SomethingWentWrong + err.Message;
+                Message = CommonWebServiceMessages.SomethingWentWrong + err.Message;
             }
         }
     }
