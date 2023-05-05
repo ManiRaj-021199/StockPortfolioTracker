@@ -30,24 +30,20 @@ public class LoginBase : ComponentBase
         return base.OnInitializedAsync();
     }
 
-    protected async Task<bool> ValidateUser()
+    protected async Task ValidateUser()
     {
         BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, string.Empty, this.UserLoginDto!);
 
-        switch(response.ResponseCode)
+        if(response.ResponseCode != HttpStatusCode.OK)
         {
-            case HttpStatusCode.OK:
-                ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(response.Result!.ToString()!);
-                this.NavigationManager?.NavigateTo("/");
-
-                await this.SessionStorageService!.SetItemAsync("user-accesstoken", response.Result);
-                break;
-            default:
-                this.Message = response.ResponseMessage;
-                break;
+            this.Message = response.ResponseMessage;
+            return;
         }
 
-        return await Task.FromResult(true);
+        ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).MarkUserAsAuthenticated(response.Result!.ToString()!);
+        this.NavigationManager?.NavigateTo("/");
+
+        await this.SessionStorageService!.SetItemAsync("user-accesstoken", response.Result);
     }
     #endregion
 }

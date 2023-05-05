@@ -29,13 +29,6 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         return await Task.FromResult(new AuthenticationState(user));
     }
 
-    public async Task<string> GetAccessToken()
-    {
-        string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
-        
-        return strAccessToken;
-    }
-
     public void MarkUserAsAuthenticated(string strAccessToken)
     {
         ClaimsIdentity identity = new(JwtTokenHelper.ParseClaimsFromJwtToken(strAccessToken), "jwt");
@@ -52,6 +45,21 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         ClaimsPrincipal user = new(identity);
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+    }
+
+    public async Task<string> GetAccessToken()
+    {
+        string strAccessToken = await SessionStorageService!.GetItemAsync<string>("user-accesstoken");
+
+        return strAccessToken;
+    }
+
+    public async Task<int> GetUserId()
+    {
+        AuthenticationState authState = await GetAuthenticationStateAsync();
+        _ = int.TryParse(authState.User.Claims.FirstOrDefault(state => state.Type == ClaimTypes.PrimarySid)!.Value, out int nUserId);
+
+        return nUserId;
     }
     #endregion
 }

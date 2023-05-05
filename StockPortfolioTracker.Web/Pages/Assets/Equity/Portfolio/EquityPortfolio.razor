@@ -4,17 +4,32 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Add New Stock
-        </a>
+        <div>
+            <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" @onclick="() => bIsAddStockModalOpen = true">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
+            </button>
+            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" @onclick="() => bIsRemoveStockModalOpen = true">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
+            </button>
+        </div>
     </div>
     <div class="card-body">
+        @if(!string.IsNullOrEmpty(Message))
+        {
+            <div class="row text-center mb-3 div-center">
+                <div class="card @MessageStyleClass text-white shadow">
+                    <div class="card-body text-center">
+                        @Message
+                    </div>
+                </div>
+            </div>
+        }
         <div class="table-responsive">
             <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                             Data="@HoldingStocks" TItem="HoldingStockDto">
                 <Columns>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock" />
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity" />
+                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock"/>
+                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity"/>
                     <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
                         <Template Context="detail">
                             @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
@@ -59,3 +74,77 @@
         </div>
     </div>
 </div>
+
+
+@if(bIsAddStockModalOpen)
+{
+    <div class="custom-modal">
+        <div class="custom-modal-content">
+            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Stock</h5>
+                    <button class="close" type="button" @onclick="() => bIsAddStockModalOpen = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="inputStockName" class="form-label">Stock Name</label>
+                            <input type="text" class="form-control" id="inputStockName" @bind="StockNeedToAdd!.Symbol" placeholder="INFY, TCS..." />
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="inputQuantity" @bind="StockNeedToAdd!.Quantity" />
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputBuyPrice" class="form-label">Buy Price</label>
+                            <input type="number" class="form-control" id="inputBuyPrice" step=".01" @bind="StockNeedToAdd.BuyPrice" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Add</button>
+                    <button class="btn btn-secondary" type="button" @onclick="() => bIsAddStockModalOpen = false">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+
+@if(bIsRemoveStockModalOpen)
+{
+    <div class="custom-modal">
+        <div class="custom-modal-content">
+            <EditForm Model="@StockNeedToRemove" OnValidSubmit="RemoveStockFromPortfolio">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remove Stock</h5>
+                    <button class="close" type="button" @onclick="() => bIsRemoveStockModalOpen = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="inputRemoveStockName" class="form-label">Stock</label>
+                            <input type="text" class="form-control" id="inputRemoveStockName" @bind="StockNeedToRemove!.Symbol" placeholder="INFY, TCS..." />
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputRemoveQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="inputRemoveQuantity" @bind="StockNeedToRemove!.Quantity" />
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputSellPrice" class="form-label">Sell Price</label>
+                            <input type="number" class="form-control" id="inputSellPrice" @bind="StockNeedToRemove.SellPrice" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                    <button class="btn btn-secondary" type="button" @onclick="() => bIsRemoveStockModalOpen = false">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
