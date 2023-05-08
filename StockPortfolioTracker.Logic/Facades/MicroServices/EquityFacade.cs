@@ -64,5 +64,45 @@ public class EquityFacade : IEquityFacade
 
 		return response;
     }
+
+    public BaseApiResponseDto GetSmartSearchStocks(SmartSearchRequestDto dtoSmartSearchRequest)
+    {
+        BaseApiResponseDto response = new();
+
+        try
+        {
+            // Get Data From Yahoo Finance
+            HttpClient httpClient = new()
+                                    {
+                                        BaseAddress = new Uri(string.Format(StockStatisticEndPoints.StockSmartSearch, dtoSmartSearchRequest.SearchQuery, dtoSmartSearchRequest.StocksCount, dtoSmartSearchRequest.NewsCount))
+                                    };
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage apiResponse = httpClient.GetAsync(string.Empty).Result;
+
+            if(!apiResponse.IsSuccessStatusCode)
+            {
+                response.ResponseCode = HttpStatusCode.NotFound;
+                response.ResponseMessage = CommonWebServiceMessages.NotFound;
+
+                return response;
+            }
+
+            string responseResult = apiResponse.Content.ReadAsStringAsync().Result;
+            SmartSearchResponseDto? data = JsonConvert.DeserializeObject<SmartSearchResponseDto>(responseResult);
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = CommonWebServiceMessages.DataFetchSuccess;
+            response.Result = data;
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+            response.Result = err.InnerException;
+        }
+
+        return response;
+    }
     #endregion
 }
