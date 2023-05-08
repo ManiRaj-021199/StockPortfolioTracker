@@ -155,5 +155,14 @@ public class EquityController : ControllerBase
 
         return Ok(recommendationTrend);
     }
+
+    [HttpPost]
+    [Route("GetSmartSearchStocks")]
+    public IActionResult GetSmartSearchStocks([FromBody] SmartSearchRequestDto dtoSmartSearchRequest)
+    {
+        BaseApiResponseDto response = EquityServices.GetSmartSearchStocks(dtoSmartSearchRequest);
+
+        return Ok(response);
+    }
     #endregion
 }
