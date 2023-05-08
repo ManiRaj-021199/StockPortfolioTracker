@@ -91,7 +91,21 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>
-                            <input type="text" class="form-control" id="inputStockName" @bind="StockNeedToAdd!.Symbol" placeholder="INFY, TCS..." />
+                            <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value=@StockNeedToAdd!.Symbol Data=@SmartSearchStocks!.Quotes TextProperty="Symbol" LoadData="StockSmartSearch">
+                                <Template Context="detail">
+                                    <div class="d-flex w-100">
+                                        @if(detail.LongName != null)
+                                        {
+                                            <h6 class="w-75">@detail.LongName</h6>
+                                        }
+                                        else
+                                        {
+                                            <h6 class="w-75">@detail.ShortName[0].ToString().ToUpper()@detail.ShortName.Substring(1).ToLower()</h6>
+                                        }
+                                        <h6 class="w-25 text-primary">@detail.ExchDisp</h6>
+                                    </div>
+                                </Template>
+                            </RadzenAutoComplete>
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputQuantity" class="form-label">Quantity</label>
@@ -128,7 +142,14 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputRemoveStockName" class="form-label">Stock</label>
-                            <input type="text" class="form-control" id="inputRemoveStockName" @bind="StockNeedToRemove!.Symbol" placeholder="INFY, TCS..." />
+                            <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
+                                <Template Context="detail">
+                                    <div class="d-flex w-100">
+                                        <h6 class="w-75">@detail.StockName</h6>
+                                        <h6 class="w-25 text-primary">@detail.Quantity</h6>
+                                    </div>
+                                </Template>
+                            </RadzenAutoComplete>
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputRemoveQuantity" class="form-label">Quantity</label>
