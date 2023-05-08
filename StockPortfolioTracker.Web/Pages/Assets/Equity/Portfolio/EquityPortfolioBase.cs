@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
+using Radzen;
 using StockPortfolioTracker.Common;
 using HttpMethods = Microsoft.AspNetCore.Http.HttpMethods;
 
@@ -26,6 +27,7 @@ public class EquityPortfolioBase : ComponentBase
     public List<PortfolioStockDto>? PortfolioStocks { get; set; }
     public List<HoldingStockDto>? HoldingStocks { get; set; }
 
+    protected SmartSearchResponseDto? SmartSearchStocks { get; set; }
     protected PortfolioStockDto? StockNeedToAdd { get; set; }
     protected PortfolioTransactionDto? StockNeedToRemove { get; set; }
     #endregion
@@ -48,6 +50,20 @@ public class EquityPortfolioBase : ComponentBase
         */
     }
 
+    protected async Task StockSmartSearch(LoadDataArgs args)
+    {
+        if(args.Filter.Length < 3) return;
+
+        SmartSearchRequestDto request = new()
+                                        {
+                                            StocksCount = 5,
+                                            NewsCount = 0,
+                                            SearchQuery = args.Filter
+                                        };
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, UserAccessToken!, request);
+        this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
+    }
+
     protected async Task AddStockToPortfolio()
     {
         this.StockNeedToAdd!.UserId = UserId;
@@ -65,6 +81,7 @@ public class EquityPortfolioBase : ComponentBase
     protected async Task RemoveStockFromPortfolio()
     {
         this.StockNeedToRemove!.UserId = UserId;
+        this.StockNeedToRemove.Symbol = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove.Symbol)!.Symbol!;
 
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, UserAccessToken!, this.StockNeedToRemove);
 
@@ -80,6 +97,7 @@ public class EquityPortfolioBase : ComponentBase
     #region Privates
     private async Task InitializeProperties()
     {
+        this.SmartSearchStocks = new SmartSearchResponseDto();
         this.StockNeedToAdd = new PortfolioStockDto();
         this.StockNeedToRemove = new PortfolioTransactionDto();
 
@@ -126,6 +144,7 @@ public class EquityPortfolioBase : ComponentBase
             {
                 PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(apiResponse.Result!.ToString()!)!;
 
+                holdingStock.Symbol = priceDto.Symbol;
                 holdingStock.StockName = priceDto.LongName;
                 holdingStock.Quantity = portfolioStockDto.Quantity;
                 holdingStock.AveragePrice = portfolioStockDto.BuyPrice;

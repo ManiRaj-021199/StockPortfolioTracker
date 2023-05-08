@@ -263,6 +263,19 @@
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "stockstatistics"
     },
+    {
+      "DownstreamPathTemplate": "/api/equity/GetSmartSearchStocks",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 96
+        }
+      ],
+      "UpstreamPathTemplate": "/equity/GetSmartSearchStocks",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "stockstatistics"
+    },
     // Portfolio MicroService
     {
       "DownstreamPathTemplate": "/api/portfolio/GetHoldingStocks/{nUserId}",
