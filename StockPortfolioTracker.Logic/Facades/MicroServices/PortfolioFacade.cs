@@ -53,7 +53,7 @@ public class PortfolioFacade : IPortfolioFacade
         return response;
     }
 
-    public async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto)
+    public async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto, string strUserToken)
     {
         BaseApiResponseDto response = new();
 
@@ -68,6 +68,16 @@ public class PortfolioFacade : IPortfolioFacade
             {
                 response.ResponseCode = HttpStatusCode.Accepted;
                 response.ResponseMessage = UserManagementMessages.UserNotFound;
+
+                return response;
+            }
+
+            apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, strUserToken, null!);
+
+            if(apiResponse.Result == null)
+            {
+                response.ResponseCode = HttpStatusCode.NotFound;
+                response.ResponseMessage = PortfolioMessages.InvalidStock;
 
                 return response;
             }

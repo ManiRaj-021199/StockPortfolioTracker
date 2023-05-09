@@ -145,7 +145,7 @@ public class EquityPortfolioBase : ComponentBase
                 PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(apiResponse.Result!.ToString()!)!;
 
                 holdingStock.Symbol = priceDto.Symbol;
-                holdingStock.StockName = priceDto.LongName;
+                holdingStock.StockName = priceDto.LongName ?? priceDto.ShortName;
                 holdingStock.Quantity = portfolioStockDto.Quantity;
                 holdingStock.AveragePrice = portfolioStockDto.BuyPrice;
                 holdingStock.InvestedValue = holdingStock.Quantity * holdingStock.AveragePrice;

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
 
 namespace Portfolio.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_USER)]
 public class PortfolioController : ControllerBase
 {
     #region Fields
@@ -32,7 +34,9 @@ public class PortfolioController : ControllerBase
     [Route("AddStockToPortfolio")]
     public async Task<BaseApiResponseDto> AddStockToPortfolio([FromBody] PortfolioStockDto portfolioStockDto)
     {
-        BaseApiResponseDto response = await portfolioService!.AddStockToPortfolio(portfolioStockDto);
+        string strUserToken = Request.Headers.Authorization.ToString().Split(" ")[1];
+
+        BaseApiResponseDto response = await portfolioService!.AddStockToPortfolio(portfolioStockDto, strUserToken);
 
         return response;
     }
