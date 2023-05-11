@@ -1,0 +1,43 @@
+﻿@namespace StockPortfolioTracker.Web.Components
+
+<div class="modal fade" @ref="RefToRemoveStockModal" id="removeStockModal" tabindex="-1" role="dialog" aria-labelledby="labelRemoveStock" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <EditForm Model="@StockNeedToRemove" OnValidSubmit="RemoveStockFromPortfolio">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelRemoveStock">Remove Stock</h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="inputRemoveStockName" class="form-label">Stock</label>
+                            <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
+                                <Template Context="detail">
+                                    <div class="d-flex w-100">
+                                        <h6 class="w-75">@detail.StockName</h6>
+                                        <h6 class="w-25 text-primary">@detail.Quantity</h6>
+                                    </div>
+                                </Template>
+                            </RadzenAutoComplete>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputRemoveQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="inputRemoveQuantity" @bind="StockNeedToRemove!.Quantity"/>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputSellPrice" class="form-label">Sell Price</label>
+                            <input type="number" class="form-control" id="inputSellPrice" @bind="StockNeedToRemove.SellPrice"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

@@ -5,10 +5,10 @@
     <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
         <div>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" @onclick="() => bIsAddStockModalOpen = true">
+            <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#addStockModal">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
             </button>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" @onclick="() => bIsRemoveStockModalOpen = true">
+            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#removeStockModal">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
             </button>
         </div>
@@ -16,14 +16,9 @@
     <div class="card-body">
         @if(!string.IsNullOrEmpty(Message))
         {
-            <div class="row text-center mb-3 div-center">
-                <div class="card @MessageStyleClass text-white shadow">
-                    <div class="card-body text-center">
-                        @Message
-                    </div>
-                </div>
-            </div>
+            <MessageBox Message="@Message" MessageStyleClass="@MessageStyleClass"/>
         }
+
         <div class="table-responsive">
             <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                             Data="@HoldingStocks" TItem="HoldingStockDto">
@@ -69,103 +64,18 @@
                             <span class="@(detail.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) detail.ProfitOrLossPercentage!, 2))%</span>
                         </Template>
                     </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Symbol" Title="" Filterable="false" Sortable="false" Reorderable="false" Resizable="false" Width="50px">
+                        <Template>
+                            <a role="button">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                        </Template>
+                    </RadzenDataGridColumn>
                 </Columns>
             </RadzenDataGrid>
         </div>
     </div>
 </div>
 
-
-@if(bIsAddStockModalOpen)
-{
-    <div class="custom-modal">
-        <div class="custom-modal-content">
-            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Stock</h5>
-                    <button class="close" type="button" @onclick="() => bIsAddStockModalOpen = false">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="inputStockName" class="form-label">Stock Name</label>
-                            <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value=@StockNeedToAdd!.Symbol Data=@SmartSearchStocks!.Quotes TextProperty="Symbol" LoadData="StockSmartSearch">
-                                <Template Context="detail">
-                                    <div class="d-flex w-100">
-                                        @if(detail.LongName != null)
-                                        {
-                                            <h6 class="w-75">@detail.LongName</h6>
-                                        }
-                                        else
-                                        {
-                                            <h6 class="w-75">@detail.ShortName[0].ToString().ToUpper()@detail.ShortName.Substring(1).ToLower()</h6>
-                                        }
-                                        <h6 class="w-25 text-primary">@detail.ExchDisp</h6>
-                                    </div>
-                                </Template>
-                            </RadzenAutoComplete>
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputQuantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="inputQuantity" @bind="StockNeedToAdd!.Quantity" />
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputBuyPrice" class="form-label">Buy Price</label>
-                            <input type="number" class="form-control" id="inputBuyPrice" step=".01" @bind="StockNeedToAdd.BuyPrice" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" type="submit">Add</button>
-                    <button class="btn btn-secondary" type="button" @onclick="() => bIsAddStockModalOpen = false">Cancel</button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
-}
-
-
-@if(bIsRemoveStockModalOpen)
-{
-    <div class="custom-modal">
-        <div class="custom-modal-content">
-            <EditForm Model="@StockNeedToRemove" OnValidSubmit="RemoveStockFromPortfolio">
-                <div class="modal-header">
-                    <h5 class="modal-title">Remove Stock</h5>
-                    <button class="close" type="button" @onclick="() => bIsRemoveStockModalOpen = false">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="inputRemoveStockName" class="form-label">Stock</label>
-                            <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
-                                <Template Context="detail">
-                                    <div class="d-flex w-100">
-                                        <h6 class="w-75">@detail.StockName</h6>
-                                        <h6 class="w-25 text-primary">@detail.Quantity</h6>
-                                    </div>
-                                </Template>
-                            </RadzenAutoComplete>
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputRemoveQuantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="inputRemoveQuantity" @bind="StockNeedToRemove!.Quantity" />
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputSellPrice" class="form-label">Sell Price</label>
-                            <input type="number" class="form-control" id="inputSellPrice" @bind="StockNeedToRemove.SellPrice" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" type="submit">Remove</button>
-                    <button class="btn btn-secondary" type="button" @onclick="() => bIsRemoveStockModalOpen = false">Cancel</button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
-}
+<AddStockModal UserId="UserId" UserAccessToken="UserAccessToken" UpdatePortfolio="UpdatePortfolio" />
+<RemoveStockModal UserId="UserId" UserAccessToken="UserAccessToken" HoldingStocks="HoldingStocks" UpdatePortfolio="UpdatePortfolio" />

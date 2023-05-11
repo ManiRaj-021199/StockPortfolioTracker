@@ -48,3 +48,9 @@ span.negativeValue
 	-ms-border-radius: 10px;
 	border-radius: 10px;
 }
+
+/* NavBar */
+.collapse.show
+{
+	z-index: 999;
+}

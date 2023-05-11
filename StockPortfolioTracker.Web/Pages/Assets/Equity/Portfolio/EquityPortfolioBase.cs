@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
-using Radzen;
 using StockPortfolioTracker.Common;
 using HttpMethods = Microsoft.AspNetCore.Http.HttpMethods;
 
@@ -11,8 +10,6 @@ namespace StockPortfolioTracker.Web;
 public class EquityPortfolioBase : ComponentBase
 {
     #region Fields
-    public bool bIsAddStockModalOpen;
-    public bool bIsRemoveStockModalOpen;
     public string? Message = string.Empty;
     public string? MessageStyleClass = string.Empty;
 
@@ -26,10 +23,6 @@ public class EquityPortfolioBase : ComponentBase
 
     public List<PortfolioStockDto>? PortfolioStocks { get; set; }
     public List<HoldingStockDto>? HoldingStocks { get; set; }
-
-    protected SmartSearchResponseDto? SmartSearchStocks { get; set; }
-    protected PortfolioStockDto? StockNeedToAdd { get; set; }
-    protected PortfolioTransactionDto? StockNeedToRemove { get; set; }
     #endregion
 
     #region Protecteds
@@ -50,67 +43,20 @@ public class EquityPortfolioBase : ComponentBase
         */
     }
 
-    protected async Task StockSmartSearch(LoadDataArgs args)
+    protected async Task UpdatePortfolio()
     {
-        if(args.Filter.Length < 3) return;
+        this.HoldingStocks = new List<HoldingStockDto>();
 
-        SmartSearchRequestDto request = new()
-                                        {
-                                            StocksCount = 5,
-                                            NewsCount = 0,
-                                            SearchQuery = args.Filter
-                                        };
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, UserAccessToken!, request);
-        this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
-    }
-
-    protected async Task AddStockToPortfolio()
-    {
-        this.StockNeedToAdd!.UserId = UserId;
-
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, UserAccessToken!, this.StockNeedToAdd);
-
-        bIsAddStockModalOpen = false;
-        MessageStyleClass = BootstrapStyles.BackgroundSuccess;
-        Message = apiResponse.ResponseMessage;
-
-        this.StockNeedToAdd = new PortfolioStockDto();
-        await UpdatePortfolio();
-    }
-
-    protected async Task RemoveStockFromPortfolio()
-    {
-        this.StockNeedToRemove!.UserId = UserId;
-        this.StockNeedToRemove.Symbol = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove.Symbol)!.Symbol!;
-
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, UserAccessToken!, this.StockNeedToRemove);
-
-        bIsRemoveStockModalOpen = false;
-        MessageStyleClass = BootstrapStyles.BackgroundDanger;
-        Message = apiResponse.ResponseMessage;
-
-        this.StockNeedToRemove = new PortfolioTransactionDto();
-        await UpdatePortfolio();
+        await FetchUserHoldings();
+        await UpdateUserHoldings();
     }
     #endregion
 
     #region Privates
     private async Task InitializeProperties()
     {
-        this.SmartSearchStocks = new SmartSearchResponseDto();
-        this.StockNeedToAdd = new PortfolioStockDto();
-        this.StockNeedToRemove = new PortfolioTransactionDto();
-
         UserId = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetUserId();
         UserAccessToken = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAccessToken();
-    }
-
-    private async Task UpdatePortfolio()
-    {
-        this.HoldingStocks = new List<HoldingStockDto>();
-
-        await FetchUserHoldings();
-        await UpdateUserHoldings();
     }
 
     private async Task FetchUserHoldings()
