@@ -1,4 +1,4 @@
-﻿using StockPortfolioTracker.Data;
+﻿using StockPortfolioTracker.Data.PortfolioContext;
 
 namespace Watchlist;
 
