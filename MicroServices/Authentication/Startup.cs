@@ -1,5 +1,5 @@
-﻿using StockPortfolioTracker.Data;
-using StockPortfolioTracker.Common;
+﻿using StockPortfolioTracker.Common;
+using StockPortfolioTracker.Data.PortfolioContext;
 using StockPortfolioTracker.Logic;
 
 namespace Authentication;

@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using Microsoft.EntityFrameworkCore;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
+using StockPortfolioTracker.Data.PortfolioContext;
 
 namespace StockPortfolioTracker.Logic;
 
@@ -25,7 +26,7 @@ public class PortfolioFacade : IPortfolioFacade
 
         try
         {
-            List<PortfolioStock> stocks = await dbContext.PortfolioStocks!.Where(stock => stock.UserId == nUserId).ToListAsync();
+            List<Holding> stocks = await dbContext.Holdings.Where(stock => stock.UserId == nUserId).ToListAsync();
             IEnumerable<string> stockUniqueNames = stocks.Select(stock => stock.Symbol).Distinct();
 
             List<PortfolioStockDto> portfolioStocks = (from unique in stockUniqueNames
@@ -59,7 +60,7 @@ public class PortfolioFacade : IPortfolioFacade
 
         try
         {
-            PortfolioStock portfolioStock = PortfolioAutoMapperHelper.ToPortfolioStock(portfolioStockDto);
+            Holding portfolioStock = PortfolioAutoMapperHelper.ToHolding(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
 
             BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, string.Empty, null!);
@@ -81,8 +82,8 @@ public class PortfolioFacade : IPortfolioFacade
 
                 return response;
             }
-
-            dbContext.PortfolioStocks?.Add(portfolioStock);
+            
+            dbContext.Holdings.Add(portfolioStock);
             await dbContext.SaveChangesAsync();
 
             response.ResponseCode = HttpStatusCode.OK;
@@ -103,7 +104,7 @@ public class PortfolioFacade : IPortfolioFacade
 
         try
         {
-            PortfolioTransaction transaction = PortfolioAutoMapperHelper.ToPortfolioTransaction(transactionDto);
+            Transaction transaction = PortfolioAutoMapperHelper.ToTransaction(transactionDto);
 
             response = await RemoveStockFromPortfolio(transaction);
 
@@ -111,7 +112,7 @@ public class PortfolioFacade : IPortfolioFacade
             {
                 transaction.SellDate = DateTimeHelper.GetCurrentDateTime();
 
-                dbContext.PortfolioTransactions?.Add(transaction);
+                dbContext.Transactions.Add(transaction);
                 await dbContext.SaveChangesAsync();
             }
         }
@@ -126,11 +127,11 @@ public class PortfolioFacade : IPortfolioFacade
     #endregion
 
     #region Privates
-    private async Task<BaseApiResponseDto> RemoveStockFromPortfolio(PortfolioTransaction transaction)
+    private async Task<BaseApiResponseDto> RemoveStockFromPortfolio(Transaction transaction)
     {
         BaseApiResponseDto response = new();
 
-        List<PortfolioStock> lstStocksFromHolding = await dbContext.PortfolioStocks!.Where(x => x.UserId == transaction.UserId && x.Symbol == transaction.Symbol).ToListAsync();
+        List<Holding> lstStocksFromHolding = await dbContext.Holdings.Where(x => x.UserId == transaction.UserId && x.Symbol == transaction.Symbol).ToListAsync();
 
         if(lstStocksFromHolding.Count == 0)
         {
@@ -149,14 +150,14 @@ public class PortfolioFacade : IPortfolioFacade
             return response;
         }
 
-        foreach(PortfolioStock? stock in lstStocksFromHolding.ToList().TakeWhile(_ => nQuantityNeedToRemove > 0))
+        foreach(Holding? stock in lstStocksFromHolding.ToList().TakeWhile(_ => nQuantityNeedToRemove > 0))
         {
             if(stock.Quantity <= nQuantityNeedToRemove)
             {
                 nQuantityNeedToRemove -= stock.Quantity;
 
                 lstStocksFromHolding.Remove(stock);
-                dbContext.PortfolioStocks!.Remove(stock);
+                dbContext.Holdings.Remove(stock);
                 continue;
             }
 

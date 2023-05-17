@@ -1,5 +1,5 @@
 ﻿using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
 
 namespace StockPortfolioTracker.Logic;
 

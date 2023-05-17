@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StockPortfolioTracker.Data;
 using StockPortfolioTracker.Common;
+using StockPortfolioTracker.Data.PortfolioContext;
 using StockPortfolioTracker.Logic;
 using Swashbuckle.AspNetCore.Filters;
 

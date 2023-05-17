@@ -2,7 +2,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
+using StockPortfolioTracker.Data.PortfolioContext;
 
 namespace StockPortfolioTracker.Logic;
 
@@ -92,7 +93,7 @@ public class AuthenticationFacade : IAuthenticationFacade
                 return response;
             }
 
-            UserRole userRole = dbContext.UserRoles!.FirstOrDefault(x => x.RoleId == user.UserRoleId)!;
+            UserRole userRole = dbContext.UserRoles!.FirstOrDefault(x => x.UserRoleId == user.UserRoleId)!;
 
             user.UserRole = !string.IsNullOrEmpty(userRole.RoleName) ? userRole.RoleName : user.UserRole;
 
