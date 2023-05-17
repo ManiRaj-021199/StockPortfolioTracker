@@ -1,23 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace StockPortfolioTracker.Data;
+namespace StockPortfolioTracker.Data.Entity;
 
-public class User
+public partial class User
 {
-    #region Properties
-    [Key]
-    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
     public int UserId { get; set; }
 
     public int UserRoleId { get; set; }
 
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
+    public string FirstName { get; set; } = null!;
 
-    public string PasswordHash { get; set; }
-    public byte[] PasswordSalt { get; set; }
+    public string LastName { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public string PasswordHash { get; set; } = null!;
+
+    public byte[] PasswordSalt { get; set; } = null!;
+
     public DateTime RegisterDate { get; set; }
-    #endregion
+
+    public virtual ICollection<Holding> Holdings { get; set; } = new List<Holding>();
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    public virtual UserRole UserRole { get; set; } = null!;
 }

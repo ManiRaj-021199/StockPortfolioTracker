@@ -1,21 +1,21 @@
 ﻿using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
 
 namespace StockPortfolioTracker.Logic;
 
 public class PortfolioAutoMapperHelper
 {
     #region Publics
-    public static PortfolioStock ToPortfolioStock(PortfolioStockDto portfolioStockDto)
+    public static Holding ToHolding(PortfolioStockDto portfolioStockDto)
     {
-        PortfolioStock portfolioStock = AutoMapperInitializer.Mapper.Map<PortfolioStock>(portfolioStockDto);
+        Holding portfolioStock = AutoMapperInitializer.Mapper.Map<Holding>(portfolioStockDto);
 
         return portfolioStock;
     }
 
-    public static PortfolioTransaction ToPortfolioTransaction(PortfolioTransactionDto portfolioTransactionDto)
+    public static Transaction ToTransaction(PortfolioTransactionDto portfolioTransactionDto)
     {
-        PortfolioTransaction portfolioTransaction = AutoMapperInitializer.Mapper.Map<PortfolioTransaction>(portfolioTransactionDto);
+        Transaction portfolioTransaction = AutoMapperInitializer.Mapper.Map<Transaction>(portfolioTransactionDto);
 
         return portfolioTransaction;
     }

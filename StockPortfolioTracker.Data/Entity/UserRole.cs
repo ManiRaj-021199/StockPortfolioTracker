@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace StockPortfolioTracker.Data;
+namespace StockPortfolioTracker.Data.Entity;
 
-public class UserRole
+public partial class UserRole
 {
-    #region Properties
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int RoleId { get; set; }
+    public int UserRoleId { get; set; }
 
-    public string RoleName { get; set; }
-    #endregion
+    public string RoleName { get; set; } = null!;
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

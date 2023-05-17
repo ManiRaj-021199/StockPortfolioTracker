@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using Microsoft.EntityFrameworkCore;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
+using StockPortfolioTracker.Data.PortfolioContext;
 
 namespace StockPortfolioTracker.Logic;
 
@@ -25,7 +26,7 @@ public class UserManagementFacade : IUserManagementFacade
 
         try
         {
-            List<User> users = dbContext.Users!.ToListAsync().Result;
+            List<User> users = dbContext.Users.ToListAsync().Result;
             List<UserDto> lstUserDtos = users.Select(UserAutoMapperHelper.ToUserDto).ToList();
 
             response.ResponseCode = HttpStatusCode.OK;
@@ -47,10 +48,10 @@ public class UserManagementFacade : IUserManagementFacade
 
         try
         {
-            User? user = dbContext.Users!.FirstOrDefault(user => user.Email == strEmail);
+            User? user = dbContext.Users.FirstOrDefault(user => user.Email == strEmail);
             UserDto userDto = UserAutoMapperHelper.ToUserDto(user!);
 
-            userDto.UserRole = dbContext.UserRoles!.FirstOrDefault(role => role.RoleId == userDto.UserRoleId)!.RoleName;
+            userDto.UserRole = dbContext.UserRoles.FirstOrDefault(role => role.UserRoleId == userDto.UserRoleId)!.RoleName;
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = $"User {(userDto != null ? userDto.FirstName + userDto.LastName : "Not")} Found.";
@@ -71,7 +72,7 @@ public class UserManagementFacade : IUserManagementFacade
 
         try
         {
-            User? user = dbContext.Users!.FirstOrDefault(user => user.UserId == nUserId);
+            User? user = dbContext.Users.FirstOrDefault(user => user.UserId == nUserId);
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = $"User {(user != null ? user.FirstName + user.LastName : "Not")} Found.";

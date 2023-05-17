@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Data.Entity;
 
 namespace StockPortfolioTracker.Logic;
 
@@ -28,10 +28,10 @@ public class AutoMapperInitializer
                                            cfg.CreateMap<UserRegisterDto, User>();
 
                                            // PortfolioStock Entity
-                                           cfg.CreateMap<PortfolioStockDto, PortfolioStock>();
+                                           cfg.CreateMap<PortfolioStockDto, Holding>();
 
                                            // PortfolioTransaction Entity
-                                           cfg.CreateMap<PortfolioTransactionDto, PortfolioTransaction>();
+                                           cfg.CreateMap<PortfolioTransactionDto, Transaction>();
                                        });
     }
     #endregion
