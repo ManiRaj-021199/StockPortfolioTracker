@@ -1,6 +1,5 @@
 ﻿var BootstrapMethods = BootstrapMethods || {};
 
-// Bootstrap Methods Start
 BootstrapMethods.ToggleSidebar = function()
 {
     const elemBody = document.querySelector("body");
@@ -31,4 +30,3 @@ BootstrapMethods.FocusNavItem = function(strElementId)
 
     if(element) element.classList.add("active");
 }
-// Bootstrap Methods End

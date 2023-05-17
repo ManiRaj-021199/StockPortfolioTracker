@@ -46,7 +46,7 @@ public class AuthenticationFacade : IAuthenticationFacade
             user.PasswordSalt = hashedPassword.PasswordSalt!;
             user.RegisterDate = DateTimeHelper.GetCurrentDateTime();
 
-            dbContext.Users!.Add(user);
+            dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
 
             response.ResponseCode = HttpStatusCode.OK;
@@ -93,13 +93,13 @@ public class AuthenticationFacade : IAuthenticationFacade
                 return response;
             }
 
-            UserRole userRole = dbContext.UserRoles!.FirstOrDefault(x => x.UserRoleId == user.UserRoleId)!;
+            UserRole userRole = dbContext.UserRoles.FirstOrDefault(x => x.UserRoleId == user.UserRoleId)!;
 
             user.UserRole = !string.IsNullOrEmpty(userRole.RoleName) ? userRole.RoleName : user.UserRole;
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
-            response.Result = JwtTokenHelper.GenerateJwtToken(user);
+            response.Result = JwtTokenHelper.GenerateJwtToken(user, DateTime.Now.AddDays(1));
         }
         catch(Exception err)
         {

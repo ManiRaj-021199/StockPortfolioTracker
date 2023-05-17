@@ -10,7 +10,7 @@ namespace StockPortfolioTracker.Logic;
 public class JwtTokenHelper
 {
     #region Publics
-    public static string GenerateJwtToken(UserDto userDto)
+    public static string GenerateJwtToken(UserDto userDto, DateTime dtExpires)
     {
         List<Claim> claims = new()
                              {
@@ -25,7 +25,7 @@ public class JwtTokenHelper
 
         JwtSecurityToken jwtSecurityToken = new(
                                                 claims: claims,
-                                                expires: DateTime.Now.AddDays(1),
+                                                expires: dtExpires,
                                                 signingCredentials: credentials);
         string? strJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Net;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using StockPortfolioTracker.Common;
 
@@ -16,9 +17,6 @@ public partial class RemoveStockModal
 
     [Parameter]
     public string? UserAccessToken { get; set; }
-
-    [Parameter]
-    public EventCallback UpdatePortfolio { get; set; }
 
     [Parameter]
     public List<HoldingStockDto>? HoldingStocks { get; set; }
@@ -47,16 +45,15 @@ public partial class RemoveStockModal
         this.StockNeedToRemove!.UserId = this.UserId;
         this.StockNeedToRemove.Symbol = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove.Symbol)!.Symbol!;
 
-        await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToRemove);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToRemove);
 
-        this.StockNeedToRemove = new PortfolioTransactionDto();
-        await CloseModal(RefToRemoveStockModal);
-        await this.UpdatePortfolio.InvokeAsync();
-    }
+        await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToRemoveStockModal);
 
-    private async Task CloseModal(ElementReference refElement)
-    {
-        await this.JSRuntime!.InvokeVoidAsync("BootstrapMethods.CloseModal", refElement);
+        if(apiResponse.ResponseCode == HttpStatusCode.OK)
+        {
+            this.StockNeedToRemove = new PortfolioTransactionDto();
+            await JSCommonMethodsHelper.RefreshPage(this.JSRuntime!);
+        }
     }
     #endregion
 }

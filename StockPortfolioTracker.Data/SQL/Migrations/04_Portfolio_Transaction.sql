@@ -1,4 +1,4 @@
-﻿/****** Object:  Table [stock].[PortfolioTransactions]    Script Date: 17-05-2023 11:10:23 ******/
+﻿/****** Object:  Table [Portfolio].[PortfolioTransactions]    Script Date: 17-05-2023 11:10:23 ******/
 IF  NOT EXISTS (SELECT * FROM sys.objects 
 WHERE object_id = OBJECT_ID(N'[Portfolio].[Transactions]') AND type in (N'U'))
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Net;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using Radzen;
@@ -18,9 +19,6 @@ public partial class AddStockModal
 
     [Parameter]
     public string? UserAccessToken { get; set; }
-
-    [Parameter]
-    public EventCallback UpdatePortfolio { get; set; }
 
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
@@ -47,11 +45,15 @@ public partial class AddStockModal
     {
         this.StockNeedToAdd!.UserId = this.UserId;
 
-        await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToAdd);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToAdd);
 
-        this.StockNeedToAdd = new PortfolioStockDto();
-        await CloseModal(RefToAddStockModal);
-        await this.UpdatePortfolio.InvokeAsync();
+        await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToAddStockModal);
+
+        if(apiResponse.ResponseCode == HttpStatusCode.OK)
+        {
+            this.StockNeedToAdd = new PortfolioStockDto();
+            await JSCommonMethodsHelper.RefreshPage(this.JSRuntime!);
+        }
     }
 
     private async Task StockSmartSearch(LoadDataArgs args)
@@ -66,11 +68,6 @@ public partial class AddStockModal
                                         };
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, this.UserAccessToken!, request);
         this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
-    }
-
-    private async Task CloseModal(ElementReference refElement)
-    {
-        await this.JSRuntime!.InvokeVoidAsync("BootstrapMethods.CloseModal", refElement);
     }
     #endregion
 }

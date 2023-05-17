@@ -1,11 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Logic;
 
 namespace Authentication.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = EntityUserRoles.APPLICATION)]
 public class AuthenticationController : ControllerBase
 {
     #region Fields
@@ -24,7 +25,7 @@ public class AuthenticationController : ControllerBase
     [Route("RegisterUser")]
     public async Task<BaseApiResponseDto> RegisterUser([FromBody] UserRegisterDto userRegisterDto)
     {
-        BaseApiResponseDto response = await this.authenticationService!.RegisterUser(userRegisterDto);
+        BaseApiResponseDto response = await authenticationService!.RegisterUser(userRegisterDto);
 
         return response;
     }
@@ -33,7 +34,7 @@ public class AuthenticationController : ControllerBase
     [Route("LoginUser")]
     public async Task<BaseApiResponseDto> LoginUser([FromBody] UserLoginDto userLoginDto)
     {
-        BaseApiResponseDto response = await this.authenticationService!.LoginUser(userLoginDto);
+        BaseApiResponseDto response = await authenticationService!.LoginUser(userLoginDto);
 
         return response;
     }
