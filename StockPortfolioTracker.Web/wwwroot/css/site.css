@@ -1,29 +1,24 @@
 /* Custom Styles */
 /* Data Grid */
-span.positiveValue
-{
+span.positiveValue {
 	color: #1eb91e !important;
 	font-weight: bold;
 }
 
-span.negativeValue
-{
-    color: #ff0000 !important;
-    font-weight: bold;
+span.negativeValue {
+	color: #ff0000 !important;
+	font-weight: bold;
 }
 
-.div-center
-{
+.div-center {
 	margin: 0 auto;
 }
 
-.div-center > div
-{
-	width: 100%;
-}
+	.div-center > div {
+		width: 100%;
+	}
 
-.custom-modal
-{
+.custom-modal {
 	position: fixed;
 	z-index: 999;
 	padding-top: 100px;
@@ -37,8 +32,7 @@ span.negativeValue
 	display: block;
 }
 
-.custom-modal-content
-{
+.custom-modal-content {
 	background-color: #fefefe;
 	margin: auto;
 	padding: 20px;
@@ -50,7 +44,6 @@ span.negativeValue
 }
 
 /* NavBar */
-.collapse.show
-{
+.collapse.show {
 	z-index: 999;
 }

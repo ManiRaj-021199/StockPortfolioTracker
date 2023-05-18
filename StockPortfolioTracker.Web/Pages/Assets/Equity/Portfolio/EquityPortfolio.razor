@@ -1,81 +1,88 @@
 ﻿@page "/equity-portfolio"
 @inherits EquityPortfolioBase
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
-        <div>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#addStockModal">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
-            </button>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#removeStockModal">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
-            </button>
+@if(HoldingStocks != null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
+            <div>
+                <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#addStockModal">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
+                </button>
+                <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#removeStockModal">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @if(!string.IsNullOrEmpty(Message))
+            {
+                <MessageBox Message="@Message" MessageStyleClass="@MessageStyleClass" />
+            }
+
+            <div class="table-responsive">
+                <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                                Data="@HoldingStocks" TItem="HoldingStockDto">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock" />
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity" />
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
+                            <Template Context="detail">
+                                @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="InvestedValue" Title="Total Investment">
+                            <Template Context="detail">
+                                @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.InvestedValue), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentMarketPrice" Title="CMP">
+                            <Template Context="detail">
+                                <span class="@(detail.CurrentMarketPrice > detail.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="TodayChangePercentage" Title="Change %">
+                            <Template Context="detail">
+                                @{
+                                    string withoutSymbol = detail.TodayChangePercentage!.EndsWith("%") ? detail.TodayChangePercentage[..^2] : detail.TodayChangePercentage;
+                                    double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
+                                }
+                                <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentValue" Title="Current Value">
+                            <Template Context="detail">
+                                <span class="@(detail.CurrentValue > detail.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.CurrentValue!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossAmount" Title="P/L">
+                            <Template Context="detail">
+                                <span class="@(detail.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossPercentage" Title="P/L %">
+                            <Template Context="detail">
+                                <span class="@(detail.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) detail.ProfitOrLossPercentage!, 2))%</span>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Symbol" Title="" Filterable="false" Sortable="false" Reorderable="false" Resizable="false" Width="50px">
+                            <Template>
+                                <a role="button">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        @if(!string.IsNullOrEmpty(Message))
-        {
-            <MessageBox Message="@Message" MessageStyleClass="@MessageStyleClass"/>
-        }
 
-        <div class="table-responsive">
-            <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                            Data="@HoldingStocks" TItem="HoldingStockDto">
-                <Columns>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock"/>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity"/>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
-                        <Template Context="detail">
-                            @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="InvestedValue" Title="Total Investment">
-                        <Template Context="detail">
-                            @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.InvestedValue), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentMarketPrice" Title="CMP">
-                        <Template Context="detail">
-                            <span class="@(detail.CurrentMarketPrice > detail.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="TodayChangePercentage" Title="Change %">
-                        <Template Context="detail">
-                            @{
-                                string withoutSymbol = detail.TodayChangePercentage!.EndsWith("%") ? detail.TodayChangePercentage[..^2] : detail.TodayChangePercentage;
-                                double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
-                            }
-                            <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentValue" Title="Current Value">
-                        <Template Context="detail">
-                            <span class="@(detail.CurrentValue > detail.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.CurrentValue!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossAmount" Title="P/L">
-                        <Template Context="detail">
-                            <span class="@(detail.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossPercentage" Title="P/L %">
-                        <Template Context="detail">
-                            <span class="@(detail.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) detail.ProfitOrLossPercentage!, 2))%</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Symbol" Title="" Filterable="false" Sortable="false" Reorderable="false" Resizable="false" Width="50px">
-                        <Template>
-                            <a role="button">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </a>
-                        </Template>
-                    </RadzenDataGridColumn>
-                </Columns>
-            </RadzenDataGrid>
-        </div>
-    </div>
-</div>
-
-<AddStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" />
-<RemoveStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" HoldingStocks="@HoldingStocks" />
+    <AddStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" />
+    <RemoveStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" HoldingStocks="@HoldingStocks" />
+}
+else
+{
+    <PreLoader />
+}
