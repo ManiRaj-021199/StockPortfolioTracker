@@ -11,6 +11,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @if(!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <MessageBox Message="@ErrorMessage" MessageStyleClass="@BootstrapStyles.BackgroundDanger"/>
+                    }
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>

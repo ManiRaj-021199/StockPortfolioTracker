@@ -16,17 +16,12 @@
             </div>
         </div>
         <div class="card-body">
-            @if(!string.IsNullOrEmpty(Message))
-            {
-                <MessageBox Message="@Message" MessageStyleClass="@MessageStyleClass" />
-            }
-
             <div class="table-responsive">
                 <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                                 Data="@HoldingStocks" TItem="HoldingStockDto">
                     <Columns>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock" />
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity" />
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock"/>
+                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity"/>
                         <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
                             <Template Context="detail">
                                 @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
@@ -79,10 +74,10 @@
         </div>
     </div>
 
-    <AddStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" />
-    <RemoveStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" HoldingStocks="@HoldingStocks" />
+    <AddStockModal UserId="@UserId" UserAccessToken="@UserAccessToken"/>
+    <RemoveStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" HoldingStocks="@HoldingStocks"/>
 }
 else
 {
-    <PreLoader />
+    <PreLoader/>
 }

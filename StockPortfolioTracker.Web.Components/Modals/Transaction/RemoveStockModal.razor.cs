@@ -24,6 +24,7 @@ public partial class RemoveStockModal
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
 
+    private string? ErrorMessage { get; set; }
     private PortfolioTransactionDto? StockNeedToRemove { get; set; }
     #endregion
 
@@ -42,17 +43,26 @@ public partial class RemoveStockModal
 
     private async Task RemoveStockFromPortfolio()
     {
+        HoldingStockDto? dtoHoldingStock = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove!.Symbol || x.Symbol == this.StockNeedToRemove!.Symbol);
+        if(dtoHoldingStock == null)
+        {
+            this.ErrorMessage = PortfolioMessages.InvalidStock;
+            return;
+        }
+
         this.StockNeedToRemove!.UserId = this.UserId;
-        this.StockNeedToRemove.Symbol = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove.Symbol)!.Symbol!;
+        this.StockNeedToRemove.Symbol = dtoHoldingStock.Symbol!;
 
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToRemove);
 
-        await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToRemoveStockModal);
-
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
         {
-            this.StockNeedToRemove = new PortfolioTransactionDto();
+            await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToRemoveStockModal);
             await JSCommonMethodsHelper.RefreshPage(this.JSRuntime!);
+        }
+        else
+        {
+            this.ErrorMessage = apiResponse.ResponseMessage;
         }
     }
     #endregion

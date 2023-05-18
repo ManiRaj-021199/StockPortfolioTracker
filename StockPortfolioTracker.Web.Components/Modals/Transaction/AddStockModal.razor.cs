@@ -23,6 +23,7 @@ public partial class AddStockModal
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
 
+    private string? ErrorMessage { get; set; }
     private PortfolioStockDto? StockNeedToAdd { get; set; }
     private SmartSearchResponseDto? SmartSearchStocks { get; set; }
     #endregion
@@ -47,12 +48,14 @@ public partial class AddStockModal
 
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToAdd);
 
-        await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToAddStockModal);
-
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
         {
-            this.StockNeedToAdd = new PortfolioStockDto();
+            await JSBootstrapMethodsHelper.CloseModal(this.JSRuntime!, RefToAddStockModal);
             await JSCommonMethodsHelper.RefreshPage(this.JSRuntime!);
+        }
+        else
+        {
+            this.ErrorMessage = apiResponse.ResponseMessage;
         }
     }
 
