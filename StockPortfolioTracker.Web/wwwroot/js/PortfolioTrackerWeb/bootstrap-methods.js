@@ -30,3 +30,12 @@ BootstrapMethods.FocusNavItem = function(strElementId)
 
     if(element) element.classList.add("active");
 }
+
+BootstrapMethods.MakeModalDraggable = function()
+{
+    $(".modal-dialog").draggable({
+        handle: ".modal-header",
+        scroll: false,
+        cursor: "move"
+    });
+}

@@ -1,5 +1,4 @@
 ﻿@page "/equity-watchlist"
-@using StockPortfolioTracker.Common
 @inherits EquityWatchlistBase
 
 <div class="card shadow mb-4">
@@ -66,16 +65,18 @@
             </a>
         </div>
         <div class="table-responsive">
+            @*
             <RadzenDataGrid AllowFiltering="true" AllowColumnReorder="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                             Data="@StockPrices" TItem="PriceDto" LogicalFilterOperator="LogicalFilterOperator.Or">
                 <Columns>
-                    <RadzenDataGridColumn TItem="PriceDto" Property="LongName" Title="Stock Name" Frozen="true" />
-                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketPrice.Fmt" Title="Price" Frozen="true" />
-                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketChangePercent.Fmt" Title="Price Change" Frozen="true" />
-                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayHigh.Fmt" Title="Day High" Frozen="true" />
-                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayLow.Fmt" Title="Day Low" Frozen="true" />
+                    <RadzenDataGridColumn TItem="PriceDto" Property="LongName" Title="Stock Name" Frozen="true"/>
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketPrice.Fmt" Title="Price" Frozen="true"/>
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketChangePercent.Fmt" Title="Price Change" Frozen="true"/>
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayHigh.Fmt" Title="Day High" Frozen="true"/>
+                    <RadzenDataGridColumn TItem="PriceDto" Property="RegularMarketDayLow.Fmt" Title="Day Low" Frozen="true"/>
                 </Columns>
             </RadzenDataGrid>
+            *@
         </div>
     </div>
 </div>

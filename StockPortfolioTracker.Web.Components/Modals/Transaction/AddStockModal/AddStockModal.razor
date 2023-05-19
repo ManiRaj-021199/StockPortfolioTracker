@@ -1,4 +1,5 @@
 ﻿@namespace StockPortfolioTracker.Web.Components
+@inherits AddStockModalBase
 
 <div class="modal fade" @ref="RefToAddStockModal" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="labelAddStock" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -18,6 +19,8 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>
+                            <input type="text" id="inputStockName" class="form-control" autocomplete="off" />
+                            @*
                             <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToAdd!.Symbol" Data="@SmartSearchStocks!.Quotes" TextProperty="Symbol" LoadData="StockSmartSearch">
                                 <Template Context="detail">
                                     <div class="d-flex w-100">
@@ -33,14 +36,15 @@
                                     </div>
                                 </Template>
                             </RadzenAutoComplete>
+                            *@
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputQuantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="inputQuantity" @bind="StockNeedToAdd!.Quantity"/>
+                            <input type="number" id="inputQuantity" class="form-control" @bind="StockNeedToAdd!.Quantity" />
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputBuyPrice" class="form-label">Buy Price</label>
-                            <input type="number" class="form-control" id="inputBuyPrice" step=".01" @bind="StockNeedToAdd.BuyPrice"/>
+                            <input type="number" id="inputBuyPrice" class="form-control" step=".01" @bind="StockNeedToAdd.BuyPrice"/>
                         </div>
                     </div>
                 </div>

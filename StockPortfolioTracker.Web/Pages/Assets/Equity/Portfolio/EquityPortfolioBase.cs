@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.QuickGrid;
 using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using HttpMethods = Microsoft.AspNetCore.Http.HttpMethods;
@@ -11,10 +12,17 @@ public class EquityPortfolioBase : ComponentBase
 {
     #region Fields
     public string? Message = string.Empty;
-    public string? MessageStyleClass = string.Empty;
 
     public int UserId = -1;
     public string? UserAccessToken = string.Empty;
+    
+    protected readonly GridSort<HoldingStockDto> SortByStockName = GridSort<HoldingStockDto>.ByDescending(x => x.StockName);
+    protected readonly GridSort<HoldingStockDto> SortByStockQuantity = GridSort<HoldingStockDto>.ByDescending(x => x.Quantity);
+    protected readonly GridSort<HoldingStockDto> SortByStockInvestment = GridSort<HoldingStockDto>.ByDescending(x => x.InvestedValue);
+    protected readonly GridSort<HoldingStockDto> SortByStockChange = GridSort<HoldingStockDto>.ByDescending(x => x.TodayChangePercentage);
+    protected readonly GridSort<HoldingStockDto> SortByStockCurrentValue = GridSort<HoldingStockDto>.ByDescending(x => x.CurrentValue);
+    protected readonly GridSort<HoldingStockDto> SortByStockPL = GridSort<HoldingStockDto>.ByDescending(x => x.ProfitOrLossAmount);
+    protected readonly GridSort<HoldingStockDto> SortByStockPLPercentage = GridSort<HoldingStockDto>.ByDescending(x => x.ProfitOrLossPercentage);
     #endregion
 
     #region Properties

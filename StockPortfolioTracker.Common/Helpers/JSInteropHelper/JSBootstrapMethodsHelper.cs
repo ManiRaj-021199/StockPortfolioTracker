@@ -10,5 +10,10 @@ public class JSBootstrapMethodsHelper
     {
         await JSRuntime.InvokeVoidAsync("BootstrapMethods.CloseModal", refElement);
     }
+
+    public static async Task MakeModalDraggable(IJSRuntime JSRuntime)
+    {
+        await JSRuntime.InvokeVoidAsync("BootstrapMethods.MakeModalDraggable");
+    }
     #endregion
 }

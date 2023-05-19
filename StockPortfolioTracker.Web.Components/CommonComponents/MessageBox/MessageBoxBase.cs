@@ -2,7 +2,7 @@
 
 namespace StockPortfolioTracker.Web.Components;
 
-public partial class MessageBox
+public class MessageBoxBase : ComponentBase
 {
     #region Properties
     [Parameter]

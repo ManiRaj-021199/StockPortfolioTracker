@@ -5,10 +5,10 @@ using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Web.Components;
 
-public partial class RemoveStockModal
+public class RemoveStockModalBase : ComponentBase
 {
     #region Fields
-    private ElementReference RefToRemoveStockModal;
+    protected ElementReference RefToRemoveStockModal;
     #endregion
 
     #region Properties
@@ -21,11 +21,11 @@ public partial class RemoveStockModal
     [Parameter]
     public List<HoldingStockDto>? HoldingStocks { get; set; }
 
+    protected string? ErrorMessage { get; set; }
+    protected PortfolioTransactionDto? StockNeedToRemove { get; set; }
+
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
-
-    private string? ErrorMessage { get; set; }
-    private PortfolioTransactionDto? StockNeedToRemove { get; set; }
     #endregion
 
     #region Protecteds
@@ -33,15 +33,13 @@ public partial class RemoveStockModal
     {
         InitializeProperties();
     }
-    #endregion
 
-    #region Privates
-    private void InitializeProperties()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        this.StockNeedToRemove = new PortfolioTransactionDto();
+        await JSBootstrapMethodsHelper.MakeModalDraggable(this.JSRuntime!);
     }
 
-    private async Task RemoveStockFromPortfolio()
+    protected async Task RemoveStockFromPortfolio()
     {
         HoldingStockDto? dtoHoldingStock = this.HoldingStocks!.FirstOrDefault(x => x.StockName == this.StockNeedToRemove!.Symbol || x.Symbol == this.StockNeedToRemove!.Symbol);
         if(dtoHoldingStock == null)
@@ -64,6 +62,13 @@ public partial class RemoveStockModal
         {
             this.ErrorMessage = apiResponse.ResponseMessage;
         }
+    }
+    #endregion
+
+    #region Privates
+    private void InitializeProperties()
+    {
+        this.StockNeedToRemove = new PortfolioTransactionDto();
     }
     #endregion
 }

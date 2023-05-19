@@ -1,4 +1,5 @@
 ﻿@namespace StockPortfolioTracker.Web.Components
+@inherits RemoveStockModalBase
 
 <div class="modal fade" @ref="RefToRemoveStockModal" id="removeStockModal" tabindex="-1" role="dialog" aria-labelledby="labelRemoveStock" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -19,6 +20,8 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputRemoveStockName" class="form-label">Stock</label>
+                            <input type="text" id="inputRemoveStockName" class="form-control" autocomplete="off" />
+                            @*
                             <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
                                 <Template Context="detail">
                                     <div class="d-flex w-100">
@@ -27,6 +30,7 @@
                                     </div>
                                 </Template>
                             </RadzenAutoComplete>
+                            *@
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputRemoveQuantity" class="form-label">Quantity</label>

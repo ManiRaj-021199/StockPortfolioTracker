@@ -1,16 +1,14 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
-using Radzen;
 using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Web.Components;
 
-public partial class AddStockModal
+public class AddStockModalBase : ComponentBase
 {
     #region Fields
-    private ElementReference RefToAddStockModal;
+    protected ElementReference RefToAddStockModal;
     #endregion
 
     #region Properties
@@ -20,12 +18,12 @@ public partial class AddStockModal
     [Parameter]
     public string? UserAccessToken { get; set; }
 
+    protected string? ErrorMessage { get; set; }
+    protected PortfolioStockDto? StockNeedToAdd { get; set; }
+    protected SmartSearchResponseDto? SmartSearchStocks { get; set; }
+
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
-
-    private string? ErrorMessage { get; set; }
-    private PortfolioStockDto? StockNeedToAdd { get; set; }
-    private SmartSearchResponseDto? SmartSearchStocks { get; set; }
     #endregion
 
     #region Protecteds
@@ -33,16 +31,13 @@ public partial class AddStockModal
     {
         InitializeProperties();
     }
-    #endregion
 
-    #region Privates
-    private void InitializeProperties()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        this.SmartSearchStocks = new SmartSearchResponseDto();
-        this.StockNeedToAdd = new PortfolioStockDto();
+        await JSBootstrapMethodsHelper.MakeModalDraggable(this.JSRuntime!);
     }
 
-    private async Task AddStockToPortfolio()
+    protected async Task AddStockToPortfolio()
     {
         this.StockNeedToAdd!.UserId = this.UserId;
 
@@ -58,7 +53,17 @@ public partial class AddStockModal
             this.ErrorMessage = apiResponse.ResponseMessage;
         }
     }
+    #endregion
 
+    #region Privates
+    private void InitializeProperties()
+    {
+        this.SmartSearchStocks = new SmartSearchResponseDto();
+        this.StockNeedToAdd = new PortfolioStockDto();
+    }
+    #endregion
+
+    /*
     private async Task StockSmartSearch(LoadDataArgs args)
     {
         if(args.Filter.Length < 3) return;
@@ -72,5 +77,5 @@ public partial class AddStockModal
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, this.UserAccessToken!, request);
         this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
     }
-    #endregion
+    */
 }

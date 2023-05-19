@@ -17,59 +17,39 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                                Data="@HoldingStocks" TItem="HoldingStockDto">
-                    <Columns>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock"/>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity"/>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
-                            <Template Context="detail">
-                                @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="InvestedValue" Title="Total Investment">
-                            <Template Context="detail">
-                                @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.InvestedValue), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentMarketPrice" Title="CMP">
-                            <Template Context="detail">
-                                <span class="@(detail.CurrentMarketPrice > detail.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="TodayChangePercentage" Title="Change %">
-                            <Template Context="detail">
-                                @{
-                                    string withoutSymbol = detail.TodayChangePercentage!.EndsWith("%") ? detail.TodayChangePercentage[..^2] : detail.TodayChangePercentage;
-                                    double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
-                                }
-                                <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentValue" Title="Current Value">
-                            <Template Context="detail">
-                                <span class="@(detail.CurrentValue > detail.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.CurrentValue!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossAmount" Title="P/L">
-                            <Template Context="detail">
-                                <span class="@(detail.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossPercentage" Title="P/L %">
-                            <Template Context="detail">
-                                <span class="@(detail.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) detail.ProfitOrLossPercentage!, 2))%</span>
-                            </Template>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="HoldingStockDto" Property="Symbol" Title="" Filterable="false" Sortable="false" Reorderable="false" Resizable="false" Width="50px">
-                            <Template>
-                                <a role="button">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </a>
-                            </Template>
-                        </RadzenDataGridColumn>
-                    </Columns>
-                </RadzenDataGrid>
+                <QuickGrid Items="@HoldingStocks.AsQueryable()" Class="table table-bordered" ResizableColumns="true">
+                    <TemplateColumn Title="Stock" SortBy="@SortByStockName">
+                        <span>@context.StockName</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Quantity" SortBy="@SortByStockQuantity">
+                        <span>@context.Quantity</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Average Price">
+                        <span>@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.AveragePrice), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Total Investment" SortBy="@SortByStockInvestment">
+                        <span>@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.InvestedValue), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="CMP">
+                        <span class="@(context.CurrentMarketPrice > context.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Change %" SortBy="@SortByStockChange">
+                        @{
+                            string withoutSymbol = context.TodayChangePercentage!.EndsWith("%") ? context.TodayChangePercentage[..^2] : context.TodayChangePercentage;
+                            double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
+                        }
+                        <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Current Value" SortBy="@SortByStockCurrentValue">
+                        <span class="@(context.CurrentValue > context.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) context.CurrentValue!), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="P/L" SortBy="@SortByStockPL">
+                        <span class="@(context.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) context.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="P/L %" SortBy="SortByStockPLPercentage">
+                        <span class="@(context.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) context.ProfitOrLossPercentage!, 2))%</span>
+                    </TemplateColumn>
+                </QuickGrid>
             </div>
         </div>
     </div>
