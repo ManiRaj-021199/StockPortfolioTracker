@@ -1,4 +1,4 @@
-﻿/****** Object:  Table [User].[UserRoles]    Script Date: 17-05-2023 11:01:45 ******/
+﻿/****** Object:  Table [Clients].[ClientProfiles]    Script Date: 17-05-2023 11:01:45 ******/
 IF  NOT EXISTS (SELECT * FROM sys.objects 
 WHERE object_id = OBJECT_ID(N'[Clients].[ClientProfiles]') AND type in (N'U'))
 
