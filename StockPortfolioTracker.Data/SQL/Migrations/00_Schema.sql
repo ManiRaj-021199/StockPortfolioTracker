@@ -12,3 +12,13 @@ IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Clients'))
 BEGIN
     EXEC ('CREATE SCHEMA [Clients] AUTHORIZATION [dbo]')
 END
+
+IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Stock')) 
+BEGIN
+    EXEC ('CREATE SCHEMA [Stock] AUTHORIZATION [dbo]')
+END
+
+IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Organization')) 
+BEGIN
+    EXEC ('CREATE SCHEMA [Organization] AUTHORIZATION [dbo]')
+END
