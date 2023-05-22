@@ -1,6 +1,11 @@
-﻿using StockPortfolioTracker.Common;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using StockPortfolioTracker.Data;
+using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data.PortfolioContext;
 using StockPortfolioTracker.Logic;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Portfolio;
 
@@ -27,6 +32,35 @@ public class Startup
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services
+               .AddSwaggerGen(options =>
+                              {
+                                  options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                                                                          {
+                                                                              Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+                                                                              In = ParameterLocation.Header,
+                                                                              Name = "Authorization",
+                                                                              Type = SecuritySchemeType.ApiKey
+                                                                          });
+
+                                  options.OperationFilter<SecurityRequirementsOperationFilter>();
+                              });
+
+        // Authentication
+        builder.Services
+               .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+                             {
+                                 options.TokenValidationParameters = new TokenValidationParameters
+                                                                     {
+                                                                         ValidateIssuerSigningKey = true,
+                                                                         IssuerSigningKey = JwtTokenHelper.GetSecretKey(),
+                                                                         ValidateIssuer = false,
+                                                                         ValidateAudience = false
+                                                                     };
+                             });
+
+        // Services
         builder.Services.AddDbContext<PortfolioTrackerDbContext>();
         builder.Services.AddScoped<IPortfolioFacade, PortfolioFacade>();
     }
@@ -43,6 +77,7 @@ public class Startup
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

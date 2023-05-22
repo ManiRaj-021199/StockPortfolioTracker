@@ -12,11 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
-    <PackageReference Include="Radzen.Blazor" Version="4.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="0.1.0-alpha.22351.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StockPortfolioTracker.Common\StockPortfolioTracker.Common.csproj" />
+    <ProjectReference Include="..\StockPortfolioTracker.Web.Components\StockPortfolioTracker.Web.Components.csproj" />
   </ItemGroup>
 
 </Project>

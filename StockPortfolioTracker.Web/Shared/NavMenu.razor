@@ -1,4 +1,6 @@
 ﻿@using StockPortfolioTracker.Common
+@inject IJSRuntime JSRuntime
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -37,12 +39,19 @@
         </a>
         <div id="collapseEquitySection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                @{
+                    const string ciWatchlist = "ciWatchlist";
+                    const string ciRecommendation = "ciRecommendation";
+                    const string ciPortfolio = "ciPortfolio";
+                    const string ciTransactions = "ciTransactions";
+                }
+
                 <h6 class="collapse-header">Watchlist:</h6>
-                <a class="collapse-item" href="/equity-watchlist">WatchList</a>
-                <a class="collapse-item" href="/equity-recommendations">Recommendation</a>
+                <a id="@ciWatchlist" class="collapse-item" href="/equity-watchlist" @onclick="() => FocusNavItem(ciWatchlist)">WatchList</a>
+                <a id="@ciRecommendation" class="collapse-item" href="/equity-recommendations" @onclick="() => FocusNavItem(ciRecommendation)">Recommendation</a>
                 <h6 class="collapse-header">Portfolio:</h6>
-                <a class="collapse-item" href="/equity-portfolio">Portfolio</a>
-                <a class="collapse-item" href="#">Transactions</a>
+                <a id="@ciPortfolio" class="collapse-item" href="/equity-portfolio" @onclick="() => FocusNavItem(ciPortfolio)">Portfolio</a>
+                <a id="@ciTransactions" class="collapse-item" href="#" @onclick="() => FocusNavItem(ciTransactions)">Transactions</a>
             </div>
         </div>
     </li>
@@ -57,7 +66,11 @@
         <div id="collapseDebtSection" class="collapse" aria-labelledby="headingUtilities"
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Bonds</a>
+                @{
+                    const string ciBonds = "ciBonds";
+                }
+
+                <a id="@ciBonds" class="collapse-item" href="#" @onclick="() => FocusNavItem(ciBonds)">Bonds</a>
             </div>
         </div>
     </li>
@@ -76,9 +89,30 @@
             <div id="collapseAdminSection" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="#">Users</a>
+                    <a id="ciUsers" class="collapse-item" href="#">Users</a>
                 </div>
             </div>
         </li>
     </AuthorizeView>
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle" @onclick="SidebarToggled"></button>
+    </div>
 </ul>
+
+
+@code
+{
+    private async Task SidebarToggled()
+    {
+        await this.JSRuntime!.InvokeVoidAsync("BootstrapMethods.ToggleSidebar");
+    }
+
+    private async Task FocusNavItem(string strElementId)
+    {
+        await this.JSRuntime!.InvokeVoidAsync("BootstrapMethods.FocusNavItem", strElementId);
+    }
+}

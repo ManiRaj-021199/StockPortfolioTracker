@@ -9,6 +9,10 @@ namespace StockPortfolioTracker.Web;
 
 public class LoginBase : ComponentBase
 {
+    #region Fields
+    protected bool IsPreloaderEnable;
+    #endregion
+
     #region Properties
     [Inject]
     public AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
@@ -32,6 +36,8 @@ public class LoginBase : ComponentBase
 
     protected async Task ValidateUser()
     {
+        IsPreloaderEnable = true;
+
         BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, string.Empty, this.UserLoginDto!);
 
         if(response.ResponseCode != HttpStatusCode.OK)

@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
+using StockPortfolioTracker.Logic;
 
 namespace StockPortfolioTracker.Common;
 
@@ -14,6 +15,20 @@ public static class HttpClientHelper
 
         try
         {
+            if(string.IsNullOrEmpty(strAccessToken))
+            {
+                UserDto user = new()
+                               {
+                                   UserId = 0,
+                                   FirstName = "Application",
+                                   LastName = "User",
+                                   Email = "application@gmail.com",
+                                   UserRole = EntityUserRoles.APPLICATION
+                               };
+
+                strAccessToken = JwtTokenHelper.GenerateJwtToken(user, DateTime.Now.AddMinutes(30));
+            }
+
             HttpClient httpClient = new()
                                     {
                                         BaseAddress = new Uri(strUrl)

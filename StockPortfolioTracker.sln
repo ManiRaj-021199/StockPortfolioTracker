@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Communication", "MicroServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio", "MicroServices\Portfolio\Portfolio.csproj", "{19706F2A-7AF4-4748-9728-F464BB22E735}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchlist", "MicroServices\Watchlist\Watchlist.csproj", "{23E07E71-97DB-4BCE-A067-4AF17759D030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchlist", "MicroServices\Watchlist\Watchlist.csproj", "{23E07E71-97DB-4BCE-A067-4AF17759D030}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockPortfolioTracker.Web.Components", "StockPortfolioTracker.Web.Components\StockPortfolioTracker.Web.Components.csproj", "{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{23E07E71-97DB-4BCE-A067-4AF17759D030}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23E07E71-97DB-4BCE-A067-4AF17759D030}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23E07E71-97DB-4BCE-A067-4AF17759D030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

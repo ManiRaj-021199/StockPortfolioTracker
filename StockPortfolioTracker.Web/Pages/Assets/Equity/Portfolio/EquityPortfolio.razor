@@ -1,171 +1,63 @@
 ﻿@page "/equity-portfolio"
 @inherits EquityPortfolioBase
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
-        <div>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" @onclick="() => bIsAddStockModalOpen = true">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
-            </button>
-            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" @onclick="() => bIsRemoveStockModalOpen = true">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        @if(!string.IsNullOrEmpty(Message))
-        {
-            <div class="row text-center mb-3 div-center">
-                <div class="card @MessageStyleClass text-white shadow">
-                    <div class="card-body text-center">
-                        @Message
-                    </div>
-                </div>
+@if(HoldingStocks != null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Portfolio</h6>
+            <div>
+                <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#addStockModal">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Add Stock
+                </button>
+                <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#removeStockModal">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Remove Stock
+                </button>
             </div>
-        }
-        <div class="table-responsive">
-            <RadzenDataGrid AllowColumnReorder="true" AllowColumnResize="true" AllowSorting="true" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                            Data="@HoldingStocks" TItem="HoldingStockDto">
-                <Columns>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="StockName" Title="Stock"/>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="Quantity" Title="Quantity"/>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="AveragePrice" Title="Average Price">
-                        <Template Context="detail">
-                            @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.AveragePrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="InvestedValue" Title="Total Investment">
-                        <Template Context="detail">
-                            @TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.InvestedValue), UtilsHelper.GetCurrencyUnicode(detail.Currency!))
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentMarketPrice" Title="CMP">
-                        <Template Context="detail">
-                            <span class="@(detail.CurrentMarketPrice > detail.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(detail.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="TodayChangePercentage" Title="Change %">
-                        <Template Context="detail">
-                            @{
-                                string withoutSymbol = detail.TodayChangePercentage!.EndsWith("%") ? detail.TodayChangePercentage[..^2] : detail.TodayChangePercentage;
-                                double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
-                            }
-                            <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="CurrentValue" Title="Current Value">
-                        <Template Context="detail">
-                            <span class="@(detail.CurrentValue > detail.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.CurrentValue!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossAmount" Title="P/L">
-                        <Template Context="detail">
-                            <span class="@(detail.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) detail.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(detail.Currency!))</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="HoldingStockDto" Property="ProfitOrLossPercentage" Title="P/L %">
-                        <Template Context="detail">
-                            <span class="@(detail.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) detail.ProfitOrLossPercentage!, 2))%</span>
-                        </Template>
-                    </RadzenDataGridColumn>
-                </Columns>
-            </RadzenDataGrid>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <QuickGrid Items="@HoldingStocks.AsQueryable()" Class="table table-bordered" ResizableColumns="true">
+                    <TemplateColumn Title="Stock" SortBy="@SortByStockName">
+                        <span>@context.StockName</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Quantity" SortBy="@SortByStockQuantity">
+                        <span>@context.Quantity</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Average Price">
+                        <span>@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.AveragePrice), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Total Investment" SortBy="@SortByStockInvestment">
+                        <span>@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.InvestedValue), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="CMP">
+                        <span class="@(context.CurrentMarketPrice > context.AveragePrice ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble(context.CurrentMarketPrice), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Change %" SortBy="@SortByStockChange">
+                        @{
+                            string withoutSymbol = context.TodayChangePercentage!.EndsWith("%") ? context.TodayChangePercentage[..^2] : context.TodayChangePercentage;
+                            double withoutSymbolValue = Math.Round(double.Parse(withoutSymbol!), 2);
+                        }
+                        <span class="@(withoutSymbolValue > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(withoutSymbolValue)%</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Current Value" SortBy="@SortByStockCurrentValue">
+                        <span class="@(context.CurrentValue > context.InvestedValue ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) context.CurrentValue!), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="P/L" SortBy="@SortByStockPL">
+                        <span class="@(context.ProfitOrLossAmount > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@TypeCastingHelper.ConvertToMoney(MathHelper.GetTwoPrecisionDouble((double) context.ProfitOrLossAmount!), UtilsHelper.GetCurrencyUnicode(context.Currency!))</span>
+                    </TemplateColumn>
+                    <TemplateColumn Title="P/L %" SortBy="SortByStockPLPercentage">
+                        <span class="@(context.ProfitOrLossPercentage > 0 ? ColorCodeClassNames.GridCellPositiveValue : ColorCodeClassNames.GridCellNegativeValue)">@(Math.Round((double) context.ProfitOrLossPercentage!, 2))%</span>
+                    </TemplateColumn>
+                </QuickGrid>
+            </div>
         </div>
     </div>
-</div>
 
-
-@if(bIsAddStockModalOpen)
-{
-    <div class="custom-modal">
-        <div class="custom-modal-content">
-            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Stock</h5>
-                    <button class="close" type="button" @onclick="() => bIsAddStockModalOpen = false">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="inputStockName" class="form-label">Stock Name</label>
-                            <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value=@StockNeedToAdd!.Symbol Data=@SmartSearchStocks!.Quotes TextProperty="Symbol" LoadData="StockSmartSearch">
-                                <Template Context="detail">
-                                    <div class="d-flex w-100">
-                                        @if(detail.LongName != null)
-                                        {
-                                            <h6 class="w-75">@detail.LongName</h6>
-                                        }
-                                        else
-                                        {
-                                            <h6 class="w-75">@detail.ShortName[0].ToString().ToUpper()@detail.ShortName.Substring(1).ToLower()</h6>
-                                        }
-                                        <h6 class="w-25 text-primary">@detail.ExchDisp</h6>
-                                    </div>
-                                </Template>
-                            </RadzenAutoComplete>
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputQuantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="inputQuantity" @bind="StockNeedToAdd!.Quantity" />
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputBuyPrice" class="form-label">Buy Price</label>
-                            <input type="number" class="form-control" id="inputBuyPrice" step=".01" @bind="StockNeedToAdd.BuyPrice" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" type="submit">Add</button>
-                    <button class="btn btn-secondary" type="button" @onclick="() => bIsAddStockModalOpen = false">Cancel</button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
+    <AddStockModal UserId="@UserId" UserAccessToken="@UserAccessToken"/>
+    <RemoveStockModal UserId="@UserId" UserAccessToken="@UserAccessToken" HoldingStocks="@HoldingStocks"/>
 }
-
-
-@if(bIsRemoveStockModalOpen)
+else
 {
-    <div class="custom-modal">
-        <div class="custom-modal-content">
-            <EditForm Model="@StockNeedToRemove" OnValidSubmit="RemoveStockFromPortfolio">
-                <div class="modal-header">
-                    <h5 class="modal-title">Remove Stock</h5>
-                    <button class="close" type="button" @onclick="() => bIsRemoveStockModalOpen = false">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="inputRemoveStockName" class="form-label">Stock</label>
-                            <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
-                                <Template Context="detail">
-                                    <div class="d-flex w-100">
-                                        <h6 class="w-75">@detail.StockName</h6>
-                                        <h6 class="w-25 text-primary">@detail.Quantity</h6>
-                                    </div>
-                                </Template>
-                            </RadzenAutoComplete>
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputRemoveQuantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="inputRemoveQuantity" @bind="StockNeedToRemove!.Quantity" />
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="inputSellPrice" class="form-label">Sell Price</label>
-                            <input type="number" class="form-control" id="inputSellPrice" @bind="StockNeedToRemove.SellPrice" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" type="submit">Remove</button>
-                    <button class="btn btn-secondary" type="button" @onclick="() => bIsRemoveStockModalOpen = false">Cancel</button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
+    <PreLoader/>
 }

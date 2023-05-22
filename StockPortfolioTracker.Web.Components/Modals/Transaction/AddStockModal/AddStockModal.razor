@@ -1,0 +1,58 @@
+﻿@namespace StockPortfolioTracker.Web.Components
+@inherits AddStockModalBase
+
+<div class="modal fade" @ref="RefToAddStockModal" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="labelAddStock" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelAddStock">Add Stock</h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <MessageBox Message="@ErrorMessage" MessageStyleClass="@BootstrapStyles.BackgroundDanger"/>
+                    }
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="inputStockName" class="form-label">Stock Name</label>
+                            <input type="text" id="inputStockName" class="form-control" autocomplete="off" />
+                            @*
+                            <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToAdd!.Symbol" Data="@SmartSearchStocks!.Quotes" TextProperty="Symbol" LoadData="StockSmartSearch">
+                                <Template Context="detail">
+                                    <div class="d-flex w-100">
+                                        @if(detail.LongName != null)
+                                        {
+                                            <h6 class="w-75">@detail.LongName</h6>
+                                        }
+                                        else
+                                        {
+                                            <h6 class="w-75">@detail.ShortName[0].ToString().ToUpper()@detail.ShortName.Substring(1).ToLower()</h6>
+                                        }
+                                        <h6 class="w-25 text-primary">@detail.ExchDisp</h6>
+                                    </div>
+                                </Template>
+                            </RadzenAutoComplete>
+                            *@
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputQuantity" class="form-label">Quantity</label>
+                            <input type="number" id="inputQuantity" class="form-control" @bind="StockNeedToAdd!.Quantity" />
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="inputBuyPrice" class="form-label">Buy Price</label>
+                            <input type="number" id="inputBuyPrice" class="form-control" step=".01" @bind="StockNeedToAdd.BuyPrice"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Add</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

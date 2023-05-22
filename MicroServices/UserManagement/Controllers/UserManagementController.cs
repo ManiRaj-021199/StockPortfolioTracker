@@ -6,6 +6,7 @@ namespace UserManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = EntityUserRoles.ALL_USERS)]
 public class UserManagementController : ControllerBase
 {
     #region Fields
