@@ -16,6 +16,8 @@ public partial class PortfolioTrackerDbContext : DbContext
     {
     }
 
+    public virtual DbSet<ClientProfile> ClientProfiles { get; set; }
+
     public virtual DbSet<Holding> Holdings { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
@@ -28,6 +30,21 @@ public partial class PortfolioTrackerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ClientProfile>(entity =>
+        {
+            entity.HasKey(e => e.ClientProfileId).HasName("PK__ClientPr__08E213792C05F6B3");
+
+            entity.ToTable("ClientProfiles", "Clients");
+
+            entity.Property(e => e.ClientEmail).HasMaxLength(75);
+            entity.Property(e => e.ClientName).HasMaxLength(50);
+
+            entity.HasOne(d => d.ClientRole).WithMany(p => p.ClientProfiles)
+                .HasForeignKey(d => d.ClientRoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ClientPro__Clien__6EF57B66");
+        });
+
         modelBuilder.Entity<Holding>(entity =>
         {
             entity.HasKey(e => e.HoldingStockId).HasName("PK__Holdings__E4CDB4E74FD60D30");
