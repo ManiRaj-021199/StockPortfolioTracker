@@ -1,8 +1,4 @@
-﻿using System.Net;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using StockPortfolioTracker.Common;
-using StockPortfolioTracker.Data.Entity;
+﻿using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data.PortfolioContext;
 
 namespace StockPortfolioTracker.Logic;
@@ -10,102 +6,34 @@ namespace StockPortfolioTracker.Logic;
 public class AuthenticationFacade : IAuthenticationFacade
 {
     #region Fields
-    private readonly PortfolioTrackerDbContext dbContext;
+    private readonly AuthenticationBL blAuthentication;
     #endregion
 
     #region Constructors
     public AuthenticationFacade(PortfolioTrackerDbContext dbContext)
     {
-        this.dbContext = dbContext;
+        blAuthentication = new AuthenticationBL(dbContext);
     }
     #endregion
 
     #region Publics
+    public Task<BaseApiResponseDto> GenerateAccessToken(string strSource)
+    {
+        BaseApiResponseDto response = blAuthentication.GenerateAccessToken(strSource).Result;
+
+        return Task.FromResult(response);
+    }
+
     public async Task<BaseApiResponseDto> RegisterUser(UserRegisterDto userRegisterDto)
     {
-        BaseApiResponseDto response = new();
-
-        try
-        {
-            // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, string.Empty, null!);
-
-            if(apiResponse.Result != null)
-            {
-                response.ResponseCode = HttpStatusCode.Accepted;
-                response.ResponseMessage = AuthenticationMessages.UserAlreadyRegistered;
-
-                return response;
-            }
-
-            PasswordHasherDto hashedPassword = PasswordHashingHelper.EncryptPassword(userRegisterDto.Password!);
-
-            User user = UserAutoMapperHelper.ToUser(userRegisterDto);
-            user.UserRoleId = EntityUserRoles.USERID;
-            user.PasswordHash = hashedPassword.PasswordHash!;
-            user.PasswordSalt = hashedPassword.PasswordSalt!;
-            user.RegisterDate = DateTimeHelper.GetCurrentDateTime();
-
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();
-
-            response.ResponseCode = HttpStatusCode.OK;
-            response.ResponseMessage = AuthenticationMessages.UserRegisteredSuccess;
-        }
-        catch(Exception err)
-        {
-            response.ResponseCode = HttpStatusCode.BadRequest;
-            response.ResponseMessage = err.Message;
-        }
+        BaseApiResponseDto response = await blAuthentication.RegisterUser(userRegisterDto);
 
         return response;
     }
 
     public async Task<BaseApiResponseDto> LoginUser(UserLoginDto userLoginDto)
     {
-        BaseApiResponseDto response = new();
-
-        try
-        {
-            // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, string.Empty, null!);
-
-            if(apiResponse.Result == null)
-            {
-                response.ResponseCode = HttpStatusCode.Accepted;
-                response.ResponseMessage = AuthenticationMessages.UserNotRegistered;
-
-                return response;
-            }
-
-            UserDto? user = JsonConvert.DeserializeObject<UserDto>(((JObject) apiResponse.Result).ToString(Formatting.None));
-
-            bool bIsValidUser = PasswordHashingHelper.VerifyHashedPassword(userLoginDto.Password!, new PasswordHasherDto
-                                                                                                   {
-                                                                                                       PasswordHash = user!.PasswordHash,
-                                                                                                       PasswordSalt = user.PasswordSalt
-                                                                                                   });
-
-            if(!bIsValidUser)
-            {
-                response.ResponseCode = HttpStatusCode.Accepted;
-                response.ResponseMessage = AuthenticationMessages.IncorrectPassword;
-                return response;
-            }
-
-            UserRole userRole = dbContext.UserRoles.FirstOrDefault(x => x.UserRoleId == user.UserRoleId)!;
-
-            user.UserRole = !string.IsNullOrEmpty(userRole.RoleName) ? userRole.RoleName : user.UserRole;
-
-            response.ResponseCode = HttpStatusCode.OK;
-            response.ResponseMessage = AuthenticationMessages.UserLoginSuccess;
-            response.Result = JwtTokenHelper.GenerateJwtToken(user, DateTime.Now.AddDays(1));
-        }
-        catch(Exception err)
-        {
-            response.ResponseCode = HttpStatusCode.BadRequest;
-            response.ResponseMessage = err.Message;
-        }
+        BaseApiResponseDto response = await blAuthentication.LoginUser(userLoginDto);
 
         return response;
     }

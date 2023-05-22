@@ -21,6 +21,15 @@ public class AuthenticationController : ControllerBase
     #endregion
 
     #region Publics
+    [HttpGet]
+    [Route("GenerateAccessToken/{strSource}"), AllowAnonymous]
+    public async Task<BaseApiResponseDto> GetAccessToken(string strSource)
+    {
+        BaseApiResponseDto response = await authenticationService!.GenerateAccessToken(strSource);
+
+        return response;
+    }
+
     [HttpPost]
     [Route("RegisterUser")]
     public async Task<BaseApiResponseDto> RegisterUser([FromBody] UserRegisterDto userRegisterDto)

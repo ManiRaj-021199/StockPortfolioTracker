@@ -7,3 +7,8 @@ IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Portfolio'))
 BEGIN
     EXEC ('CREATE SCHEMA [Portfolio] AUTHORIZATION [dbo]')
 END
+
+IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Clients')) 
+BEGIN
+    EXEC ('CREATE SCHEMA [Clients] AUTHORIZATION [dbo]')
+END
