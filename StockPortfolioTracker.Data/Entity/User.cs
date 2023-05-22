@@ -26,4 +26,6 @@ public partial class User
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual UserRole UserRole { get; set; } = null!;
+
+    public virtual ICollection<WatchlistCategory> WatchlistCategories { get; set; } = new List<WatchlistCategory>();
 }

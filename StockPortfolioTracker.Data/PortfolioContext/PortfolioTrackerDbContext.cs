@@ -26,6 +26,10 @@ public partial class PortfolioTrackerDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
+    public virtual DbSet<Watchlist> Watchlists { get; set; }
+
+    public virtual DbSet<WatchlistCategory> WatchlistCategories { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionStrings.DbConnectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -95,6 +99,34 @@ public partial class PortfolioTrackerDbContext : DbContext
 
             entity.Property(e => e.UserRoleId).ValueGeneratedNever();
             entity.Property(e => e.RoleName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Watchlist>(entity =>
+        {
+            entity.HasKey(e => e.WatchlistId).HasName("PK__Watchlis__48DE55CBBF7E8B19");
+
+            entity.ToTable("Watchlist", "Stock");
+
+            entity.Property(e => e.Symbol).HasMaxLength(50);
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Watchlists)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Watchlist__Categ__74AE54BC");
+        });
+
+        modelBuilder.Entity<WatchlistCategory>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("PK__Watchlis__19093A0BECE75DD7");
+
+            entity.ToTable("WatchlistCategory", "Stock");
+
+            entity.Property(e => e.CategoryName).HasMaxLength(50);
+
+            entity.HasOne(d => d.User).WithMany(p => p.WatchlistCategories)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Watchlist__UserI__71D1E811");
         });
 
         OnModelCreatingPartial(modelBuilder);
