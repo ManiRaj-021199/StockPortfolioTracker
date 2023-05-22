@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchlist", "MicroServices\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockPortfolioTracker.Web.Components", "StockPortfolioTracker.Web.Components\StockPortfolioTracker.Web.Components.csproj", "{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recommendation", "MicroServices\Recommendation\Recommendation.csproj", "{1D822CC9-AD7B-4E67-8A04-2EBE62628C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E505249-46B0-4B7B-AAD6-D475C8C56A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D822CC9-AD7B-4E67-8A04-2EBE62628C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D822CC9-AD7B-4E67-8A04-2EBE62628C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D822CC9-AD7B-4E67-8A04-2EBE62628C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D822CC9-AD7B-4E67-8A04-2EBE62628C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{D9DEE605-7EAF-4F77-8601-D15078C4BAAD} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 		{19706F2A-7AF4-4748-9728-F464BB22E735} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 		{23E07E71-97DB-4BCE-A067-4AF17759D030} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
+		{1D822CC9-AD7B-4E67-8A04-2EBE62628C01} = {46DE8486-8B5D-41B9-95FF-BDDBD9715817}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C9EBC27-80E4-4FD4-A796-F57DF4CEB360}

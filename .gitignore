@@ -13,6 +13,7 @@
 /MicroServices/Communication/bin
 /MicroServices/Portfolio/bin
 /MicroServices/Watchlist/bin
+/MicroServices/Recommendation/bin
 
 
 # Obj Files
@@ -23,6 +24,7 @@
 /MicroServices/Communication/obj
 /MicroServices/Portfolio/obj
 /MicroServices/Watchlist/obj
+/MicroServices/Recommendation/obj
 
 
 # Config Files
@@ -34,6 +36,7 @@
 /MicroServices/Communication/.config
 /MicroServices/Portfolio/.config
 /MicroServices/Watchlist/.config
+/MicroServices/Recommendation/.config
 
 
 # Publish Config Files

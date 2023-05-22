@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StockPortfolioTracker.Data;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data.PortfolioContext;
 using StockPortfolioTracker.Logic;
