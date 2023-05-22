@@ -16,9 +16,13 @@ public partial class PortfolioTrackerDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Branch> Branches { get; set; }
+
     public virtual DbSet<ClientProfile> ClientProfiles { get; set; }
 
     public virtual DbSet<Holding> Holdings { get; set; }
+
+    public virtual DbSet<Recommendation> Recommendations { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
@@ -34,6 +38,15 @@ public partial class PortfolioTrackerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Branch>(entity =>
+        {
+            entity.HasKey(e => e.BranchId).HasName("PK__Branches__A1682FC5A4C0EA6D");
+
+            entity.ToTable("Branches", "Organization");
+
+            entity.Property(e => e.BranchName).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<ClientProfile>(entity =>
         {
             entity.HasKey(e => e.ClientProfileId).HasName("PK__ClientPr__08E213792C05F6B3");
@@ -61,6 +74,20 @@ public partial class PortfolioTrackerDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Holdings__UserId__66603565");
+        });
+
+        modelBuilder.Entity<Recommendation>(entity =>
+        {
+            entity.HasKey(e => e.RecommendationId).HasName("PK__Recommen__AA15BEE419B9241E");
+
+            entity.ToTable("Recommendations", "Stock");
+
+            entity.Property(e => e.Symbol).HasMaxLength(50);
+
+            entity.HasOne(d => d.Branch).WithMany(p => p.Recommendations)
+                .HasForeignKey(d => d.BranchId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Recommend__Branc__797309D9");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
