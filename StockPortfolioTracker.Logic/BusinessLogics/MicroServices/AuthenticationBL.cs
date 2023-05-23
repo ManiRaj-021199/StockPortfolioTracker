@@ -33,7 +33,7 @@ internal class AuthenticationBL
                                   LastName = strSource,
                                   Email = "source@gmail.com",
                                   UserId = 1111,
-                                  UserRole = EntityUserRoles.APPLICATION
+                                  UserRole = EntityUserRoles.USER
                               };
 
             string strAccessToken = JwtTokenHelper.GenerateJwtToken(dtoUser, DateTime.Now.AddDays(1));

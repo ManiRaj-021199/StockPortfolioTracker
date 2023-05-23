@@ -6,5 +6,6 @@ public static class CommonWebServiceMessages
     public static readonly string NotFound = "Sorry, Requested data not found.";
     public static readonly string DataFetchSuccess = "Data fetched successfully.";
     public static readonly string SomethingWentWrong = "Something went wrong. Please contact admin.";
+    public static readonly string MethodStarted = "{0} Method Started...";
     #endregion
 }
