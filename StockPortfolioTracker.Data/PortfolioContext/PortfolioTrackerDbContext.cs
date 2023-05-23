@@ -22,6 +22,10 @@ public partial class PortfolioTrackerDbContext : DbContext
 
     public virtual DbSet<Holding> Holdings { get; set; }
 
+    public virtual DbSet<Log> Logs { get; set; }
+
+    public virtual DbSet<PagesList> PagesLists { get; set; }
+
     public virtual DbSet<Recommendation> Recommendations { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
@@ -74,6 +78,31 @@ public partial class PortfolioTrackerDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Holdings__UserId__66603565");
+        });
+
+        modelBuilder.Entity<Log>(entity =>
+        {
+            entity.HasKey(e => e.LogId).HasName("PK__Logs__5E5486482F551EC9");
+
+            entity.ToTable("Logs", "SPT");
+
+            entity.Property(e => e.Severity).HasMaxLength(10);
+
+            entity.HasOne(d => d.Page).WithMany(p => p.Logs)
+                .HasForeignKey(d => d.PageId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Logs__PageId__7E37BEF6");
+        });
+
+        modelBuilder.Entity<PagesList>(entity =>
+        {
+            entity.HasKey(e => e.PageId).HasName("PK__PagesLis__C565B104B703772F");
+
+            entity.ToTable("PagesList", "SPT");
+
+            entity.Property(e => e.PageId).ValueGeneratedNever();
+            entity.Property(e => e.PageChildName).HasMaxLength(50);
+            entity.Property(e => e.PageRootName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Recommendation>(entity =>

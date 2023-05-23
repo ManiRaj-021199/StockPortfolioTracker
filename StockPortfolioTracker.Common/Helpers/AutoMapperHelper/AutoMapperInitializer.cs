@@ -32,6 +32,9 @@ public class AutoMapperInitializer
 
                                            // PortfolioTransaction Entity
                                            cfg.CreateMap<PortfolioTransactionDto, Transaction>();
+
+                                           // Logger Entity
+                                           cfg.CreateMap<LoggerDto, Log>();
                                        });
     }
     #endregion
