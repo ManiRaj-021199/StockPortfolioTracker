@@ -18,11 +18,6 @@ BEGIN
     EXEC ('CREATE SCHEMA [Stock] AUTHORIZATION [dbo]')
 END
 
-IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Organization')) 
-BEGIN
-    EXEC ('CREATE SCHEMA [Organization] AUTHORIZATION [dbo]')
-END
-
 IF (NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'SPT')) 
 BEGIN
     EXEC ('CREATE SCHEMA [SPT] AUTHORIZATION [dbo]')
