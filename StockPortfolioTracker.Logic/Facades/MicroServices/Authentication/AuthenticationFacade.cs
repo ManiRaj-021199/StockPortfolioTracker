@@ -17,9 +17,9 @@ public class AuthenticationFacade : IAuthenticationFacade
     #endregion
 
     #region Publics
-    public Task<BaseApiResponseDto> GenerateAccessToken(string strSource)
+    public Task<BaseApiResponseDto> GenerateAccessToken(UserLoginDto userLoginDto)
     {
-        BaseApiResponseDto response = blAuthentication.GenerateAccessToken(strSource).Result;
+        BaseApiResponseDto response = blAuthentication.GenerateAccessToken(userLoginDto).Result;
 
         return Task.FromResult(response);
     }

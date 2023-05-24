@@ -10,14 +10,14 @@ internal class PortfolioBL
 {
     #region Fields
     private readonly PortfolioTrackerDbContext dbContext;
-    private readonly LoggerManager loggerManager;
+    private readonly LogManager logManager;
     #endregion
 
     #region Constructors
     internal PortfolioBL(PortfolioTrackerDbContext dbContext)
     {
         this.dbContext = dbContext;
-        loggerManager = new LoggerManager(dbContext);
+        logManager = new LogManager(dbContext);
     }
     #endregion
 
@@ -25,11 +25,11 @@ internal class PortfolioBL
     internal async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
     {
         BaseApiResponseDto response = new();
-        LoggerDto dtoLogger = LoggerManagerHelper.BuildLoggerDto(PagesListConstants.PortfolioId, LogSeverityConstants.Info, nUserId.ToString(), LoggerManagerHelper.LogMethodStarted("GetHoldingStocks"));
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, nUserId, LogManagerHelper.GetMethodStartedMessage());
 
         try
         {
-            await loggerManager.CreateNewLog(dtoLogger);
+            await logManager.AddInfoLog(dtoLog);
 
             List<Holding> stocks = await dbContext.Holdings.Where(stock => stock.UserId == nUserId).ToListAsync();
             IEnumerable<string> stockUniqueNames = stocks.Select(stock => stock.Symbol).Distinct();
@@ -49,18 +49,15 @@ internal class PortfolioBL
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = PortfolioMessages.StockFetchSuccess;
             response.Result = portfolioStocks;
-
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(response);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
             response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
-
-            dtoLogger.Severity = LogSeverityConstants.Error;
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(err);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddErrorLog(dtoLog, err);
         }
 
         return response;
@@ -69,11 +66,11 @@ internal class PortfolioBL
     internal async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto, string strUserToken)
     {
         BaseApiResponseDto response = new();
-        LoggerDto dtoLogger = LoggerManagerHelper.BuildLoggerDto(PagesListConstants.PortfolioId, LogSeverityConstants.Info, TypeCastingHelper.ConvertObjectToString(portfolioStockDto), LoggerManagerHelper.LogMethodStarted("AddStockToPortfolio"));
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, portfolioStockDto, LogManagerHelper.GetMethodStartedMessage());
 
         try
         {
-            await loggerManager.CreateNewLog(dtoLogger);
+            await logManager.AddInfoLog(dtoLog);
 
             Holding portfolioStock = PortfolioAutoMapperHelper.ToHolding(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
@@ -85,6 +82,8 @@ internal class PortfolioBL
                 response.ResponseCode = HttpStatusCode.Accepted;
                 response.ResponseMessage = UserManagementMessages.UserNotFound;
 
+                await logManager.AddWarningLog(dtoLog, response);
+
                 return response;
             }
 
@@ -95,6 +94,8 @@ internal class PortfolioBL
                 response.ResponseCode = HttpStatusCode.NotFound;
                 response.ResponseMessage = PortfolioMessages.InvalidStock;
 
+                await logManager.AddWarningLog(dtoLog, response);
+
                 return response;
             }
 
@@ -103,18 +104,15 @@ internal class PortfolioBL
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = PortfolioMessages.StockBuySuccess;
-
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(response);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
             response.ResponseMessage = err.Message;
-
-            dtoLogger.Severity = LogSeverityConstants.Error;
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(err);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddErrorLog(dtoLog, err);
         }
 
         return response;
@@ -123,11 +121,11 @@ internal class PortfolioBL
     internal async Task<BaseApiResponseDto> SellStockFromPortfolio(PortfolioTransactionDto transactionDto)
     {
         BaseApiResponseDto response = new();
-        LoggerDto dtoLogger = LoggerManagerHelper.BuildLoggerDto(PagesListConstants.PortfolioId, LogSeverityConstants.Info, TypeCastingHelper.ConvertObjectToString(transactionDto), LoggerManagerHelper.LogMethodStarted("SellStockFromPortfolio"));
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, transactionDto, LogManagerHelper.GetMethodStartedMessage());
 
         try
         {
-            await loggerManager.CreateNewLog(dtoLogger);
+            await logManager.AddInfoLog(dtoLog);
 
             Transaction transaction = PortfolioAutoMapperHelper.ToTransaction(transactionDto);
 
@@ -140,18 +138,15 @@ internal class PortfolioBL
                 dbContext.Transactions.Add(transaction);
                 await dbContext.SaveChangesAsync();
             }
-
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(response);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
             response.ResponseMessage = err.Message;
-
-            dtoLogger.Severity = LogSeverityConstants.Error;
-            dtoLogger.Response = TypeCastingHelper.ConvertObjectToString(err);
-            await loggerManager.CreateNewLog(dtoLogger);
+            
+            await logManager.AddErrorLog(dtoLog, err);
         }
 
         return response;
@@ -162,13 +157,18 @@ internal class PortfolioBL
     private async Task<BaseApiResponseDto> RemoveStockFromPortfolio(Transaction transaction)
     {
         BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, transaction, LogManagerHelper.GetMethodStartedMessage());
 
+        await logManager.AddInfoLog(dtoLog);
         List<Holding> lstStocksFromHolding = await dbContext.Holdings.Where(x => x.UserId == transaction.UserId && x.Symbol == transaction.Symbol).ToListAsync();
 
         if(lstStocksFromHolding.Count == 0)
         {
             response.ResponseCode = HttpStatusCode.Accepted;
             response.ResponseMessage = PortfolioMessages.StockNotAvailable;
+
+            await logManager.AddWarningLog(dtoLog, response);
+
             return response;
         }
 
@@ -179,6 +179,9 @@ internal class PortfolioBL
         {
             response.ResponseCode = HttpStatusCode.Accepted;
             response.ResponseMessage = PortfolioMessages.StockQuantityMismatch;
+
+            await logManager.AddWarningLog(dtoLog, response);
+
             return response;
         }
 
@@ -200,6 +203,9 @@ internal class PortfolioBL
         await dbContext.SaveChangesAsync();
         response.ResponseCode = HttpStatusCode.OK;
         response.ResponseMessage = PortfolioMessages.StockSellSuccess;
+
+        await logManager.AddInfoLog(dtoLog, response);
+
         return response;
     }
     #endregion

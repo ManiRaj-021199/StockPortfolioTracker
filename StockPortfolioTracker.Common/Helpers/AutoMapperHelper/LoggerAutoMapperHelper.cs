@@ -6,9 +6,9 @@ namespace StockPortfolioTracker.Common;
 public class LoggerAutoMapperHelper
 {
     #region Publics
-    public static Log ToLog(LoggerDto dtoLogger)
+    public static Log ToLog(LogDto dtoLog)
     {
-        Log log = AutoMapperInitializer.Mapper.Map<Log>(dtoLogger);
+        Log log = AutoMapperInitializer.Mapper.Map<Log>(dtoLog);
 
         return log;
     }

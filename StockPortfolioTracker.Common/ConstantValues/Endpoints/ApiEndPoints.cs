@@ -9,6 +9,7 @@ public static class ApiEndPoints
     public static readonly string AuthenticationBaseUrl = "http://localhost:92/Authentication";
     public static readonly string StockStatisticsEquityBaseUrl = "http://localhost:92/Equity";
     public static readonly string UserManagementBaseUrl = "http://localhost:92/UserManagement";
+    public static readonly string ClientManagementBaseUrl = "http://localhost:92/ClientManagement";
     public static readonly string PortfolioBaseUrl = "http://localhost:92/Portfolio";
     #endregion
 }
