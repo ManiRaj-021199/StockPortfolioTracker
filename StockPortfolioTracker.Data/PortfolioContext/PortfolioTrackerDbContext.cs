@@ -44,9 +44,9 @@ public partial class PortfolioTrackerDbContext : DbContext
     {
         modelBuilder.Entity<Branch>(entity =>
         {
-            entity.HasKey(e => e.BranchId).HasName("PK__Branches__A1682FC5A4C0EA6D");
+            entity.HasKey(e => e.BranchId).HasName("PK__Branches__A1682FC53BBF6D03");
 
-            entity.ToTable("Branches", "Organization");
+            entity.ToTable("Branches", "User");
 
             entity.Property(e => e.BranchName).HasMaxLength(50);
         });
@@ -107,7 +107,7 @@ public partial class PortfolioTrackerDbContext : DbContext
 
         modelBuilder.Entity<Recommendation>(entity =>
         {
-            entity.HasKey(e => e.RecommendationId).HasName("PK__Recommen__AA15BEE419B9241E");
+            entity.HasKey(e => e.RecommendationId).HasName("PK__Recommen__AA15BEE4F2F28CB2");
 
             entity.ToTable("Recommendations", "Stock");
 
@@ -116,7 +116,7 @@ public partial class PortfolioTrackerDbContext : DbContext
             entity.HasOne(d => d.Branch).WithMany(p => p.Recommendations)
                 .HasForeignKey(d => d.BranchId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Recommend__Branc__797309D9");
+                .HasConstraintName("FK__Recommend__Branc__04E4BC85");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
