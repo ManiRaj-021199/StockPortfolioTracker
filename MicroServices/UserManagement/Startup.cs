@@ -62,6 +62,7 @@ public static class Startup
 
         // Services
         builder.Services.AddScoped<IUserManagementFacade, UserManagementFacade>();
+        builder.Services.AddScoped<IClientManagementFacade, ClientManagementFacade>();
     }
 
     private static void Configure(WebApplication app)

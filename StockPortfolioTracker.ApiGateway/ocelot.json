@@ -2,6 +2,19 @@
   "Routes": [
     // Authentication MicroService
     {
+      "DownstreamPathTemplate": "/api/Authentication/GenerateAccessToken",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 93
+        }
+      ],
+      "UpstreamPathTemplate": "/Authentication/GenerateAccessToken",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "authentication"
+    },
+    {
       "DownstreamPathTemplate": "/api/Authentication/RegisterUser",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -64,6 +77,19 @@
         }
       ],
       "UpstreamPathTemplate": "/UserManagement/GetUserByUserId/{nUserId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "usermanagement"
+    },
+    {
+      "DownstreamPathTemplate": "/api/ClientManagement/GetClientByEmail/{email}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 94
+        }
+      ],
+      "UpstreamPathTemplate": "/ClientManagement/GetClientByEmail/{email}",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "usermanagement"
     },

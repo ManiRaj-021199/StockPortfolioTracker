@@ -19,4 +19,8 @@
     <ProjectReference Include="..\StockPortfolioTracker.Data\StockPortfolioTracker.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FacadeInterfaces\MicroServices\Watchlist\" />
+  </ItemGroup>
+
 </Project>

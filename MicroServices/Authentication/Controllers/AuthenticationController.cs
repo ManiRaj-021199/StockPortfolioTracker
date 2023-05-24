@@ -21,11 +21,11 @@ public class AuthenticationController : ControllerBase
     #endregion
 
     #region Publics
-    [HttpGet]
-    [Route("GenerateAccessToken/{strSource}"), AllowAnonymous]
-    public async Task<BaseApiResponseDto> GetAccessToken(string strSource)
+    [HttpPost]
+    [Route("GenerateAccessToken"), AllowAnonymous]
+    public async Task<BaseApiResponseDto> GetAccessToken(UserLoginDto userLoginDto)
     {
-        BaseApiResponseDto response = await authenticationService!.GenerateAccessToken(strSource);
+        BaseApiResponseDto response = await authenticationService!.GenerateAccessToken(userLoginDto);
 
         return response;
     }

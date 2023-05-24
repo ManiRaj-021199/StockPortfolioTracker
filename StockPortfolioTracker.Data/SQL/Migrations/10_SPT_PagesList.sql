@@ -14,4 +14,5 @@ INSERT [SPT].[PagesList] ([PageId], [PageRootName], [PageChildName]) VALUES (2, 
 INSERT [SPT].[PagesList] ([PageId], [PageRootName], [PageChildName]) VALUES (3, N'Watchlist', N'Portfolio')
 INSERT [SPT].[PagesList] ([PageId], [PageRootName], [PageChildName]) VALUES (4, N'Watchlist', N'Transactions')
 INSERT [SPT].[PagesList] ([PageId], [PageRootName], [PageChildName]) VALUES (5, N'Admin', N'Users')
+INSERT [SPT].[PagesList] ([PageId], [PageRootName], [PageChildName]) VALUES (6, N'Admin', N'Logs')
 END
