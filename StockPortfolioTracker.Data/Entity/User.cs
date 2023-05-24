@@ -9,6 +9,8 @@ public partial class User
 
     public int UserRoleId { get; set; }
 
+    public int BranchId { get; set; }
+
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
@@ -20,6 +22,8 @@ public partial class User
     public byte[] PasswordSalt { get; set; } = null!;
 
     public DateTime RegisterDate { get; set; }
+
+    public virtual Branch Branch { get; set; } = null!;
 
     public virtual ICollection<Holding> Holdings { get; set; } = new List<Holding>();
 

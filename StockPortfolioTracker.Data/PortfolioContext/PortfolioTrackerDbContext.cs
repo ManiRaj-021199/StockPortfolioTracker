@@ -137,9 +137,15 @@ public partial class PortfolioTrackerDbContext : DbContext
 
             entity.ToTable("Users", "User");
 
+            entity.Property(e => e.BranchId).HasDefaultValueSql("((1))");
             entity.Property(e => e.Email).HasMaxLength(75);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
+
+            entity.HasOne(d => d.Branch).WithMany(p => p.Users)
+                .HasForeignKey(d => d.BranchId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Users__BranchId__06CD04F7");
 
             entity.HasOne(d => d.UserRole).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserRoleId)
