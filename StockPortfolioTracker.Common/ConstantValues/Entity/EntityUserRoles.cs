@@ -5,9 +5,12 @@ public class EntityUserRoles
     #region Constants
     public const int SUPERUSERID = 1;
     public const int USERID = 2;
+    public const int CLIENTID = 3;
+    public const int APPLICATIONID = 4;
 
     public const string SUPERUSER = "Super User";
     public const string USER = "User";
+    public const string CLIENT = "Client";
     public const string APPLICATION = "Application";
 
     // Combination - For Authorization

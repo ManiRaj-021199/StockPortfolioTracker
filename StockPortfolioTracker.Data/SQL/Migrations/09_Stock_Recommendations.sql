@@ -10,6 +10,6 @@ CREATE TABLE [Stock].[Recommendations](
 	[RecommendedBuyPrice] [int] NOT NULL,
 	[TargetPrice] [int] NOT NULL,
 	[RegisterDate] [datetime2](7) NOT NULL,
-	FOREIGN KEY (BranchId) REFERENCES [Organization].[Branches] (BranchId)
+	FOREIGN KEY (BranchId) REFERENCES [User].[Branches] (BranchId)
 )
 END

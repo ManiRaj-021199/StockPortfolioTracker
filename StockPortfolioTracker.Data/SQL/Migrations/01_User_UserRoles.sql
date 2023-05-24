@@ -10,5 +10,6 @@ CREATE TABLE [User].[UserRoles](
 
 INSERT [User].[UserRoles] ([UserRoleId], [RoleName]) VALUES (1, N'Super User')
 INSERT [User].[UserRoles] ([UserRoleId], [RoleName]) VALUES (2, N'User')
-INSERT [User].[UserRoles] ([UserRoleId], [RoleName]) VALUES (3, N'Application')
+INSERT [User].[UserRoles] ([UserRoleId], [RoleName]) VALUES (3, N'Client')
+INSERT [User].[UserRoles] ([UserRoleId], [RoleName]) VALUES (4, N'Application')
 END
