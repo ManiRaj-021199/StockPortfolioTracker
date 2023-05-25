@@ -16,9 +16,6 @@ public class RemoveStockModalBase : ComponentBase
     public int UserId { get; set; }
 
     [Parameter]
-    public string? UserAccessToken { get; set; }
-
-    [Parameter]
     public List<HoldingStockDto>? HoldingStocks { get; set; }
 
     protected string? ErrorMessage { get; set; }
@@ -51,7 +48,7 @@ public class RemoveStockModalBase : ComponentBase
         this.StockNeedToRemove!.UserId = this.UserId;
         this.StockNeedToRemove.Symbol = dtoHoldingStock.Symbol!;
 
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToRemove);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.StockNeedToRemove);
 
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
         {

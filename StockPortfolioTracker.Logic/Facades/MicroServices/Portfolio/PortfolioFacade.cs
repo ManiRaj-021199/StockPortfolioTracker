@@ -24,9 +24,9 @@ public class PortfolioFacade : IPortfolioFacade
         return response;
     }
 
-    public async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto, string strUserToken)
+    public async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto)
     {
-        BaseApiResponseDto response = await blPortfolio.AddStockToPortfolio(portfolioStockDto, strUserToken);
+        BaseApiResponseDto response = await blPortfolio.AddStockToPortfolio(portfolioStockDto);
 
         return response;
     }

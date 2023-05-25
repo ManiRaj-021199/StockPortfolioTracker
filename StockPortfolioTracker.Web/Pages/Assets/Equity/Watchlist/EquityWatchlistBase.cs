@@ -38,10 +38,10 @@ public class EquityWatchlistBase : ComponentBase
             client.BaseAddress = new Uri($"http://ms-nb0101:92/equity/GetPrice/{stock}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.UserAccessToken);
 
-            var res = client.GetFromJsonAsync<BaseApiResponseDto>(string.Empty).Result;
-            PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(res!.Result!.ToString()!)!;
+            // var res = client.GetFromJsonAsync<BaseApiResponseDto>(string.Empty).Result;
+            // PriceDto priceDto = JsonConvert.DeserializeObject<PriceDto>(res!.Result!.ToString()!)!;
 
-            temp.Add(priceDto);
+            // temp.Add(priceDto);
         }
 
         this.StockPrices = temp;

@@ -6,7 +6,7 @@ namespace UserManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = EntityUserRoles.ALL_USERS)]
+[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_APPLICATION)]
 public class UserManagementController : ControllerBase
 {
     #region Fields
@@ -21,7 +21,7 @@ public class UserManagementController : ControllerBase
     #endregion
 
     #region Publics
-    [HttpGet, Authorize(Roles = EntityUserRoles.SUPERUSER)]
+    [HttpGet]
     [Route("GetAllUsers")]
     public async Task<BaseApiResponseDto> GetAllUsers()
     {
@@ -44,6 +44,15 @@ public class UserManagementController : ControllerBase
     public async Task<BaseApiResponseDto> GetUserByUserId(int nUserId)
     {
         BaseApiResponseDto response = await userManagementService!.GetUserByUserId(nUserId);
+
+        return response;
+    }
+
+    [HttpPut]
+    [Route("UpdateUserDetails")]
+    public async Task<BaseApiResponseDto> UpdateUserDetails([FromBody] UserUpdateDto dtoUserUpdate)
+    {
+        BaseApiResponseDto response = await userManagementService!.UpdateUserDetails(dtoUserUpdate);
 
         return response;
     }

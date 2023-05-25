@@ -20,7 +20,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputRemoveStockName" class="form-label">Stock</label>
-                            <input type="text" id="inputRemoveStockName" class="form-control" autocomplete="off" />
+                            <input type="text" id="inputRemoveStockName" class="form-control" @bind="StockNeedToRemove!.Symbol" autocomplete="off" />
                             @*
                             <RadzenAutoComplete id="inputRemoveStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToRemove!.Symbol" Data="@HoldingStocks" TextProperty="StockName">
                                 <Template Context="detail">

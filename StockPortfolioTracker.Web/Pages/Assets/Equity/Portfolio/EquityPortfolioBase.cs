@@ -14,7 +14,6 @@ public class EquityPortfolioBase : ComponentBase
     public string? Message = string.Empty;
 
     public int UserId = -1;
-    public string? UserAccessToken = string.Empty;
     
     protected readonly GridSort<HoldingStockDto> SortByStockName = GridSort<HoldingStockDto>.ByDescending(x => x.StockName);
     protected readonly GridSort<HoldingStockDto> SortByStockQuantity = GridSort<HoldingStockDto>.ByDescending(x => x.Quantity);
@@ -64,12 +63,11 @@ public class EquityPortfolioBase : ComponentBase
     private async Task InitializeProperties()
     {
         UserId = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetUserId();
-        UserAccessToken = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetAccessToken();
     }
 
     private async Task FetchUserHoldings()
     {
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, UserAccessToken!, null!);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, null!);
 
         if(apiResponse.ResponseCode != HttpStatusCode.OK)
         {
@@ -84,7 +82,7 @@ public class EquityPortfolioBase : ComponentBase
     {
         foreach(PortfolioStockDto portfolioStockDto in this.PortfolioStocks!)
         {
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, UserAccessToken!, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, null!);
 
             if(apiResponse.ResponseCode != HttpStatusCode.OK)
             {

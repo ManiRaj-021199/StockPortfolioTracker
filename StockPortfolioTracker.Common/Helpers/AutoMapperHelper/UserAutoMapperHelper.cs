@@ -8,14 +8,14 @@ public class UserAutoMapperHelper
     #region Publics
     public static UserDto ToUserDto(User user)
     {
-        UserDto userDto = AutoMapperInitializer.Mapper.Map<UserDto>(user);
+        UserDto dtoUser = AutoMapperInitializer.Mapper.Map<UserDto>(user);
 
-        return userDto;
+        return dtoUser;
     }
 
-    public static User ToUser(UserRegisterDto userRegisterDto)
+    public static User ToUser(UserRegisterDto dtoUserRegister)
     {
-        User user = AutoMapperInitializer.Mapper.Map<User>(userRegisterDto);
+        User user = AutoMapperInitializer.Mapper.Map<User>(dtoUserRegister);
 
         return user;
     }

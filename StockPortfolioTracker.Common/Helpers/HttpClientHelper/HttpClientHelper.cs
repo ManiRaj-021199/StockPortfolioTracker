@@ -9,25 +9,13 @@ namespace StockPortfolioTracker.Common;
 public static class HttpClientHelper
 {
     #region Publics
-    public static async Task<BaseApiResponseDto> MakeApiRequest(string strUrl, string httpMethod, string strAccessToken, object objRequestBody)
+    public static async Task<BaseApiResponseDto> MakeApiRequest(string strUrl, string httpMethod, object objRequestBody)
     {
         BaseApiResponseDto response = new();
 
         try
         {
-            if(string.IsNullOrEmpty(strAccessToken))
-            {
-                UserDto user = new()
-                               {
-                                   UserId = 0,
-                                   FirstName = "Application",
-                                   LastName = "User",
-                                   Email = "application@gmail.com",
-                                   UserRole = EntityUserRoles.APPLICATION
-                               };
-
-                strAccessToken = JwtTokenHelper.GenerateJwtToken(user, DateTime.Now.AddMinutes(30));
-            }
+            string strAccessToken = GetApplicationAccessToken();
 
             HttpClient httpClient = new()
                                     {
@@ -54,6 +42,22 @@ public static class HttpClientHelper
         }
 
         return response;
+    }
+    #endregion
+
+    #region Privates
+    private static string GetApplicationAccessToken()
+    {
+        UserDto user = new()
+                       {
+                           UserId = 0,
+                           FirstName = "SPT",
+                           LastName = "Application",
+                           Email = "spt@application.com",
+                           UserRole = EntityUserRoles.APPLICATION
+                       };
+
+        return JwtTokenHelper.GenerateJwtToken(user, DateTime.Now.AddMinutes(30));
     }
     #endregion
 }
