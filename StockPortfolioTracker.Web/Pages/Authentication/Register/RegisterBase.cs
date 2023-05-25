@@ -29,7 +29,7 @@ public class RegisterBase : ComponentBase
             return;
         }
 
-        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.RegisterUser, HttpMethods.Post, string.Empty, this.UserRegisterDto!);
+        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.RegisterUser, HttpMethods.Post, this.UserRegisterDto!);
 
         this.Message = response.ResponseMessage;
 

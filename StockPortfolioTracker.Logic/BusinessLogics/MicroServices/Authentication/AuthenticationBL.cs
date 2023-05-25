@@ -34,7 +34,7 @@ internal class AuthenticationBL
             await logManager.AddInfoLog(dtoLog);
 
             // Check if the client already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetClientByEmail, $"{userLoginDto.Email}|{userLoginDto.SecretKey}"), HttpMethods.Get, string.Empty, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetClientByEmail, $"{userLoginDto.Email}|{userLoginDto.SecretKey}"), HttpMethods.Get, null!);
 
             if(apiResponse.Result == null)
             {
@@ -72,7 +72,7 @@ internal class AuthenticationBL
                                   UserId = client.ClientProfileId
                               };
 
-            UserRole? resUserRole = await dbContext.UserRoles.FirstOrDefaultAsync(x => x.UserRoleId == client.ClientProfileId);
+            UserRole? resUserRole = await dbContext.UserRoles.FirstOrDefaultAsync(x => x.UserRoleId == client.ClientRoleId);
             dtoUser.UserRole = resUserRole!.RoleName;
 
             string strAccessToken = JwtTokenHelper.GenerateJwtToken(dtoUser, DateTime.Now.AddDays(1));
@@ -103,7 +103,7 @@ internal class AuthenticationBL
         {
             await logManager.AddInfoLog(dtoLog);
             // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, string.Empty, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userRegisterDto.Email), HttpMethods.Get, null!);
 
             if(apiResponse.Result != null)
             {
@@ -152,7 +152,7 @@ internal class AuthenticationBL
             await logManager.AddInfoLog(dtoLog);
 
             // Check if the user already exist.
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, string.Empty, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByEmail, userLoginDto.Email), HttpMethods.Get, null!);
 
             if(apiResponse.Result == null)
             {

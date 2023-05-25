@@ -15,9 +15,6 @@ public class AddStockModalBase : ComponentBase
     [Parameter]
     public int UserId { get; set; }
 
-    [Parameter]
-    public string? UserAccessToken { get; set; }
-
     protected string? ErrorMessage { get; set; }
     protected PortfolioStockDto? StockNeedToAdd { get; set; }
     protected SmartSearchResponseDto? SmartSearchStocks { get; set; }
@@ -41,7 +38,7 @@ public class AddStockModalBase : ComponentBase
     {
         this.StockNeedToAdd!.UserId = this.UserId;
 
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.UserAccessToken!, this.StockNeedToAdd);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.StockNeedToAdd);
 
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
         {

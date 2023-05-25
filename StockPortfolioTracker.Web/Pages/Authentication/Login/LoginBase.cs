@@ -38,7 +38,7 @@ public class LoginBase : ComponentBase
     {
         IsPreloaderEnable = true;
 
-        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, string.Empty, this.UserLoginDto!);
+        BaseApiResponseDto response = await HttpClientHelper.MakeApiRequest(AuthenticationEndPoints.LoginUser, HttpMethods.Post, this.UserLoginDto!);
 
         if(response.ResponseCode != HttpStatusCode.OK)
         {

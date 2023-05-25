@@ -63,7 +63,7 @@ internal class PortfolioBL
         return response;
     }
 
-    internal async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto, string strUserToken)
+    internal async Task<BaseApiResponseDto> AddStockToPortfolio(PortfolioStockDto portfolioStockDto)
     {
         BaseApiResponseDto response = new();
         LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, portfolioStockDto, LogManagerHelper.GetMethodStartedMessage());
@@ -75,7 +75,7 @@ internal class PortfolioBL
             Holding portfolioStock = PortfolioAutoMapperHelper.ToHolding(portfolioStockDto);
             portfolioStock.BuyDate = DateTimeHelper.GetCurrentDateTime();
 
-            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, string.Empty, null!);
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, portfolioStockDto.UserId), HttpMethods.Get, null!);
 
             if(apiResponse.Result == null)
             {
@@ -87,7 +87,7 @@ internal class PortfolioBL
                 return response;
             }
 
-            apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, strUserToken, null!);
+            apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, null!);
 
             if(apiResponse.Result == null)
             {

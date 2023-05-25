@@ -19,7 +19,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>
-                            <input type="text" id="inputStockName" class="form-control" autocomplete="off" />
+                            <input type="text" id="inputStockName" class="form-control" @bind="StockNeedToAdd!.Symbol" autocomplete="off" />
                             @*
                             <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToAdd!.Symbol" Data="@SmartSearchStocks!.Quotes" TextProperty="Symbol" LoadData="StockSmartSearch">
                                 <Template Context="detail">

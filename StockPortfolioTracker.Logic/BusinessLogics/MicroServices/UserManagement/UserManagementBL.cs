@@ -75,7 +75,7 @@ internal class UserManagementBL
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
-            response.ResponseMessage = err.Message;
+            response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
 
             await logManager.AddErrorLog(dtoLog, err);
         }
@@ -102,7 +102,52 @@ internal class UserManagementBL
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
-            response.ResponseMessage = err.Message;
+            response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
+
+            await logManager.AddErrorLog(dtoLog, err);
+        }
+
+        return response;
+    }
+
+    internal async Task<BaseApiResponseDto> UpdateUserDetails(UserUpdateDto dtoUserUpdate)
+    {
+        BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.UsersId, dtoUserUpdate, LogManagerHelper.GetMethodStartedMessage());
+
+        try
+        {
+            await logManager.AddInfoLog(dtoLog);
+
+            User? user = await dbContext.Users.FirstOrDefaultAsync(user => user.UserId == dtoUserUpdate.UserId);
+
+            if(user == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = UserManagementMessages.UserNotFound;
+
+                await logManager.AddWarningLog(dtoLog, response);
+            }
+
+            if(dtoUserUpdate.BranchId > 0 && dbContext.Branches.Any(x => x.BranchId == dtoUserUpdate.BranchId)) user!.BranchId = dtoUserUpdate.BranchId;
+            if(dtoUserUpdate.UserRoleId > 0 && dbContext.UserRoles.Any(x => x.UserRoleId == dtoUserUpdate.UserRoleId)) user!.UserRoleId = dtoUserUpdate.UserRoleId;
+
+            if(!string.IsNullOrEmpty(dtoUserUpdate.FirstName)) user!.FirstName = dtoUserUpdate.FirstName;
+            if(!string.IsNullOrEmpty(dtoUserUpdate.LastName)) user!.LastName = dtoUserUpdate.LastName;
+            if(!string.IsNullOrEmpty(dtoUserUpdate.Email)) user!.Email = dtoUserUpdate.Email;
+
+            dbContext.Users.Update(user!);
+            await dbContext.SaveChangesAsync();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = UserManagementMessages.UserUpdatedSuccess;
+
+            await logManager.AddInfoLog(dtoLog, response);
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
 
             await logManager.AddErrorLog(dtoLog, err);
         }

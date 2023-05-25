@@ -6,7 +6,7 @@ namespace Portfolio.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_USER)]
+[Authorize(Roles = EntityUserRoles.APPLICATION)]
 public class PortfolioController : ControllerBase
 {
     #region Fields
@@ -34,9 +34,7 @@ public class PortfolioController : ControllerBase
     [Route("AddStockToPortfolio")]
     public async Task<BaseApiResponseDto> AddStockToPortfolio([FromBody] PortfolioStockDto portfolioStockDto)
     {
-        string strUserToken = Request.Headers.Authorization.ToString().Split(" ")[1];
-
-        BaseApiResponseDto response = await portfolioService!.AddStockToPortfolio(portfolioStockDto, strUserToken);
+        BaseApiResponseDto response = await portfolioService!.AddStockToPortfolio(portfolioStockDto);
 
         return response;
     }

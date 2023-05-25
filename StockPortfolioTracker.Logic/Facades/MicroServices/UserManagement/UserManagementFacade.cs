@@ -37,5 +37,12 @@ public class UserManagementFacade : IUserManagementFacade
 
         return response;
     }
+
+    public async Task<BaseApiResponseDto> UpdateUserDetails(UserUpdateDto dtoUserUpdate)
+    {
+        BaseApiResponseDto response = await blUserManagement.UpdateUserDetails(dtoUserUpdate);
+
+        return response;
+    }
     #endregion
 }
