@@ -6,7 +6,8 @@ namespace StockStatistics.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_APPLICATION)]
+[Authorize]
+//[Authorize(Roles = EntityUserRoles.SUPERUSER_WITH_APPLICATION)]
 public class EquityController : ControllerBase
 {
     #region Fields
