@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Web.Components;
@@ -9,6 +10,7 @@ public class AddStockModalBase : ComponentBase
 {
     #region Fields
     protected ElementReference RefToAddStockModal;
+    protected ElementReference RefToSmartSearch;
     #endregion
 
     #region Properties
@@ -50,6 +52,25 @@ public class AddStockModalBase : ComponentBase
             this.ErrorMessage = apiResponse.ResponseMessage;
         }
     }
+
+    protected async void StockSmartSearch(ChangeEventArgs args)
+    {
+        string strValue = args.Value!.ToString()!;
+
+        if(string.IsNullOrEmpty(strValue) || strValue.Length < 3) return;
+
+        SmartSearchRequestDto request = new()
+                                        {
+                                            StocksCount = 3,
+                                            NewsCount = 0,
+                                            SearchQuery = strValue
+                                        };
+
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, request);
+        this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
+
+        await JSBootstrapMethodsHelper.UpdateSmartSearch(this.JSRuntime!, RefToSmartSearch, this.SmartSearchStocks!);
+    }
     #endregion
 
     #region Privates
@@ -59,20 +80,4 @@ public class AddStockModalBase : ComponentBase
         this.StockNeedToAdd = new PortfolioStockDto();
     }
     #endregion
-
-    /*
-    private async Task StockSmartSearch(LoadDataArgs args)
-    {
-        if(args.Filter.Length < 3) return;
-
-        SmartSearchRequestDto request = new()
-                                        {
-                                            StocksCount = 3,
-                                            NewsCount = 0,
-                                            SearchQuery = args.Filter
-                                        };
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, this.UserAccessToken!, request);
-        this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
-    }
-    */
 }

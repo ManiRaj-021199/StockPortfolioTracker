@@ -4,7 +4,7 @@
 <div class="modal fade" @ref="RefToAddStockModal" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="labelAddStock" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio">
+            <EditForm Model="@StockNeedToAdd" OnValidSubmit="AddStockToPortfolio" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title" id="labelAddStock">Add Stock</h5>
                     <button class="close" type="button" data-dismiss="modal">
@@ -19,24 +19,10 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>
-                            <input type="text" id="inputStockName" class="form-control" @bind="StockNeedToAdd!.Symbol" autocomplete="off" />
-                            @*
-                            <RadzenAutoComplete id="inputStockName" class="d-block" placeholder="Tcs, Hindustan..." @bind-Value="@StockNeedToAdd!.Symbol" Data="@SmartSearchStocks!.Quotes" TextProperty="Symbol" LoadData="StockSmartSearch">
-                                <Template Context="detail">
-                                    <div class="d-flex w-100">
-                                        @if(detail.LongName != null)
-                                        {
-                                            <h6 class="w-75">@detail.LongName</h6>
-                                        }
-                                        else
-                                        {
-                                            <h6 class="w-75">@detail.ShortName[0].ToString().ToUpper()@detail.ShortName.Substring(1).ToLower()</h6>
-                                        }
-                                        <h6 class="w-25 text-primary">@detail.ExchDisp</h6>
-                                    </div>
-                                </Template>
-                            </RadzenAutoComplete>
-                            *@
+                            <div class="input-group mb-3">
+                                <input aria-describedby="button-addon2" aria-label="Country" class="form-control autocomplete" id="inputStockName" name="inputStockName" placeholder="Enter Stock Name..." type="text" @ref="RefToSmartSearch" @oninput="@StockSmartSearch" />
+                            </div>
+                            
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputQuantity" class="form-label">Quantity</label>

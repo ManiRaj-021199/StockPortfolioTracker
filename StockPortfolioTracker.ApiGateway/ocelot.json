@@ -81,6 +81,19 @@
       "SwaggerKey": "usermanagement"
     },
     {
+      "DownstreamPathTemplate": "/api/UserManagement/UpdateUserDetails",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 94
+        }
+      ],
+      "UpstreamPathTemplate": "/UserManagement/UpdateUserDetails",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "usermanagement"
+    },
+    {
       "DownstreamPathTemplate": "/api/ClientManagement/GetClientByEmail/{email}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
