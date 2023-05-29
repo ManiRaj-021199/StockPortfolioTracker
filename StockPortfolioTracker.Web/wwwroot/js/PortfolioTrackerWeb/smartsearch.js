@@ -1,24 +1,22 @@
-﻿"use strict";
-
-var currentFocus;
+﻿var currentFocus = -1;
 var smartsearchInput;
 
-function autocomplete(element, arr)
+/* Main */
+function AutoCompleteSmartSearch(element, arr, resultInputId)
 {
     smartsearchInput = element;
-    arr = arr.quotes.map(x => x.longName || x.shortName);
     
-    const ddlSmartSearch = createDropdownList(element);
-    const bIsArrEmpty = insertDropdownItems(element, arr, ddlSmartSearch);
+    const ddlSmartSearch = _CreateDropdownList(element);
+    const bIsArrEmpty = _InsertDropdownItems(element, arr, ddlSmartSearch, resultInputId);
 
     if(!bIsArrEmpty) return;
-    closeAllLists(element);
-
-    currentFocus = -1;
-    addEventListenersForSmartSearch(element, arr);
+    _CloseAllLists(element);
+    
+    _AddEventListenersForSmartSearch(element, arr);
 };
 
-const createDropdownList = (element) =>
+/* Privates */
+const _CreateDropdownList = (element) =>
 {
     let ddlSmartSearch = document.getElementById(element.id + "autocomplete-list");
 
@@ -35,9 +33,9 @@ const createDropdownList = (element) =>
     return ddlSmartSearch;
 }
 
-const insertDropdownItems = (element, arr, ddlSmartSearch) =>
+const _InsertDropdownItems = (element, arr, ddlSmartSearch, resultInputId) =>
 {
-    if(arr.count == 0 || arr.length == 0)
+    if(arr.count == 0)
     {
         let ddlItem = document.createElement("DIV");
         ddlItem.setAttribute("class", "list-group-item list-group-item-action");
@@ -46,26 +44,31 @@ const insertDropdownItems = (element, arr, ddlSmartSearch) =>
             function()
             {
                 element.value = this.getElementsByTagName("input")[0].value;
-                closeAllLists(element);
+                _CloseAllLists(element);
             });
         ddlSmartSearch.appendChild(ddlItem);
 
         return false;
     }
 
-    for(let i = 0; i < arr.length; i++)
+    for(let i = 0; i < arr.count; i++)
     {
         let ddlItem = document.createElement("DIV");
         ddlItem.setAttribute("class", "list-group-item list-group-item-action d-flex justify-content-between");
-        ddlItem.innerHTML += `<span>${arr[i]}</span>`;
-        ddlItem.innerHTML += `<span class="text-primary">${arr[i]}</span>`;
-        ddlItem.innerHTML += `<input type='hidden' value='${arr[i]}'>`;
+        ddlItem.innerHTML += `<span>${arr.quotes[i].longName || arr.quotes[i].shortName}</span>`;
+        ddlItem.innerHTML += `<span class="text-primary">${arr.quotes[i].exchDisp}</span>`;
 
         ddlItem.addEventListener("click",
             function()
             {
-                element.value = this.getElementsByTagName("input")[0].value;
-                closeAllLists(arr[i]);
+                let smartSearchElement = document.getElementById(resultInputId);
+
+                element.value = arr.quotes[i].longName || arr.quotes[i].shortName;
+                smartSearchElement.value = arr.quotes[i].symbol;
+
+                CommonEvents.DispatchChangeEvent(smartSearchElement);
+
+                _CloseAllLists(arr[i]);
             });
         ddlSmartSearch.appendChild(ddlItem);
     }
@@ -73,7 +76,7 @@ const insertDropdownItems = (element, arr, ddlSmartSearch) =>
     return true;
 }
 
-const removeActive = (x) =>
+const _RemoveActive = (x) =>
 {
     for(let i = 0; i < x.length; i++)
     {
@@ -81,11 +84,11 @@ const removeActive = (x) =>
     }
 };
 
-const addActive = (x) =>
+const _AddActive = (x) =>
 {
     if(!x) return false;
 
-    removeActive(x);
+    _RemoveActive(x);
     if(currentFocus >= x.length) currentFocus = 0;
     if(currentFocus < 0) currentFocus = x.length - 1;
     x[currentFocus].classList.add("active");
@@ -93,7 +96,7 @@ const addActive = (x) =>
     return false;
 };
 
-const closeAllLists = (element) =>
+const _CloseAllLists = (element) =>
 {
     var x = document.getElementsByClassName("autocomplete-items");
     for(let i = 0; i < x.length; i++)
@@ -105,7 +108,7 @@ const closeAllLists = (element) =>
     }
 };
 
-const addEventListenersForSmartSearch = (element, arr) =>
+const _AddEventListenersForSmartSearch = (element, arr) =>
 {
     element.addEventListener("keydown",
         function(e)
@@ -115,12 +118,12 @@ const addEventListenersForSmartSearch = (element, arr) =>
             if(e.keyCode === 40)
             {
                 currentFocus++;
-                addActive(x);
+                _AddActive(x);
             }
             else if(e.keyCode === 38)
             {
                 currentFocus--;
-                addActive(x);
+                _AddActive(x);
             }
             else if(e.keyCode === 13)
             {
@@ -135,6 +138,6 @@ const addEventListenersForSmartSearch = (element, arr) =>
     document.addEventListener("click",
         function(e)
         {
-            closeAllLists(e.target);
+            _CloseAllLists(e.target);
         });
 }

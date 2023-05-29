@@ -20,9 +20,9 @@
                         <div class="col-12">
                             <label for="inputStockName" class="form-label">Stock Name</label>
                             <div class="input-group mb-3">
-                                <input aria-describedby="button-addon2" aria-label="Country" class="form-control autocomplete" id="inputStockName" name="inputStockName" placeholder="Enter Stock Name..." type="text" @ref="RefToSmartSearch" @oninput="@StockSmartSearch" />
+                                <input type="text" class="form-control autocomplete" id="inputStockName" name="inputStockName" placeholder="Enter Stock Name..." @ref="RefToSmartSearch" @oninput="@StockSmartSearch"/>
+                                <input type="hidden" id="addStockSmartSearchValue" @bind="@StockNeedToAdd!.Symbol"/>
                             </div>
-                            
                         </div>
                         <div class="col-md-6 mt-3">
                             <label for="inputQuantity" class="form-label">Quantity</label>

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 
 namespace StockPortfolioTracker.Web.Components;
@@ -59,17 +58,8 @@ public class AddStockModalBase : ComponentBase
 
         if(string.IsNullOrEmpty(strValue) || strValue.Length < 3) return;
 
-        SmartSearchRequestDto request = new()
-                                        {
-                                            StocksCount = 3,
-                                            NewsCount = 0,
-                                            SearchQuery = strValue
-                                        };
-
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(StockStatisticEndPoints.GetSmartSearchStocks, HttpMethods.Post, request);
-        this.SmartSearchStocks = JsonConvert.DeserializeObject<SmartSearchResponseDto>(apiResponse.Result!.ToString()!)!;
-
-        await JSBootstrapMethodsHelper.UpdateSmartSearch(this.JSRuntime!, RefToSmartSearch, this.SmartSearchStocks!);
+        this.SmartSearchStocks = await SmartSearchHelper.GetSmartSearchStocks(strValue);
+        await JSBootstrapMethodsHelper.UpdateSmartSearch(this.JSRuntime!, RefToSmartSearch, this.SmartSearchStocks!, "addStockSmartSearchValue");
     }
     #endregion
 
