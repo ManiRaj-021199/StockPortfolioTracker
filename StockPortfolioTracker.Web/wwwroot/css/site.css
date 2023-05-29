@@ -35,3 +35,18 @@ span.negativeValue {
 .col-width-draghandle {
 	opacity: 0;
 }
+
+
+/* Smart Search */
+.autocomplete {
+	position: relative;
+	display: inline-block;
+}
+
+.autocomplete-items {
+	position: absolute;
+	z-index: 99;
+	top: 100%;
+	left: 0;
+	right: 0;
+}

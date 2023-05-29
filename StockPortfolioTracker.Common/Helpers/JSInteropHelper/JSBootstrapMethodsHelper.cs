@@ -15,5 +15,10 @@ public class JSBootstrapMethodsHelper
     {
         await JSRuntime.InvokeVoidAsync("BootstrapMethods.MakeModalDraggable");
     }
+
+    public static async Task UpdateSmartSearch(IJSRuntime JSRuntime, ElementReference refElement, SmartSearchResponseDto dtoSmartSearchResponse, string strResultInputId)
+    {
+        await JSRuntime.InvokeVoidAsync("AutoCompleteSmartSearch", refElement, dtoSmartSearchResponse, strResultInputId);
+    }
     #endregion
 }
