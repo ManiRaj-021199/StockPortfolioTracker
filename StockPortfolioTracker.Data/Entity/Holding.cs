@@ -17,5 +17,9 @@ public partial class Holding
 
     public DateTime BuyDate { get; set; }
 
+    public int CategoryId { get; set; }
+
+    public virtual PortfolioCategory Category { get; set; } = null!;
+
     public virtual User User { get; set; } = null!;
 }
