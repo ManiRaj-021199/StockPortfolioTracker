@@ -26,6 +26,8 @@ public partial class PortfolioTrackerDbContext : DbContext
 
     public virtual DbSet<PagesList> PagesLists { get; set; }
 
+    public virtual DbSet<PortfolioCategory> PortfolioCategories { get; set; }
+
     public virtual DbSet<Recommendation> Recommendations { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
@@ -74,6 +76,10 @@ public partial class PortfolioTrackerDbContext : DbContext
 
             entity.Property(e => e.Symbol).HasMaxLength(50);
 
+            entity.HasOne(d => d.Category).WithMany(p => p.Holdings)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK__Holdings__Catego__19DFD96B");
+
             entity.HasOne(d => d.User).WithMany(p => p.Holdings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -103,6 +109,20 @@ public partial class PortfolioTrackerDbContext : DbContext
             entity.Property(e => e.PageId).ValueGeneratedNever();
             entity.Property(e => e.PageChildName).HasMaxLength(50);
             entity.Property(e => e.PageRootName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<PortfolioCategory>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("PK__Portfoli__19093A0B475C2CF7");
+
+            entity.ToTable("PortfolioCategory", "Portfolio");
+
+            entity.Property(e => e.CategoryName).HasMaxLength(50);
+
+            entity.HasOne(d => d.User).WithMany(p => p.PortfolioCategories)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Portfolio__UserI__17F790F9");
         });
 
         modelBuilder.Entity<Recommendation>(entity =>
@@ -173,8 +193,7 @@ public partial class PortfolioTrackerDbContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Watchlists)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Watchlist__Categ__74AE54BC");
+                .HasConstraintName("FK__Watchlist__Categ__14270015");
         });
 
         modelBuilder.Entity<WatchlistCategory>(entity =>

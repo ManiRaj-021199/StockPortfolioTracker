@@ -27,6 +27,8 @@ public partial class User
 
     public virtual ICollection<Holding> Holdings { get; set; } = new List<Holding>();
 
+    public virtual ICollection<PortfolioCategory> PortfolioCategories { get; set; } = new List<PortfolioCategory>();
+
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual UserRole UserRole { get; set; } = null!;
