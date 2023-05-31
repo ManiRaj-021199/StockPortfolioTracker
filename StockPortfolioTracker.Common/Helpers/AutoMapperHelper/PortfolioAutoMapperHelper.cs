@@ -19,5 +19,12 @@ public class PortfolioAutoMapperHelper
 
         return portfolioTransaction;
     }
+
+    public static PortfolioCategory ToPortfolioCategory(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        PortfolioCategory portfolioCategory = AutoMapperInitializer.Mapper.Map<PortfolioCategory>(dtoPortfolioCategory);
+
+        return portfolioCategory;
+    }
     #endregion
 }

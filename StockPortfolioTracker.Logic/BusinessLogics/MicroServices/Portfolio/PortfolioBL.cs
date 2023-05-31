@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using StockPortfolioTracker.Data.Entity;
 using StockPortfolioTracker.Data.PortfolioContext;
@@ -22,7 +23,7 @@ internal class PortfolioBL
     #endregion
 
     #region Internals
-    internal async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
+    internal async Task<BaseApiResponseDto> GetAllPortfolioCategories(int nUserId)
     {
         BaseApiResponseDto response = new();
         LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, nUserId, LogManagerHelper.GetMethodStartedMessage());
@@ -31,16 +32,49 @@ internal class PortfolioBL
         {
             await logManager.AddInfoLog(dtoLog);
 
-            List<Holding> stocks = await dbContext.Holdings.Where(stock => stock.UserId == nUserId).ToListAsync();
-            IEnumerable<string> stockUniqueNames = stocks.Select(stock => stock.Symbol).Distinct();
+            List<KeyValuePair<int, string>> lstPortfolioCategories = await (from pc in dbContext.PortfolioCategories
+                                                                            where pc.UserId == nUserId
+                                                                            select new KeyValuePair<int, string>(pc.CategoryId, pc.CategoryName)).ToListAsync();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = PortfolioMessages.CategoriesFetchSuccess;
+            response.Result = lstPortfolioCategories;
+
+            await logManager.AddInfoLog(dtoLog, response);
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+
+            await logManager.AddErrorLog(dtoLog, err);
+        }
+
+        return response;
+    }
+
+    internal async Task<BaseApiResponseDto> GetHoldingStocks(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, dtoPortfolioCategory, LogManagerHelper.GetMethodStartedMessage());
+
+        try
+        {
+            await logManager.AddInfoLog(dtoLog);
+
+            List<Holding> lstHoldings = await (from holding in dbContext.Holdings
+                                               where holding.UserId == dtoPortfolioCategory.UserId &&
+                                                     holding.CategoryId == dtoPortfolioCategory.CategoryId
+                                               select holding).ToListAsync();
+
+            IEnumerable<string> stockUniqueNames = lstHoldings.Select(stock => stock.Symbol).Distinct();
 
             List<PortfolioStockDto> portfolioStocks = (from unique in stockUniqueNames
-                                                       let lstUniqueStocks = stocks.Where(stock => stock.Symbol == unique).ToList()
+                                                       let lstUniqueStocks = lstHoldings.Where(stock => stock.Symbol == unique).ToList()
                                                        let nTotalStockQuantity = lstUniqueStocks.Sum(stock => stock.Quantity)
                                                        let dAveragePrice = lstUniqueStocks.Sum(stock => stock.BuyPrice * stock.Quantity) / nTotalStockQuantity
                                                        select new PortfolioStockDto
                                                               {
-                                                                  UserId = nUserId,
                                                                   Symbol = unique,
                                                                   BuyPrice = dAveragePrice,
                                                                   Quantity = nTotalStockQuantity
@@ -49,14 +83,56 @@ internal class PortfolioBL
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = PortfolioMessages.StockFetchSuccess;
             response.Result = portfolioStocks;
-            
+
             await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
             response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
-            
+
+            await logManager.AddErrorLog(dtoLog, err);
+        }
+
+        return response;
+    }
+
+    internal async Task<BaseApiResponseDto> AddNewPortfolioCategory(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, dtoPortfolioCategory, LogManagerHelper.GetMethodStartedMessage());
+
+        try
+        {
+            await logManager.AddInfoLog(dtoLog);
+
+            BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(UserManagementEndPoints.GetUserByUserId, dtoPortfolioCategory.UserId), HttpMethods.Get, null!);
+
+            if(apiResponse.Result == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = UserManagementMessages.UserNotFound;
+
+                await logManager.AddWarningLog(dtoLog, response);
+
+                return response;
+            }
+
+            PortfolioCategory portfolioCategory = PortfolioAutoMapperHelper.ToPortfolioCategory(dtoPortfolioCategory);
+
+            dbContext.PortfolioCategories.Add(portfolioCategory);
+            await dbContext.SaveChangesAsync();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = PortfolioMessages.AddCategorySuccess;
+
+            await logManager.AddInfoLog(dtoLog, response);
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+
             await logManager.AddErrorLog(dtoLog, err);
         }
 
@@ -87,6 +163,16 @@ internal class PortfolioBL
                 return response;
             }
 
+            if(!dbContext.PortfolioCategories.Any(category => category.UserId == portfolioStockDto.UserId && category.CategoryId == portfolioStockDto.CategoryId))
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = PortfolioMessages.CategoryNotFound;
+
+                await logManager.AddWarningLog(dtoLog, response);
+
+                return response;
+            }
+
             apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, null!);
 
             if(apiResponse.Result == null)
@@ -104,14 +190,14 @@ internal class PortfolioBL
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = PortfolioMessages.StockBuySuccess;
-            
+
             await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
-            response.ResponseMessage = err.Message;
-            
+            response.ResponseMessage = CommonWebServiceMessages.SomethingWentWrong;
+
             await logManager.AddErrorLog(dtoLog, err);
         }
 
@@ -127,9 +213,11 @@ internal class PortfolioBL
         {
             await logManager.AddInfoLog(dtoLog);
 
-            Transaction transaction = PortfolioAutoMapperHelper.ToTransaction(transactionDto);
+            response = await RemoveStockFromPortfolio(transactionDto);
 
-            response = await RemoveStockFromPortfolio(transaction);
+            if(response.Result == null) return response;
+
+            Transaction transaction = JsonConvert.DeserializeObject<Transaction>(TypeCastingHelper.ConvertObjectToString(response.Result))!;
 
             if(response.ResponseCode == HttpStatusCode.OK)
             {
@@ -138,14 +226,102 @@ internal class PortfolioBL
                 dbContext.Transactions.Add(transaction);
                 await dbContext.SaveChangesAsync();
             }
-            
+
             await logManager.AddInfoLog(dtoLog, response);
         }
         catch(Exception err)
         {
             response.ResponseCode = HttpStatusCode.BadRequest;
             response.ResponseMessage = err.Message;
+
+            await logManager.AddErrorLog(dtoLog, err);
+        }
+
+        return response;
+    }
+
+    internal async Task<BaseApiResponseDto> UpdatePortfolioCategoryName(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, dtoPortfolioCategory, LogManagerHelper.GetMethodStartedMessage());
+
+        try
+        {
+            await logManager.AddInfoLog(dtoLog);
+
+            PortfolioCategory? portfolioCategory = await (from pc in dbContext.PortfolioCategories
+                                                         where pc.UserId == dtoPortfolioCategory.UserId &&
+                                                               pc.CategoryId == dtoPortfolioCategory.CategoryId
+                                                         select pc).FirstOrDefaultAsync();
+
+            if(portfolioCategory == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = PortfolioMessages.CategoryNotFound;
+
+                await logManager.AddWarningLog(dtoLog, response);
+
+                return response;
+            }
+
+            portfolioCategory.CategoryName = dtoPortfolioCategory.CategoryName;
+
+            dbContext.Update(portfolioCategory);
+            await dbContext.SaveChangesAsync();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = PortfolioMessages.CategoryNameUpdateSuccess;
+
+            await logManager.AddInfoLog(dtoLog, response);
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+
+            await logManager.AddErrorLog(dtoLog, err);
+        }
+
+        return response;
+    }
+
+    internal async Task<BaseApiResponseDto> DeletePortfolioCategory(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = new();
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, dtoPortfolioCategory, LogManagerHelper.GetMethodStartedMessage());
+
+        try
+        {
+            await logManager.AddInfoLog(dtoLog);
+
+            PortfolioCategory? portfolioCategory = await (from pc in dbContext.PortfolioCategories
+                                                          where pc.UserId == dtoPortfolioCategory.UserId &&
+                                                                pc.CategoryId == dtoPortfolioCategory.CategoryId
+                                                          select pc).FirstOrDefaultAsync();
+
+            if(portfolioCategory == null)
+            {
+                response.ResponseCode = HttpStatusCode.Accepted;
+                response.ResponseMessage = PortfolioMessages.CategoryNotFound;
+
+                await logManager.AddWarningLog(dtoLog, response);
+
+                return response;
+            }
             
+            dbContext.Remove(portfolioCategory);
+            await dbContext.SaveChangesAsync();
+
+            response.ResponseCode = HttpStatusCode.OK;
+            response.ResponseMessage = PortfolioMessages.RemoveCategorySuccess;
+
+            await logManager.AddInfoLog(dtoLog, response);
+        }
+        catch(Exception err)
+        {
+            response.ResponseCode = HttpStatusCode.BadRequest;
+            response.ResponseMessage = err.Message;
+
             await logManager.AddErrorLog(dtoLog, err);
         }
 
@@ -154,18 +330,25 @@ internal class PortfolioBL
     #endregion
 
     #region Privates
-    private async Task<BaseApiResponseDto> RemoveStockFromPortfolio(Transaction transaction)
+    private async Task<BaseApiResponseDto> RemoveStockFromPortfolio(PortfolioTransactionDto transactionDto)
     {
         BaseApiResponseDto response = new();
-        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, transaction, LogManagerHelper.GetMethodStartedMessage());
+        LogDto dtoLog = LogManagerHelper.BuildLogDto(PagesListConstants.PortfolioId, transactionDto, LogManagerHelper.GetMethodStartedMessage());
 
         await logManager.AddInfoLog(dtoLog);
-        List<Holding> lstStocksFromHolding = await dbContext.Holdings.Where(x => x.UserId == transaction.UserId && x.Symbol == transaction.Symbol).ToListAsync();
+
+        Transaction transaction = PortfolioAutoMapperHelper.ToTransaction(transactionDto);
+        
+        List<Holding> lstStocksFromHolding = await (from holding in dbContext.Holdings
+                                                    where holding.UserId == transaction.UserId &&
+                                                          holding.Symbol == transaction.Symbol &&
+                                                          holding.CategoryId == transactionDto.CategoryId
+                                                    select holding).ToListAsync();
 
         if(lstStocksFromHolding.Count == 0)
         {
             response.ResponseCode = HttpStatusCode.Accepted;
-            response.ResponseMessage = PortfolioMessages.StockNotAvailable;
+            response.ResponseMessage = PortfolioMessages.StockNotAvailableInCategory;
 
             await logManager.AddWarningLog(dtoLog, response);
 
@@ -203,6 +386,7 @@ internal class PortfolioBL
         await dbContext.SaveChangesAsync();
         response.ResponseCode = HttpStatusCode.OK;
         response.ResponseMessage = PortfolioMessages.StockSellSuccess;
+        response.Result = transaction;
 
         await logManager.AddInfoLog(dtoLog, response);
 
