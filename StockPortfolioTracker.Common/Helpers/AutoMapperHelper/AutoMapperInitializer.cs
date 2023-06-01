@@ -29,6 +29,7 @@ public class AutoMapperInitializer
 
                                            // PortfolioStock Entity
                                            cfg.CreateMap<PortfolioStockDto, Holding>();
+                                           cfg.CreateMap<PortfolioCategoryDto, PortfolioCategory>();
 
                                            // PortfolioTransaction Entity
                                            cfg.CreateMap<PortfolioTransactionDto, Transaction>();

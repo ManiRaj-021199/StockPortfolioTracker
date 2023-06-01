@@ -17,9 +17,23 @@ public class PortfolioFacade : IPortfolioFacade
     #endregion
 
     #region Publics
-    public async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
+    public async Task<BaseApiResponseDto> GetAllPortfolioCategories(int nUserId)
     {
-        BaseApiResponseDto response = await blPortfolio.GetHoldingStocks(nUserId);
+        BaseApiResponseDto response = await blPortfolio.GetAllPortfolioCategories(nUserId);
+
+        return response;
+    }
+
+    public async Task<BaseApiResponseDto> GetHoldingStocks(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await blPortfolio.GetHoldingStocks(dtoPortfolioCategory);
+
+        return response;
+    }
+
+    public async Task<BaseApiResponseDto> AddNewPortfolioCategory(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await blPortfolio.AddNewPortfolioCategory(dtoPortfolioCategory);
 
         return response;
     }
@@ -34,6 +48,20 @@ public class PortfolioFacade : IPortfolioFacade
     public async Task<BaseApiResponseDto> SellStockFromPortfolio(PortfolioTransactionDto transactionDto)
     {
         BaseApiResponseDto response = await blPortfolio.SellStockFromPortfolio(transactionDto);
+
+        return response;
+    }
+
+    public async Task<BaseApiResponseDto> UpdatePortfolioCategoryName(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await blPortfolio.UpdatePortfolioCategoryName(dtoPortfolioCategory);
+
+        return response;
+    }
+
+    public async Task<BaseApiResponseDto> DeletePortfolioCategory(PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await blPortfolio.DeletePortfolioCategory(dtoPortfolioCategory);
 
         return response;
     }

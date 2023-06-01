@@ -1,12 +1,10 @@
 ﻿namespace StockPortfolioTracker.Common;
 
-public class PortfolioStockDto
+public class PortfolioCategoryDto
 {
     #region Properties
     public int UserId { get; set; }
     public int CategoryId { get; set; }
-    public string? Symbol { get; set; }
-    public int Quantity { get; set; }
-    public double BuyPrice { get; set; }
+    public string CategoryName { get; set; }
     #endregion
 }

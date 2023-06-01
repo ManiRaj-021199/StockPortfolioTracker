@@ -22,10 +22,28 @@ public class PortfolioController : ControllerBase
 
     #region Publics
     [HttpGet]
-    [Route("GetHoldingStocks/{nUserId}")]
-    public async Task<BaseApiResponseDto> GetHoldingStocks(int nUserId)
+    [Route("GetAllPortfolioCategories/{nUserId}")]
+    public async Task<BaseApiResponseDto> GetAllPortfolioCategories(int nUserId)
     {
-        BaseApiResponseDto response = await portfolioService!.GetHoldingStocks(nUserId);
+        BaseApiResponseDto response = await portfolioService!.GetAllPortfolioCategories(nUserId);
+
+        return response;
+    }
+
+    [HttpPost]
+    [Route("GetHoldingStocks")]
+    public async Task<BaseApiResponseDto> GetHoldingStocks([FromBody] PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await portfolioService!.GetHoldingStocks(dtoPortfolioCategory);
+
+        return response;
+    }
+
+    [HttpPost]
+    [Route("AddNewPortfolioCategory")]
+    public async Task<BaseApiResponseDto> AddNewPortfolioCategory([FromBody] PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await portfolioService!.AddNewPortfolioCategory(dtoPortfolioCategory);
 
         return response;
     }
@@ -44,6 +62,24 @@ public class PortfolioController : ControllerBase
     public async Task<BaseApiResponseDto> SellStockFromPortfolio([FromBody] PortfolioTransactionDto transactionDto)
     {
         BaseApiResponseDto response = await portfolioService!.SellStockFromPortfolio(transactionDto);
+
+        return response;
+    }
+
+    [HttpPut]
+    [Route("UpdatePortfolioCategoryName")]
+    public async Task<BaseApiResponseDto> UpdatePortfolioCategoryName([FromBody] PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await portfolioService!.UpdatePortfolioCategoryName(dtoPortfolioCategory);
+
+        return response;
+    }
+
+    [HttpDelete]
+    [Route("DeletePortfolioCategory")]
+    public async Task<BaseApiResponseDto> DeletePortfolioCategory([FromBody] PortfolioCategoryDto dtoPortfolioCategory)
+    {
+        BaseApiResponseDto response = await portfolioService!.DeletePortfolioCategory(dtoPortfolioCategory);
 
         return response;
     }
