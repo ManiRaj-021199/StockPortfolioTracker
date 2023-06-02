@@ -185,7 +185,7 @@ public partial class PortfolioTrackerDbContext : DbContext
 
         modelBuilder.Entity<Watchlist>(entity =>
         {
-            entity.HasKey(e => e.WatchlistId).HasName("PK__Watchlis__48DE55CBBF7E8B19");
+            entity.HasKey(e => e.WatchlistId).HasName("PK__Watchlis__48DE55CB4053984E");
 
             entity.ToTable("Watchlist", "Stock");
 
@@ -193,12 +193,12 @@ public partial class PortfolioTrackerDbContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Watchlists)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Watchlist__Categ__14270015");
+                .HasConstraintName("FK__Watchlist__Categ__2BFE89A6");
         });
 
         modelBuilder.Entity<WatchlistCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Watchlis__19093A0BECE75DD7");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Watchlis__19093A0B7935BD12");
 
             entity.ToTable("WatchlistCategory", "Stock");
 
@@ -207,7 +207,7 @@ public partial class PortfolioTrackerDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.WatchlistCategories)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Watchlist__UserI__71D1E811");
+                .HasConstraintName("FK__Watchlist__UserI__29221CFB");
         });
 
         OnModelCreatingPartial(modelBuilder);
