@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using StockPortfolioTracker.Common;
@@ -15,6 +16,9 @@ public class AddStockModalBase : ComponentBase
     #region Properties
     [Parameter]
     public int UserId { get; set; }
+    
+    [Inject]
+    public ISessionStorageService? SessionStorageService { get; set; }
 
     protected string? ErrorMessage { get; set; }
     protected PortfolioStockDto? StockNeedToAdd { get; set; }
@@ -37,9 +41,10 @@ public class AddStockModalBase : ComponentBase
 
     protected async Task AddStockToPortfolio()
     {
-        this.StockNeedToAdd!.UserId = this.UserId;
+        KeyValuePair<int, string> kvpCurrentCategory = await this.SessionStorageService!.GetItemAsync<KeyValuePair<int, string>>("current-portfolio-category");
+        this.StockNeedToAdd!.CategoryId = kvpCurrentCategory.Key;
 
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.StockNeedToAdd);
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.AddStockToPortfolio, HttpMethods.Post, this.StockNeedToAdd!);
 
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
         {
@@ -67,7 +72,7 @@ public class AddStockModalBase : ComponentBase
     private void InitializeProperties()
     {
         this.SmartSearchStocks = new SmartSearchResponseDto();
-        this.StockNeedToAdd = new PortfolioStockDto();
+        this.StockNeedToAdd = new PortfolioStockDto { UserId = this.UserId };
     }
     #endregion
 }

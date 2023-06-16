@@ -9,5 +9,10 @@ public class JSCommonMethodsHelper
     {
         await JSRuntime.InvokeVoidAsync("CommonMethods.RefreshPage");
     }
+
+    public static async Task ChangeInnerHtml(IJSRuntime JSRuntime, string strElementId, string strValue)
+    {
+        await JSRuntime.InvokeVoidAsync("CommonMethods.ChangeInnerHtml", strElementId, strValue);
+    }
     #endregion
 }

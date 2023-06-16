@@ -125,6 +125,7 @@ internal class PortfolioBL
 
             response.ResponseCode = HttpStatusCode.OK;
             response.ResponseMessage = PortfolioMessages.AddCategorySuccess;
+            response.Result = new KeyValuePair<int, string>(portfolioCategory.CategoryId, portfolioCategory.CategoryName);
 
             await logManager.AddInfoLog(dtoLog, response);
         }

@@ -1,0 +1,33 @@
+﻿@namespace StockPortfolioTracker.Web.Components
+@inherits AddNewPortfolioCategoryBase
+
+<div class="modal fade" @ref="RefToAddCategoryModal" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="labelAddCategory" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <EditForm Model="@CategoryNeedToAdd" OnValidSubmit="AddPortfolioCategoryAsync" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelAddCategory">Add Category</h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <MessageBox Message="@ErrorMessage" MessageStyleClass="@BootstrapStyles.BackgroundDanger"/>
+                    }
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="inputCategoryName" class="form-label">Category Name</label>
+                            <input type="text" id="inputCategoryName" class="form-control" @bind="CategoryNeedToAdd!.CategoryName"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Add</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
