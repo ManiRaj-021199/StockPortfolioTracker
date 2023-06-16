@@ -16,6 +16,42 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <div class="topbar dropdown no-arrow h-auto">
+                    <a id="ddlPortfolioCategory" class="dropdown-toggle btn btn-primary" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="portfolioCategoryName"></span> &nbsp; <i class="fas fa-caret-down fa-sm text-white-50"></i>
+                    </a>
+                    <!-- Dropdown - Messages -->
+                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow"
+                     aria-labelledby="ddlPortfolioCategory">
+                        <h6 class="dropdown-header">
+                            Choose Watchlist
+                        </h6>
+                        
+                        @foreach(var category in PortfolioStockCategories!)
+                        {
+                            <a class="dropdown-item d-flex align-items-center" onclick="@(() => GetHoldingStocks(category.Key, category.Value))">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="..." />
+                                </div>
+                                <div>@category.Value</div>
+                                <input type="hidden" @ref="RefToCategoryId" value="@category.Key"/>
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#addCategoryModal">
+                        <i class="fas fa-plus fa-sm text-white-50"></i> Add New Category
+                    </a>
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#deleteCategoryModal">
+                        <i class="fas fa-plus fa-sm text-white-50"></i> Delete Category
+                    </a>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <QuickGrid Items="@HoldingStocks.AsQueryable()" Class="table table-bordered" ResizableColumns="true">
                     <TemplateColumn Title="Stock" SortBy="@SortByStockName">
@@ -54,8 +90,11 @@
         </div>
     </div>
 
-    <AddStockModal UserId="@UserId"/>
-    <RemoveStockModal UserId="@UserId" HoldingStocks="@HoldingStocks"/>
+    <AddNewPortfolioCategory UserId="@nUserId" />
+    <DeletePortfolioCategory UserId="@nUserId"></DeletePortfolioCategory>
+
+    <AddStockModal UserId="@nUserId" />
+    <RemoveStockModal UserId="@nUserId" HoldingStocks="@HoldingStocks" />
 }
 else
 {

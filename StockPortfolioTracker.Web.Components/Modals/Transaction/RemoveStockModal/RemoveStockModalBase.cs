@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using StockPortfolioTracker.Common;
@@ -18,6 +19,9 @@ public class RemoveStockModalBase : ComponentBase
 
     [Parameter]
     public List<HoldingStockDto>? HoldingStocks { get; set; }
+
+    [Inject]
+    public ISessionStorageService? SessionStorageService { get; set; }
 
     protected string? ErrorMessage { get; set; }
     protected PortfolioTransactionDto? StockNeedToRemove { get; set; }
@@ -40,8 +44,8 @@ public class RemoveStockModalBase : ComponentBase
 
     protected async Task RemoveStockFromPortfolio()
     {
-        this.StockNeedToRemove!.UserId = this.UserId;
-
+        KeyValuePair<int, string> kvpCurrentCategory = await this.SessionStorageService!.GetItemAsync<KeyValuePair<int, string>>("current-portfolio-category");
+        this.StockNeedToRemove!.CategoryId = kvpCurrentCategory.Key;
         BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.RemoveStockFromPortfolio, HttpMethods.Post, this.StockNeedToRemove);
 
         if(apiResponse.ResponseCode == HttpStatusCode.OK)
@@ -85,7 +89,7 @@ public class RemoveStockModalBase : ComponentBase
     #region Privates
     private void InitializeProperties()
     {
-        this.StockNeedToRemove = new PortfolioTransactionDto();
+        this.StockNeedToRemove = new PortfolioTransactionDto { UserId = this.UserId };
     }
     #endregion
 }

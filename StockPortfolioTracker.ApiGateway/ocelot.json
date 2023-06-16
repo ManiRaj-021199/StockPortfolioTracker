@@ -317,7 +317,7 @@
     },
     // Portfolio MicroService
     {
-      "DownstreamPathTemplate": "/api/portfolio/GetHoldingStocks/{nUserId}",
+      "DownstreamPathTemplate": "/api/Portfolio/GetAllPortfolioCategories/{nUserId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -325,8 +325,34 @@
           "Port": 97
         }
       ],
-      "UpstreamPathTemplate": "/portfolio/GetHoldingStocks/{nUserId}",
+      "UpstreamPathTemplate": "/Portfolio/GetAllPortfolioCategories/{nUserId}",
       "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/portfolio/GetHoldingStocks",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/portfolio/GetHoldingStocks",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Portfolio/AddNewPortfolioCategory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/Portfolio/AddNewPortfolioCategory",
+      "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "portfolio"
     },
     {
@@ -338,7 +364,7 @@
           "Port": 97
         }
       ],
-      "UpstreamPathTemplate": "/portfolio/AddStockToPortfolio",
+      "UpstreamPathTemplate": "/Portfolio/AddStockToPortfolio",
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "portfolio"
     },
@@ -351,8 +377,34 @@
           "Port": 97
         }
       ],
-      "UpstreamPathTemplate": "/portfolio/SellStockFromPortfolio",
+      "UpstreamPathTemplate": "/Portfolio/SellStockFromPortfolio",
       "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Portfolio/UpdatePortfolioCategoryName",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/Portfolio/UpdatePortfolioCategoryName",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "portfolio"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Portfolio/DeletePortfolioCategory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 97
+        }
+      ],
+      "UpstreamPathTemplate": "/Portfolio/DeletePortfolioCategory",
+      "UpstreamHttpMethod": [ "Delete" ],
       "SwaggerKey": "portfolio"
     },
     // Watchlist MicroService

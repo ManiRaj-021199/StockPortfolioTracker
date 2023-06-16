@@ -1,0 +1,29 @@
+﻿@namespace StockPortfolioTracker.Web.Components
+@inherits DeletePortfolioCategoryBase
+
+<div class="modal fade" @ref="RefToDeleteCategoryModal" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="labelDeleteCategory" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <EditForm Model="@CategoryNeedToDelete" OnValidSubmit="DeletePortfolioCategoryAsync">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelDeleteCategory">Delete Category</h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <MessageBox Message="@ErrorMessage" MessageStyleClass="@BootstrapStyles.BackgroundDanger" />
+                    }
+                
+                    <p>Are you sure want to delete this category - <span id="categoryNeedToDelete" class="text-danger"></span>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

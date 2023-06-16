@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using Newtonsoft.Json;
 using StockPortfolioTracker.Logic;
 
@@ -23,12 +24,23 @@ public static class HttpClientHelper
                                     };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strAccessToken);
 
-            HttpResponseMessage responseMessage = httpMethod switch
+            HttpResponseMessage responseMessage = new();
+
+            switch(httpMethod)
             {
-                HttpMethods.Get => await httpClient.GetAsync(string.Empty),
-                HttpMethods.Post => await httpClient.PostAsJsonAsync(string.Empty, objRequestBody),
-                _ => new HttpResponseMessage()
-            };
+                case HttpMethods.Get:
+                    responseMessage = await httpClient.GetAsync(string.Empty);
+                    break;
+                case HttpMethods.Post:
+                    responseMessage = await httpClient.PostAsJsonAsync(string.Empty, objRequestBody);
+                    break;
+                case HttpMethods.Delete:
+                    HttpRequestMessage request = new(HttpMethod.Delete, strUrl);
+                    StringContent strContent = new(TypeCastingHelper.ConvertObjectToString(objRequestBody), Encoding.UTF8, "application/json");
+                    request.Content = strContent;
+                    responseMessage = await httpClient.SendAsync(request);
+                    break;
+            }
 
             string strResult = await responseMessage.Content.ReadAsStringAsync();
 

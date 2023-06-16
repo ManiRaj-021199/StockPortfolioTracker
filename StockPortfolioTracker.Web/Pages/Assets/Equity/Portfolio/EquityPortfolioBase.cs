@@ -1,7 +1,9 @@
 ﻿using System.Net;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.QuickGrid;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using StockPortfolioTracker.Common;
 using HttpMethods = Microsoft.AspNetCore.Http.HttpMethods;
@@ -11,10 +13,14 @@ namespace StockPortfolioTracker.Web;
 public class EquityPortfolioBase : ComponentBase
 {
     #region Fields
-    public string? Message = string.Empty;
+    public int nUserId = -1;
+    public int nCategoryId = -1;
 
-    public int UserId = -1;
-    
+    public string? strCategoryName = string.Empty;
+    public string? strMessage = string.Empty;
+
+    protected ElementReference RefToCategoryId;
+
     protected readonly GridSort<HoldingStockDto> SortByStockName = GridSort<HoldingStockDto>.ByDescending(x => x.StockName);
     protected readonly GridSort<HoldingStockDto> SortByStockQuantity = GridSort<HoldingStockDto>.ByDescending(x => x.Quantity);
     protected readonly GridSort<HoldingStockDto> SortByStockInvestment = GridSort<HoldingStockDto>.ByDescending(x => x.InvestedValue);
@@ -28,6 +34,13 @@ public class EquityPortfolioBase : ComponentBase
     [Inject]
     public AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
 
+    [Inject]
+    public ISessionStorageService? SessionStorageService { get; set; }
+
+    [Inject]
+    private IJSRuntime? JSRuntime { get; set; }
+
+    public List<KeyValuePair<int, string>>? PortfolioStockCategories { get; set; }
     public List<PortfolioStockDto>? PortfolioStocks { get; set; }
     public List<HoldingStockDto>? HoldingStocks { get; set; }
     #endregion
@@ -36,7 +49,7 @@ public class EquityPortfolioBase : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         await InitializeProperties();
-        await UpdatePortfolio();
+        await InitializePageActions();
 
         /*
         // Update price every 1 sec
@@ -50,43 +63,102 @@ public class EquityPortfolioBase : ComponentBase
         */
     }
 
+    protected async Task GetHoldingStocks(int nCategoryID, string strCategoryName)
+    {
+        PortfolioCategoryDto dtoPortfolioCategory = new()
+                                                    {
+                                                        CategoryId = nCategoryID,
+                                                        CategoryName = strCategoryName,
+                                                        UserId = nUserId
+                                                    };
+
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(PortfolioEndPoints.GetHoldingStocks, HttpMethods.Post, dtoPortfolioCategory);
+
+        if(apiResponse.ResponseCode == HttpStatusCode.OK)
+        {
+            this.PortfolioStocks = JsonConvert.DeserializeObject<List<PortfolioStockDto>>(TypeCastingHelper.ConvertObjectToString(apiResponse.Result!));
+
+            await UpdateUserHoldings();
+            StateHasChanged();
+
+            KeyValuePair<int, string> kvpCurrentCategory = new(nCategoryID, strCategoryName);
+
+            await this.SessionStorageService!.SetItemAsync("current-portfolio-category", kvpCurrentCategory);
+            await JSCommonMethodsHelper.ChangeInnerHtml(this.JSRuntime!, "portfolioCategoryName", kvpCurrentCategory.Value);
+            await JSCommonMethodsHelper.ChangeInnerHtml(this.JSRuntime!, "categoryNeedToDelete", kvpCurrentCategory.Value);
+        }
+        else
+        {
+            strMessage = apiResponse.ResponseMessage;
+        }
+    }
+
     protected async Task UpdatePortfolio()
     {
-        this.HoldingStocks = new List<HoldingStockDto>();
-
         await FetchUserHoldings();
-        await UpdateUserHoldings();
     }
     #endregion
 
     #region Privates
     private async Task InitializeProperties()
     {
-        UserId = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetUserId();
+        nUserId = await ((CustomAuthenticationStateProvider) this.AuthenticationStateProvider!).GetUserId();
+    }
+
+    private async Task InitializePageActions()
+    {
+        await UpdatePortfolio();
+
+        KeyValuePair<int, string> kvpCurrentCategory = await this.SessionStorageService!.GetItemAsync<KeyValuePair<int, string>>("current-portfolio-category");
+
+        int nKey;
+        string strValue;
+
+        if(!string.IsNullOrEmpty(kvpCurrentCategory.Value))
+        {
+            nKey = kvpCurrentCategory.Key;
+            strValue = kvpCurrentCategory.Value;
+        }
+        else
+        {
+            nKey = this.PortfolioStockCategories!.First().Key;
+            strValue = this.PortfolioStockCategories!.First().Value;
+        }
+
+        nCategoryId = nKey;
+        strCategoryName = strValue;
+        await GetHoldingStocks(nKey, strValue);
     }
 
     private async Task FetchUserHoldings()
     {
-        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetHoldingStocks, UserId), HttpMethods.Get, null!);
+        await FetchPortfolioCategories();
+    }
+
+    private async Task FetchPortfolioCategories()
+    {
+        BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(PortfolioEndPoints.GetAllPortfolioCategories, nUserId), HttpMethods.Get, null!);
 
         if(apiResponse.ResponseCode != HttpStatusCode.OK)
         {
-            Message = apiResponse.ResponseMessage;
+            strMessage = apiResponse.ResponseMessage;
             return;
         }
 
-        this.PortfolioStocks = JsonConvert.DeserializeObject<List<PortfolioStockDto>>(apiResponse.Result!.ToString()!);
+        this.PortfolioStockCategories = JsonConvert.DeserializeObject<List<KeyValuePair<int, string>>>(TypeCastingHelper.ConvertObjectToString(apiResponse.Result!));
     }
 
     private async Task UpdateUserHoldings()
     {
+        this.HoldingStocks = new List<HoldingStockDto>();
+
         foreach(PortfolioStockDto portfolioStockDto in this.PortfolioStocks!)
         {
             BaseApiResponseDto apiResponse = await HttpClientHelper.MakeApiRequest(string.Format(StockStatisticEndPoints.GetPrice, portfolioStockDto.Symbol), HttpMethods.Get, null!);
 
             if(apiResponse.ResponseCode != HttpStatusCode.OK)
             {
-                Message = apiResponse.ResponseMessage;
+                strMessage = apiResponse.ResponseMessage;
                 return;
             }
 
@@ -112,7 +184,7 @@ public class EquityPortfolioBase : ComponentBase
             }
             catch(Exception err)
             {
-                Message = CommonWebServiceMessages.SomethingWentWrong + err.Message;
+                strMessage = CommonWebServiceMessages.SomethingWentWrong + err.Message;
             }
         }
     }
